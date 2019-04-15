@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 15-abr-2019 17:37:06 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="Modelo.Clientes" table="clientes" catalog="concesionario" optimistic-lock="version">
+        <id name="clienId" type="byte">
+            <column name="Clien_ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="clienPasaporte" type="int">
+            <column name="Clien_Pasaporte" not-null="true" />
+        </property>
+        <property name="clienHistorialCompras" type="string">
+            <column name="Clien_HistorialCompras" length="200" />
+        </property>
+        <property name="clienNombre" type="string">
+            <column name="Clien_Nombre" length="30" not-null="true" />
+        </property>
+        <property name="clienApellido" type="string">
+            <column name="Clien_Apellido" length="30" not-null="true" />
+        </property>
+        <property name="clienDireccion" type="string">
+            <column name="Clien_Direccion" length="30" />
+        </property>
+        <property name="clienGenero" type="string">
+            <column name="Clien_Genero" length="1" />
+        </property>
+        <property name="clienCorreo" type="string">
+            <column name="Clien_Correo" length="25" />
+        </property>
+        <property name="clienEdad" type="java.lang.Byte">
+            <column name="Clien_Edad" />
+        </property>
+        <property name="telefono" type="string">
+            <column name="Telefono" length="10" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

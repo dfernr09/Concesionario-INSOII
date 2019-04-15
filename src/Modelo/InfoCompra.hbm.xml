@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 15-abr-2019 17:37:06 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="Modelo.InfoCompra" table="info_compra" catalog="concesionario" optimistic-lock="version">
+        <id name="numeroCompra" type="int">
+            <column name="NumeroCompra" />
+            <generator class="assigned" />
+        </id>
+        <property name="clienId" type="byte">
+            <column name="Clien_ID" not-null="true" />
+        </property>
+        <property name="numBastidor" type="int">
+            <column name="NumBastidor" not-null="true" />
+        </property>
+        <property name="fechaCompra" type="date">
+            <column name="FechaCompra" length="10" />
+        </property>
+        <property name="emSsn" type="int">
+            <column name="Em_SSN" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

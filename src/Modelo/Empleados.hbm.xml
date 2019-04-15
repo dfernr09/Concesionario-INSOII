@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 15-abr-2019 17:37:06 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="Modelo.Empleados" table="empleados" catalog="concesionario" optimistic-lock="version">
+        <id name="emSsn" type="int">
+            <column name="Em_SSN" />
+            <generator class="assigned" />
+        </id>
+        <property name="emNombre" type="string">
+            <column name="Em_Nombre" length="25" not-null="true" />
+        </property>
+        <property name="emPoblacion" type="string">
+            <column name="Em_Poblacion" length="20" />
+        </property>
+        <property name="emPassword" type="string">
+            <column name="Em_Password" length="20" />
+        </property>
+        <property name="emAntiguedad" type="java.lang.Byte">
+            <column name="Em_Antiguedad" />
+        </property>
+        <property name="emNominaBase" type="java.lang.Integer">
+            <column name="Em_NominaBase" />
+        </property>
+        <property name="emTelefono" type="java.lang.Integer">
+            <column name="Em_Telefono" />
+        </property>
+        <property name="emEdad" type="java.lang.Byte">
+            <column name="Em_edad" />
+        </property>
+        <property name="emUsuario" type="string">
+            <column name="EM_Usuario" length="20" />
+        </property>
+        <property name="emRol" type="string">
+            <column name="Em_ROL" length="15" />
+        </property>
+    </class>
+</hibernate-mapping>

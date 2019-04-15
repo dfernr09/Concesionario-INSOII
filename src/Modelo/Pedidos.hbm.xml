@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 15-abr-2019 17:37:06 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="Modelo.Pedidos" table="pedidos" catalog="concesionario" optimistic-lock="version">
+        <id name="numPedido" type="int">
+            <column name="numPedido" />
+            <generator class="assigned" />
+        </id>
+        <property name="tipoPedido" type="string">
+            <column name="tipoPedido" length="10" />
+        </property>
+        <property name="descrPedido" type="string">
+            <column name="descrPedido" length="50" />
+        </property>
+        <property name="loginEmpleado" type="string">
+            <column name="loginEmpleado" length="20" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
