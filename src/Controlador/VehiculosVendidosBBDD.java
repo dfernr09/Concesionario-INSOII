@@ -48,6 +48,7 @@ public class VehiculosVendidosBBDD {
         Transaction tx = session.beginTransaction();
         Query q = session.createQuery("from VehiculosVendidos");
         List<VehiculosVendidos> lista = q.list();
+        tx.commit();
         session.close();
         sesion.close();
 
