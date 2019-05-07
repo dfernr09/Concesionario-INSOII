@@ -23,8 +23,7 @@ public class VehiculosDisponiblesBBDD {
         Transaction tx = session.beginTransaction();
         session.save(vehiculo);
         tx.commit();
-        session.close();
-        sesion.close();
+        
      
     }
     public VehiculosDisponibles buscarVehiculoDisponible(int numBastidor){
@@ -35,8 +34,7 @@ public class VehiculosDisponiblesBBDD {
         Transaction tx = session.beginTransaction();
         vehiculo = (VehiculosDisponibles) session.get(VehiculosDisponibles.class, numBastidor);
         tx.commit();
-        session.close();
-        sesion.close();
+    
         return vehiculo;
     }
     
@@ -48,8 +46,7 @@ public class VehiculosDisponiblesBBDD {
         Query q = session.createQuery("from VehiculosDisponibles");
         List<VehiculosDisponibles> lista = q.list();
         tx.commit();
-        session.close();
-        sesion.close();
+        
 
         return lista;
     }
@@ -66,8 +63,7 @@ public class VehiculosDisponiblesBBDD {
         }
         
         tx.commit();
-        session.close();
-        sesion.close();
+      
      
     }
 }

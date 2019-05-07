@@ -24,8 +24,7 @@ public class ClientesBBDD {
         Transaction tx = session.beginTransaction();
         session.save(c);
         tx.commit();
-        session.close();
-        sesion.close();
+       
      
     }
     public Clientes buscarCliente(byte clienId){
@@ -36,8 +35,7 @@ public class ClientesBBDD {
         Transaction tx = session.beginTransaction();
         c = (Clientes) session.get(Clientes.class, clienId);
         tx.commit();
-        session.close();
-        sesion.close();
+        
         return c;
     }
     
@@ -49,8 +47,7 @@ public class ClientesBBDD {
         Query q = session.createQuery("from Clientes");
         List<Clientes> lista = q.list();
         tx.commit();
-        session.close();
-        sesion.close();
+       ;
 
         return lista;
     }
@@ -83,8 +80,7 @@ public class ClientesBBDD {
             session.update(c);
         }
         tx.commit();
-        session.close();
-        sesion.close();
+        
      }
        public void actualizarDireccion(byte clienId, String clienDireccion){
          SessionFactory sesion = NewHibernateUtil.getSessionFactory();
@@ -98,8 +94,7 @@ public class ClientesBBDD {
             session.update(c);
         }
         tx.commit();
-        session.close();
-        sesion.close();
+   
      }
      
       public void actualizarTelefono(byte clienId, String telefono){
@@ -114,8 +109,7 @@ public class ClientesBBDD {
             session.update(c);
         }
         tx.commit();
-        session.close();
-        sesion.close();
+        
      }
       
       public void actualizarCorreo(byte clienId, String clienCorreo){
@@ -130,8 +124,7 @@ public class ClientesBBDD {
             session.update(c);
         }
         tx.commit();
-        session.close();
-        sesion.close();
+   
      }
       
      
