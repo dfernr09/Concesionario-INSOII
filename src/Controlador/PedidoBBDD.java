@@ -23,8 +23,7 @@ public class PedidoBBDD {
         Transaction tx = session.beginTransaction();
         session.save(p);
         tx.commit();
-        session.close();
-        sesion.close();
+       
      
     }
     public Pedidos buscarPedido(int numPedido){
@@ -35,8 +34,7 @@ public class PedidoBBDD {
         Transaction tx = session.beginTransaction();
         pedido = (Pedidos) session.get(Pedidos.class, numPedido);
         tx.commit();
-        session.close();
-        sesion.close();
+       
         return pedido;
     }
     
@@ -48,9 +46,7 @@ public class PedidoBBDD {
         Query q = session.createQuery("from Pedidos");
         List<Pedidos> lista = q.list();
         tx.commit();
-        session.close();
-        sesion.close();
-
+      
         return lista;
     }
     
@@ -66,8 +62,7 @@ public class PedidoBBDD {
         }
         
         tx.commit();
-        session.close();
-        sesion.close();
+      
      
     }
 }

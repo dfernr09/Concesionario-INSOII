@@ -24,8 +24,7 @@ public class EmpleadosBBDD {
         Transaction tx = session.beginTransaction();
         session.save(c);
         tx.commit();
-        session.close();
-        sesion.close();
+       
      
     }
     public Empleados buscarEmpleado(int emSsn){
@@ -36,8 +35,7 @@ public class EmpleadosBBDD {
         Transaction tx = session.beginTransaction();
         e = (Empleados) session.get(Empleados.class, emSsn);
         tx.commit();
-        session.close();
-        sesion.close();
+        
         return e;
     }
     
@@ -49,8 +47,7 @@ public class EmpleadosBBDD {
         Query q = session.createQuery("from Empleados");
         List<Empleados> lista = q.list();
         tx.commit();
-        session.close();
-        sesion.close();
+        
 
         return lista;
     }
@@ -67,8 +64,7 @@ public class EmpleadosBBDD {
         }
         
         tx.commit();
-        session.close();
-        sesion.close();
+        
      
     }
      public void actualizarUsuario(int emSsn, String emUsuario){
@@ -83,8 +79,7 @@ public class EmpleadosBBDD {
             session.update(e);
         }
         tx.commit();
-        session.close();
-        sesion.close();
+       
      }
        public void actualizarPassword(int emSsn, String emPassword){
          SessionFactory sesion = NewHibernateUtil.getSessionFactory();
@@ -98,8 +93,7 @@ public class EmpleadosBBDD {
             session.update(e);
         }
         tx.commit();
-        session.close();
-        sesion.close();
+    
      }
   public void actualizarTelefono(int emSsn, int emTelefono){
          SessionFactory sesion = NewHibernateUtil.getSessionFactory();
@@ -113,8 +107,7 @@ public class EmpleadosBBDD {
             session.update(e);
         }
         tx.commit();
-        session.close();
-        sesion.close();
+        
      }  
   public void actualizarNomina(int emSsn, int emNominaBase){
          SessionFactory sesion = NewHibernateUtil.getSessionFactory();
@@ -128,8 +121,7 @@ public class EmpleadosBBDD {
             session.update(e);
         }
         tx.commit();
-        session.close();
-        sesion.close();
+       
      }
 public void actualizarPoblacion(int emSsn, String emPoblacion){
          SessionFactory sesion = NewHibernateUtil.getSessionFactory();
@@ -143,7 +135,6 @@ public void actualizarPoblacion(int emSsn, String emPoblacion){
             session.update(e);
         }
         tx.commit();
-        session.close();
-        sesion.close();
+       
      }
 }
