@@ -6,6 +6,7 @@
 package Vista;
 
 import Controlador.VehiculosDisponiblesBBDD;
+import Modelo.Empleados;
 import Modelo.VehiculosDisponibles;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -54,7 +55,8 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
     /**
      * Creates new form InterfazVehiculosDisponibles
      */
-    public InterfazVehiculosDisponibles() {
+    public InterfazVehiculosDisponibles(Empleados e) {
+        this.e = e;
         this.setResizable(false);
         initComponents();
         this.posYButton = 20;
@@ -64,6 +66,8 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
         this.jPanel4.setPreferredSize(new Dimension(500, 1000));
         this.jlVistas.setText("0");
         colocarCoches();
+                this.setLocationRelativeTo(null);
+
         
     }
     public void colocarCoches(){
@@ -88,11 +92,8 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
         this.posYLabel += 150;
         int n = lista.size() - 2;
         int v1 = lista.size() / 2;
-        
-        if(lista.size() % 2 == 1){
-            v1 = v1 + 1;
-        }       
-        
+             
+        v1 = v1 + 1;  
         
         for(int i = 2; i < v1; i++){
             JButton jb = new JButton(ic);
@@ -140,6 +141,7 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        concesionarioINSOII1 = new concesionarioinsoii.ConcesionarioINSOII();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jlCochesVendidos = new javax.swing.JLabel();
@@ -166,6 +168,7 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
         jlStock = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jlVistas = new javax.swing.JLabel();
+        jButton12 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel4 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
@@ -176,6 +179,7 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        jButton11 = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -413,6 +417,16 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
         jlVistas.setFont(new java.awt.Font("Arial", 1, 36)); // NOI18N
         jlVistas.setText("6");
 
+        jButton12.setBackground(new java.awt.Color(255, 255, 255));
+        jButton12.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jButton12.setForeground(new java.awt.Color(51, 255, 0));
+        jButton12.setText("i");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -424,33 +438,43 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jlStock, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(131, 131, 131)
+                .addGap(105, 105, 105)
                 .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel13)
-                    .addComponent(jlVistas, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jlVistas, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel13)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jlStock, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel6)
                         .addGap(32, 32, 32))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jlVistas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jlVistas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jButton12)
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel13)
                         .addGap(35, 35, 35))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
@@ -487,6 +511,16 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel7.setText("CONCESIONARIO");
 
+        jButton11.setBackground(new java.awt.Color(255, 255, 255));
+        jButton11.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jButton11.setForeground(new java.awt.Color(51, 255, 0));
+        jButton11.setText("+");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
+
         jLabel8.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel8.setText("LA RUEDA S.A");
 
@@ -510,16 +544,14 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
                                     .addComponent(jLabel7)))))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(54, 54, 54)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 709, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 709, Short.MAX_VALUE))
-                        .addContainerGap(23, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel1)
-                        .addGap(289, 289, 289))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton11)))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -541,7 +573,9 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1)
+                            .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -556,48 +590,33 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
         System.out.println("Pulsado");
     }//GEN-LAST:event_jLabel4MouseClicked
 
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        // TODO add your handling code here:
+        InterfazPedidoVehiculo iv = new InterfazPedidoVehiculo(this.e);
+        iv.setVisible(true);
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, "Usuario: "+e.getEmUsuario()+"\n"+"Rol: "+e.getEmRol());
+    }//GEN-LAST:event_jButton12ActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(InterfazVehiculosDisponibles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(InterfazVehiculosDisponibles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(InterfazVehiculosDisponibles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(InterfazVehiculosDisponibles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new InterfazVehiculosDisponibles().setVisible(true);
-            }
-        });
-    }
+   
     VehiculosDisponiblesBBDD vbbdd = new VehiculosDisponiblesBBDD();
     List<VehiculosDisponibles> lista = vbbdd.obtenerTodosVehiculosDisponibles();
     private int posYButton;
     private int posYLabel;
     ArrayList<JButton> listaBotones;
+    private Empleados e;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private concesionarioinsoii.ConcesionarioINSOII concesionarioINSOII1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
