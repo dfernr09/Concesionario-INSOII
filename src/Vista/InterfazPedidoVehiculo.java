@@ -34,8 +34,8 @@ public class InterfazPedidoVehiculo extends javax.swing.JFrame {
         while(checkID(listaC, this.idCliente)){
             this.idCliente = (int)((Math.random() * 200) + 1);
         }
-        this.tfColor1.setEditable(false);
-        this.tfColor1.setText(String.valueOf(this.idCliente));
+      this.tfColor1.setEditable(false);
+      this.tfColor1.setText(String.valueOf(this.idCliente));
                 this.setLocationRelativeTo(null);
 
     }

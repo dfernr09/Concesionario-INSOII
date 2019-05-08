@@ -46,7 +46,7 @@ public class InterfazVenta extends javax.swing.JFrame {
         this.jlTitular.setVisible(false);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
                 this.setLocationRelativeTo(null);
-
+         this.setResizable(false);
     }
 
     /**
