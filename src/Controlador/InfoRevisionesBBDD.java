@@ -25,8 +25,7 @@ public class InfoRevisionesBBDD {
         Transaction tx = session.beginTransaction();
         session.save(r);
         tx.commit();
-        session.close();
-        sesion.close();
+     
      
     }
     public InfoRevisiones buscarRevision(byte revId){
@@ -37,8 +36,7 @@ public class InfoRevisionesBBDD {
         Transaction tx = session.beginTransaction();
         r = (InfoRevisiones) session.get(InfoRevisiones.class, revId);
         tx.commit();
-        session.close();
-        sesion.close();
+       
         return r;
     }
     
@@ -50,8 +48,7 @@ public class InfoRevisionesBBDD {
         Query q = session.createQuery("from InfoRevisiones");
         List<InfoRevisiones> lista = q.list();
         tx.commit();
-        session.close();
-        sesion.close();
+        
 
         return lista;
     }
@@ -68,9 +65,7 @@ public class InfoRevisionesBBDD {
         }
         
         tx.commit();
-        session.close();
-        sesion.close();
-     
+        
     }
      public void actualizarDescripcion(byte revId, String descripcion){
          SessionFactory sesion = NewHibernateUtil.getSessionFactory();
@@ -84,8 +79,7 @@ public class InfoRevisionesBBDD {
             session.update(r);
         }
         tx.commit();
-        session.close();
-        sesion.close();
+        
      }
      
        public void actualizarPiezas(byte revId, String piezas){
@@ -100,7 +94,6 @@ public class InfoRevisionesBBDD {
             session.update(r);
         }
         tx.commit();
-        session.close();
-        sesion.close();
+        
      }
 }
