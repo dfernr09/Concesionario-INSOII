@@ -37,6 +37,39 @@ public class VehiculosDisponiblesBBDD {
     
         return vehiculo;
     }
+     public List<VehiculosDisponibles> buscarVehiculoDisponibleMarca(String marca){
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Transaction tx = session.beginTransaction();
+        Query q = session.createQuery("from VehiculosDisponibles where marca='"+marca+"'");
+        List<VehiculosDisponibles> lista = q.list();
+        tx.commit();
+    
+        return lista;
+    }
+       public List<VehiculosDisponibles> buscarVehiculoDisponibleModelo(String modelo){
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Transaction tx = session.beginTransaction();
+        Query q = session.createQuery("from VehiculosDisponibles where modelo='"+modelo+"'");
+        List<VehiculosDisponibles> lista = q.list();
+        tx.commit();
+    
+        return lista;
+    }
+      public List<VehiculosDisponibles> buscarVehiculoDisponibleColor(String color){
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Transaction tx = session.beginTransaction();
+        Query q = session.createQuery("from VehiculosDisponibles where color='"+color+"'");
+        List<VehiculosDisponibles> lista = q.list();
+        tx.commit();
+    
+        return lista;
+    }
     
     public List<VehiculosDisponibles> obtenerTodosVehiculosDisponibles(){
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();

@@ -50,6 +50,40 @@ public class VehiculosVendidosBBDD {
  
         return lista;
     }
+      public List<VehiculosVendidos> buscarVehiculoDisponibleModelo(String modelo){
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Transaction tx = session.beginTransaction();
+        Query q = session.createQuery("from VehiculosVendidos where modelo='"+modelo+"'");
+        List<VehiculosVendidos> lista = q.list();
+        tx.commit();
+    
+        return lista;
+    }
+      public List<VehiculosVendidos> buscarVehiculoDisponibleColor(String color){
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Transaction tx = session.beginTransaction();
+        Query q = session.createQuery("from VehiculosVendidos where color='"+color+"'");
+        List<VehiculosVendidos> lista = q.list();
+        tx.commit();
+    
+        return lista;
+    }
+    
+         public List<VehiculosVendidos> buscarVehiculoDisponibleMarca(String marca){
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Transaction tx = session.beginTransaction();
+        Query q = session.createQuery("from VehiculosVendidos where marca='"+marca+"'");
+        List<VehiculosVendidos> lista = q.list();
+        tx.commit();
+    
+        return lista;
+    }
     
       public void eliminarVehiculoVendido(int bastidorNum){
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
