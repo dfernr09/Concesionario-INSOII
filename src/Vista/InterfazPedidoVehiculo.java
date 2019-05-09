@@ -284,6 +284,8 @@ public class InterfazPedidoVehiculo extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jPanel3.setForeground(new java.awt.Color(102, 0, 204));
+
         jLabel8.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel8.setText("Expedición de vehículo");
 
