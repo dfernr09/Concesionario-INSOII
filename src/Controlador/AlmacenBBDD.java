@@ -23,8 +23,7 @@ public class AlmacenBBDD {
         Transaction tx = session.beginTransaction();
         session.save(a);
         tx.commit();
-        session.close();
-        sesion.close();
+        
      
     }
     public Almacen buscarPieza(String numPieza){
@@ -35,11 +34,20 @@ public class AlmacenBBDD {
         Transaction tx = session.beginTransaction();
         a = (Almacen) session.get(Almacen.class, numPieza);
         tx.commit();
-        session.close();
-        sesion.close();
+        
         return a;
     }
+     public List<Almacen> buscarPiezasPorMarca(String marca){
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Transaction tx = session.beginTransaction();
+        Query q = session.createQuery("from Almacen where marcaPieza='"+marca+"'");
+        List<Almacen> lista = q.list();
+        tx.commit();
     
+        return lista;
+    }
     public List<Almacen> obtenerTodasPiezas(){
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
@@ -48,8 +56,7 @@ public class AlmacenBBDD {
         Query q = session.createQuery("from Almacen");
         List<Almacen> lista = q.list();
         tx.commit();
-        session.close();
-        sesion.close();
+        
 
         return lista;
     }
@@ -66,8 +73,7 @@ public class AlmacenBBDD {
         }
         
         tx.commit();
-        session.close();
-        sesion.close();
+   
      
     }
       public void asignarPedido(String numPieza, int numPedido){
@@ -82,7 +88,6 @@ public class AlmacenBBDD {
             session.update(a);
         }
         tx.commit();
-        session.close();
-        sesion.close();
+   
      }
 }

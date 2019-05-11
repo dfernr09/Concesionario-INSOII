@@ -84,6 +84,17 @@ public class VehiculosVendidosBBDD {
     
         return lista;
     }
+         public List<VehiculosVendidos> buscarVehiculoDisponibleMatricula(String matricula){
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Transaction tx = session.beginTransaction();
+        Query q = session.createQuery("from VehiculosVendidos where matricula='"+matricula+"'");
+        List<VehiculosVendidos> lista = q.list();
+        tx.commit();
+    
+        return lista;
+    }
     
       public void eliminarVehiculoVendido(int bastidorNum){
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
