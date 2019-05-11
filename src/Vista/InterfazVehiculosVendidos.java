@@ -70,6 +70,7 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
     }
     
     public InterfazVehiculosVendidos(Empleados e, String vistas, int size) {
+        this.size = size;
         this.e = e;
         this.setResizable(false);
         initComponents();
@@ -225,6 +226,11 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
 
         jlRevisiones.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jlRevisiones.setText("Revisiones");
+        jlRevisiones.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlRevisionesMouseClicked(evt);
+            }
+        });
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/descarga.png"))); // NOI18N
 
@@ -646,6 +652,13 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
         this.lista = l;
     }//GEN-LAST:event_jButton13ActionPerformed
 
+    private void jlRevisionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlRevisionesMouseClicked
+        // TODO add your handling code here:
+        InterfazRevisiones ir = new InterfazRevisiones(this.e, this.jlVistas.getText(), this.size);
+        ir.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jlRevisionesMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -658,7 +671,7 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
     ArrayList<JButton> listaBotones;
     private Empleados e;
     DefaultTableModel modelo;
-    
+    private int size;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private concesionarioinsoii.ConcesionarioINSOII concesionarioINSOII1;
     private javax.swing.JButton jButton1;

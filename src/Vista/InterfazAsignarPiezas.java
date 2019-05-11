@@ -7,6 +7,7 @@ package Vista;
 
 import Controlador.AlmacenBBDD;
 import Modelo.Almacen;
+import Modelo.Empleados;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -21,13 +22,15 @@ public class InterfazAsignarPiezas extends javax.swing.JFrame {
     /**
      * Creates new form InterfazAsignarPiezas
      */
-    public InterfazAsignarPiezas(String marca) {
+    public InterfazAsignarPiezas(Empleados e, String marca, String model) {
         initComponents();
+        this.e = e;
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
-        this.jLabel1.setText("ASIGNAR PIEZAS PARRA "+marca.toUpperCase());
+        this.jLabel1.setText("ASIGNAR PIEZAS PARA "+marca.toUpperCase());
         this.piezas = new ArrayList();
         this.marca = marca;
+        this.model = model;
         abbdd = new AlmacenBBDD();
         this.piezasDisponibles = abbdd.buscarPiezasPorMarca(marca);
         this.modelo =(DefaultTableModel) this.jTable1.getModel();
@@ -87,6 +90,11 @@ public class InterfazAsignarPiezas extends javax.swing.JFrame {
         jButton2.setBackground(new java.awt.Color(255, 255, 255));
         jButton2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jButton2.setText("Expedir Pieza");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -141,45 +149,24 @@ public class InterfazAsignarPiezas extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "Pieza asignada");
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        InterfazPedidoPiezas ipp = new InterfazPedidoPiezas(this.e, this.model, this.marca);
+        ipp.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(InterfazAsignarPiezas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(InterfazAsignarPiezas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(InterfazAsignarPiezas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(InterfazAsignarPiezas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new InterfazAsignarPiezas("").setVisible(true);
-            }
-        });
-    }
+   
     private List<Almacen> piezasDisponibles;
     DefaultTableModel modelo;
     private AlmacenBBDD abbdd;
     private ArrayList<String> piezas;
     private String marca;
+    private String model;
+    private Empleados e;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

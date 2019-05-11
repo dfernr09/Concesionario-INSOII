@@ -28,6 +28,21 @@ public class InterfazNuevaRevision extends javax.swing.JFrame {
     /**
      * Creates new form InterfazPedidoVehiculo
      */
+     public InterfazNuevaRevision(Empleados e) {
+        this.e = e;
+        this.setResizable(false);
+        initComponents();
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        pbbdd = new InfoRevisionesBBDD();
+        this.idCliente = (byte) ( (byte)(Math.random() * 120) + 1);
+        listaC = pbbdd.obtenerTodasRevisiones();
+        while(checkID(listaC, this.idCliente) ){
+            this.idCliente = (byte)((byte)(Math.random() * 120) + 1);
+        }
+     
+        this.setLocationRelativeTo(null);
+
+    }
     public InterfazNuevaRevision(VehiculosVendidos vehiculo, Empleados e) {
         this.e = e;
         this.vehiculo = vehiculo;
@@ -36,7 +51,7 @@ public class InterfazNuevaRevision extends javax.swing.JFrame {
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         pbbdd = new InfoRevisionesBBDD();
         this.idCliente = (byte) ( (byte)(Math.random() * 120) + 1);
-        List<InfoRevisiones> listaC = pbbdd.obtenerTodasRevisiones();
+       listaC = pbbdd.obtenerTodasRevisiones();
         while(checkID(listaC, this.idCliente) ){
             this.idCliente = (byte)((byte)(Math.random() * 120) + 1);
         }
@@ -181,7 +196,7 @@ public class InterfazNuevaRevision extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jLabel7))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(378, 378, 378)
+                        .addGap(363, 363, 363)
                         .addComponent(jButton1)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -213,9 +228,9 @@ public class InterfazNuevaRevision extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfColor, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addComponent(jButton1)
-                .addGap(24, 24, 24))
+                .addGap(26, 26, 26))
         );
 
         jLabel8.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -357,26 +372,46 @@ public class InterfazNuevaRevision extends javax.swing.JFrame {
 
     private void jbConfirmarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConfirmarPedidoActionPerformed
         // TODO add your handling code here:
-        piezas = this.iap.getPiezas();
-        String p = componerPiezas(piezas);
-        InfoRevisiones ir = new InfoRevisiones();
-        ir.setBastidorNum(this.vehiculo.getBastidorNum());
-        ir.setDescripcion(this.jTextArea1.getText());
-        ir.setFechaRev(new Date());
-        ir.setLoginEmpleado(this.e.getEmUsuario());
-        ir.setPiezas(p);
-        ir.setPrecioRev(Integer.valueOf(this.tfPrecioEstimado.getText()));
-        ir.setRevId(this.idCliente);
-        this.pbbdd.nuevaRevision(ir);
-        JOptionPane.showMessageDialog(null, "Vehiculo configurado y añadido al taller");
+        int ind = cocheEnReparacion(Integer.parseInt(this.tfNumeroBastidor.getText()), this.listaC);
         
+        if(ind==-1){
+            piezas = this.iap.getPiezas();
+            String p = componerPiezas(piezas);
+            InfoRevisiones ir = new InfoRevisiones();
+            ir.setBastidorNum(Integer.parseInt(this.tfNumeroBastidor.getText()));
+            ir.setDescripcion(this.jTextArea1.getText());
+            ir.setFechaRev(new Date());
+            ir.setLoginEmpleado(this.e.getEmUsuario());
+            ir.setPiezas(p);
+            ir.setPrecioRev(Integer.valueOf(this.tfPrecioEstimado.getText()));
+            ir.setRevId(this.idCliente);
+            this.pbbdd.nuevaRevision(ir);
+            JOptionPane.showMessageDialog(null, "Reparación añadida");
+        }else{
+            JOptionPane.showMessageDialog(null, "Este coche ya está en el taller");
+        } 
     }//GEN-LAST:event_jbConfirmarPedidoActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        iap = new InterfazAsignarPiezas(this.vehiculo.getMarca());
+        int ind = cocheEnReparacion(Integer.parseInt(this.tfNumeroBastidor.getText()), this.listaC);
+        if(ind==-1){
+        iap = new InterfazAsignarPiezas(this.e, this.tfMarca.getText(), this.tfModelo.getText());
         iap.setVisible(true);
+        }else{
+             JOptionPane.showMessageDialog(null, "Este coche ya está en el taller");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
+    private int cocheEnReparacion(int numBastidor, List<InfoRevisiones> lista){
+        int indice = -1;
+        for(int i = 0; i < lista.size(); i++){
+            if(lista.get(i).getBastidorNum() == numBastidor){
+                indice = i;
+                break;
+            }
+        }
+        return indice;
+    }
     private String componerPiezas(ArrayList<String> piezas){
        String piez = "";
         for(int i= 0; i < piezas.size(); i++){
@@ -399,7 +434,7 @@ public class InterfazNuevaRevision extends javax.swing.JFrame {
      * @param args the command line arguments
      */
       
-    
+    List<InfoRevisiones> listaC;
      private byte idCliente;
      private InfoRevisionesBBDD pbbdd;
      private Empleados e;

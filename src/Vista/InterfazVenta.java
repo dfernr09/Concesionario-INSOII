@@ -477,23 +477,38 @@ public class InterfazVenta extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        ClientesBBDD cbbdd = new ClientesBBDD();  
-        Clientes c = new Clientes();    
-        byte idCliente = (byte) ((byte) (Math.random() * 100) + 1);
+        ClientesBBDD cbbdd = new ClientesBBDD();
+        byte idCliente = 0;
         List<Clientes> listaC = cbbdd.obtenerTodosClientes();
-        while(checkID(listaC, idCliente)){
+        int existe = existeCliente(Integer.valueOf(this.tfNIF.getText()), listaC);
+        String historial = "";
+        if(existe != -1){
+            if(listaC.get(existe).getClienHistorialCompras().isEmpty()){
+                historial = this.vehiculo.getMarca()+" "+this.vehiculo.getModelo();
+                cbbdd.actualizarHistorialCompras(listaC.get(existe).getClienId(), historial);
+            }else{
+                historial = listaC.get(existe).getClienHistorialCompras() + "," + this.vehiculo.getMarca()+" "+this.vehiculo.getModelo();
+                cbbdd.actualizarHistorialCompras(listaC.get(existe).getClienId(), historial);
+            }
+            idCliente = listaC.get(existe).getClienId();
+        }else{
+            Clientes c = new Clientes();    
             idCliente = (byte) ((byte) (Math.random() * 100) + 1);
+
+            while(checkID(listaC, idCliente)){
+                idCliente = (byte) ((byte) (Math.random() * 100) + 1);
+            }
+            c.setClienApellido(this.tfApellidos.getText());
+            c.setClienId(idCliente);
+            c.setClienCorreo(this.tfCorreo.getText());
+            c.setClienDireccion(this.tfDireccion.getText());
+            c.setClienEdad((byte)23);
+            c.setClienNombre(this.tfNombreCliente.getText());
+            c.setClienPasaporte(Integer.valueOf(this.tfNIF.getText()));
+            c.setTelefono(this.tfTelefono.getText());
+            c.setClienHistorialCompras(this.vehiculo.getMarca()+" "+this.vehiculo.getModelo());
+            cbbdd.nuevoCliente(c);
         }
-        c.setClienApellido(this.tfApellidos.getText());
-        c.setClienId(idCliente);
-        c.setClienCorreo(this.tfCorreo.getText());
-        c.setClienDireccion(this.tfDireccion.getText());
-        c.setClienEdad((byte)23);
-        c.setClienNombre(this.tfNombreCliente.getText());
-        c.setClienPasaporte(Integer.valueOf(this.tfNIF.getText()));
-        c.setTelefono(this.tfTelefono.getText());
-        cbbdd.nuevoCliente(c);
-        
         VehiculosDisponiblesBBDD vbbdd = new VehiculosDisponiblesBBDD();
         VehiculosVendidosBBDD vvbbdd = new VehiculosVendidosBBDD();
         VehiculosVendidos vv = new VehiculosVendidos();
@@ -509,6 +524,16 @@ public class InterfazVenta extends javax.swing.JFrame {
         vvbbdd.nuevoVehiculoVendido(vv);
         JOptionPane.showMessageDialog(null, "Transacción realizada");
     }//GEN-LAST:event_jButton1ActionPerformed
+    private int existeCliente(int dni, List<Clientes> lista){
+        int indice = -1;
+        for(int i = 0; i < lista.size(); i++){
+            if(lista.get(i).getClienPasaporte() == dni){
+                indice = i;
+                break;
+            }
+        }
+        return indice;
+    }
     private boolean checkID(List<Clientes> lista, byte id){
         boolean res = false;
         for(int i = 0; i < lista.size(); i++){

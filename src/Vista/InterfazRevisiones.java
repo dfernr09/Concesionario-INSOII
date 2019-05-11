@@ -5,9 +5,13 @@
  */
 package Vista;
 
+import Controlador.InfoRevisionesBBDD;
 import Controlador.VehiculosDisponiblesBBDD;
+import Controlador.VehiculosVendidosBBDD;
 import Modelo.Empleados;
+import Modelo.InfoRevisiones;
 import Modelo.VehiculosDisponibles;
+import Modelo.VehiculosVendidos;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -22,174 +26,82 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.table.DefaultTableModel;
 
 
 /**
  *
  * @author Usuario
  */
- class ActionListenerCoches implements ActionListener{
-    private List<VehiculosDisponibles> vehiculos;
-    private int vistos;
-    private JLabel label;
-    private int indiceCoche;
-    
-    public ActionListenerCoches(List<VehiculosDisponibles> vehiculos, JLabel jl, int vistos){
-        this.vehiculos = vehiculos;
-        this.vistos = vistos;
-        this.label = jl;
-        indiceCoche = -1;
-    }
-    @Override
-    public void actionPerformed(ActionEvent ae) {
-        vistos++;
-        this.label.setText(String.valueOf(vistos));
-        indiceCoche = Integer.valueOf(ae.getActionCommand());
-        InterfazInfoCoche ic = new InterfazInfoCoche(vehiculos.get(indiceCoche));
-        ic.setVisible(true);
-    }
-    
-}
-public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
+ 
+
+public class InterfazRevisiones extends javax.swing.JFrame {
 
     /**
      * Creates new form InterfazVehiculosDisponibles
      */
-     public InterfazVehiculosDisponibles(Empleados e, String vistas) {
+    public InterfazRevisiones(Empleados e) {
         this.e = e;
         this.setResizable(false);
         initComponents();
         this.posYButton = 20;
         this.posYLabel = 50;
         listaBotones = new ArrayList<JButton>();
-        listaLabels = new ArrayList<JLabel>();
         System.out.println(this.jScrollPane1.getViewport().getSize());
         this.jPanel4.setPreferredSize(new Dimension(500, 1000));
-        this.jTextField1.setText("");
-        this.jlVistas.setText(vistas);     
-        colocarCoches(this.listaOficial);
-                this.setLocationRelativeTo(null);
-        this.jPanel5.setBackground(Color.yellow);
-        this.jlVistas.setText(vistas); 
-        
-    }
-      public InterfazVehiculosDisponibles(Empleados e, List<VehiculosDisponibles> l, String vistas) {
-        this.e = e;
-        this.setResizable(false);
-        initComponents();
-        this.posYButton = 20;
-        this.posYLabel = 50;
-        listaBotones = new ArrayList<JButton>();
-        listaLabels = new ArrayList<JLabel>();
-        System.out.println(this.jScrollPane1.getViewport().getSize());
-        this.jPanel4.setPreferredSize(new Dimension(500, 1000));
-        this.jTextField1.setText("");
-        this.jlVistas.setText(vistas);     
-        colocarCoches(l);
-                this.setLocationRelativeTo(null);
-        this.jPanel5.setBackground(Color.yellow);
-
-        
-    }
-    public InterfazVehiculosDisponibles(Empleados e) {
-        this.e = e;
-        this.setResizable(false);
-        initComponents();
-        this.posYButton = 20;
-        this.posYLabel = 50;
-        listaBotones = new ArrayList<JButton>();
-        listaLabels = new ArrayList<JLabel>();
-        System.out.println(this.jScrollPane1.getViewport().getSize());
-        this.jPanel4.setPreferredSize(new Dimension(500, 1000));
-        this.jTextField1.setText("");
         this.jlVistas.setText("0");
-        colocarCoches(listaOficial);
-                this.setLocationRelativeTo(null);
-        this.jPanel5.setBackground(Color.yellow);
-
-        
+        this.jPanel3.setBackground(Color.yellow);
+        this.setLocationRelativeTo(null);
+        lista = vbbdd.obtenerTodasRevisiones();
+        this.modelo =(DefaultTableModel) this.jTable1.getModel();
+        Object [] fila=new Object[7];
+        this.jTextField1.setText("");
+        for(int i = 0; i < this.lista.size(); i++){
+           fila[0] = this.lista.get(i).getRevId();
+           fila[1] = this.lista.get(i).getDescripcion();
+           fila[2] = this.lista.get(i).getBastidorNum();
+           fila[3] = this.lista.get(i).getPiezas();
+           fila[4] = this.lista.get(i).getFechaRev();
+           fila[5] = this.lista.get(i).getPrecioRev();
+           fila[6] = this.lista.get(i).getLoginEmpleado();
+           modelo.addRow(fila);
+        }
+                    
+        this.jTable1.setModel(this.modelo);
     }
-    public void colocarCoches(List<VehiculosDisponibles> lista){
-        ImageIcon ic = new ImageIcon("src/Imagenes/descarga.jpg");
-        ActionListener accion = new ActionListenerCoches(lista, this.jlVistas, Integer.parseInt(this.jlVistas.getText()));
-        this.jButton1.setActionCommand("1");
-        this.jButton2.setActionCommand("0");
-        listaBotones.add(this.jButton1);
-        listaBotones.add(this.jButton2);
-        this.jButton1.setText("");
-        this.jButton1.setIcon(ic);
-        this.jButton2.setIcon(ic);
-        this.jButton1.addActionListener(accion);
-        this.jButton2.addActionListener(accion);
-        
-        this.jlStock.setText(String.valueOf(lista.size()) + "/50");
-        if(lista.size() >= 2){
-        this.jLabel2.setText("<html><body>"+ lista.get(1).getMarca()+" "+lista.get(1).getModelo()+"<br>"+lista.get(1).getPrecio()+"€</html></body>");
+    
+    public InterfazRevisiones(Empleados e, String vistas, int size) {
+        this.size = size;
+        this.e = e;
+        this.setResizable(false);
+        initComponents();
+        this.jlVistas.setText(vistas);
+        this.jlStock.setText(String.valueOf(size) + "/50");
+        this.posYButton = 20;
+        this.posYLabel = 50;
+        listaBotones = new ArrayList<JButton>();
+        System.out.println(this.jScrollPane1.getViewport().getSize());
+        this.jPanel4.setPreferredSize(new Dimension(500, 1000));
+        this.jPanel7.setBackground(Color.yellow);
+        this.setLocationRelativeTo(null);
+        lista = vbbdd.obtenerTodasRevisiones();
+        this.modelo =(DefaultTableModel) this.jTable1.getModel();
+        Object [] fila=new Object[7];
+        this.jTextField1.setText("");
+         for(int i = 0; i < this.lista.size(); i++){
+           fila[0] = this.lista.get(i).getRevId();
+           fila[1] = this.lista.get(i).getDescripcion();
+           fila[2] = this.lista.get(i).getBastidorNum();
+           fila[3] = this.lista.get(i).getPiezas();
+           fila[4] = this.lista.get(i).getFechaRev();
+           fila[5] = this.lista.get(i).getPrecioRev();
+           fila[6] = this.lista.get(i).getLoginEmpleado();
+           modelo.addRow(fila);
         }
-        else{
-            this.jButton1.setVisible(false);
-            this.jLabel2.setVisible(false);
-        }
-        if(lista.size() >= 1){
-        this.jLabel4.setText("<html><body>"+lista.get(0).getMarca()+" "+lista.get(0).getModelo()+"<br>"+lista.get(0).getPrecio()+"€</html></body>");
-        }else{
-            this.jButton1.setVisible(false);
-            this.jButton2.setVisible(false);
-            this.jLabel2.setVisible(false);
-            this.jLabel4.setVisible(false);
-        }
-        this.listaLabels.add(this.jLabel2);
-        this.listaLabels.add(this.jLabel4);
-        this.jLabel2.setFont(new Font("Arial", Font.BOLD, 14));
-        this.jLabel4.setFont(new Font("Arial", Font.BOLD, 14));
-        this.posYButton += 150;
-        this.posYLabel += 150;
-        int n = lista.size() - 2;
-        int v1 = lista.size() / 2;
-             
-        v1 = v1 + 1;  
-        
-        for(int i = 2; i < v1; i++){
-            JButton jb = new JButton(ic);
-            JLabel j = new JLabel();
-            j.setText("<html><body>" +lista.get(i).getMarca()+" "+lista.get(i).getModelo()+"<br>"+lista.get(i).getPrecio()+"€</html></body>");
-            j.setFont(new Font("Arial", Font.BOLD, 14));
-            jb.setActionCommand(Integer.toString(i));
-            jb.setBounds(420, this.posYButton, 130, 120);
-            jb.addActionListener(accion);
-            this.listaLabels.add(j);
-            listaBotones.add(jb);
-            j.setBounds(590, this.posYLabel, 110, 50);
-            jPanel4.add(jb);
-            jPanel4.add(j);
-            this.posYButton += 150;
-            this.posYLabel += 150;
-        }
-      
-            this.posYButton = 170;
-            this.posYLabel = 200;
-            for(int i = v1; i < lista.size(); i++){
-                JButton jb = new JButton(ic);
-                JLabel j = new JLabel();
-                j.setText("<html><body>" + lista.get(i).getMarca()+" "+lista.get(i).getModelo()+"<br>"+lista.get(i).getPrecio()+"€</html></body>");
-                j.setFont(new Font("Arial", Font.BOLD, 14));
-                jb.setActionCommand(Integer.toString(i));
-                jb.setBounds(60, this.posYButton, 130, 120);
-                jb.addActionListener(accion);
-                listaBotones.add(jb);
-                this.listaLabels.add(j);
-                j.setBounds(230, this.posYLabel, 110, 50);
-                jPanel4.add(jb);
-                jPanel4.add(j);
-                this.posYButton += 150;
-                this.posYLabel += 150;
-            }
-           
-        this.jPanel4.setPreferredSize(new Dimension(500, this.listaBotones.get(this.listaBotones.size()-1).getY() + 150));
+                    
+        this.jTable1.setModel(this.modelo);
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -229,16 +141,14 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
         jButton12 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel4 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jButton11 = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
         jTextField1 = new javax.swing.JTextField();
         jButton13 = new javax.swing.JButton();
@@ -249,6 +159,7 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel1.setPreferredSize(new java.awt.Dimension(355, 500));
+        jPanel1.setVerifyInputWhenFocusTarget(false);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -269,7 +180,7 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43)
+                .addGap(42, 42, 42)
                 .addComponent(jlCochesVendidos)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -287,6 +198,11 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
 
         jlCochesDisponibles.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jlCochesDisponibles.setText("Coches Disponibles");
+        jlCochesDisponibles.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlCochesDisponiblesMouseClicked(evt);
+            }
+        });
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/coche.png"))); // NOI18N
 
@@ -317,21 +233,22 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
 
         jlRevisiones.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jlRevisiones.setText("Revisiones");
-        jlRevisiones.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jlRevisionesMouseClicked(evt);
-            }
-        });
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/descarga.png"))); // NOI18N
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
+                .addContainerGap()
+                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35)
                 .addComponent(jlRevisiones)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -339,13 +256,11 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                        .addComponent(jlRevisiones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())))
+                .addComponent(jlRevisiones, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
@@ -445,8 +360,7 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
             .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -552,48 +466,48 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setMaximumSize(new java.awt.Dimension(500000, 500000));
         jPanel4.setLayout(null);
-        jPanel4.add(jButton1);
-        jButton1.setBounds(420, 20, 130, 120);
 
-        jLabel2.setText("jLabel2");
-        jPanel4.add(jLabel2);
-        jLabel2.setBounds(590, 50, 110, 50);
-        jPanel4.add(jButton2);
-        jButton2.setBounds(60, 20, 130, 120);
+        jTable1.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-        jLabel4.setText("jLabel2");
-        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel4MouseClicked(evt);
+            },
+            new String [] {
+                "ID", "Descripcion", "Num Bastidor", "Piezas", "Fecha", "Precio", "Empleado"
             }
-        });
-        jPanel4.add(jLabel4);
-        jLabel4.setBounds(230, 50, 110, 50);
+        ));
+        jScrollPane2.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(6).setResizable(false);
+        }
+
+        jPanel4.add(jScrollPane2);
+        jScrollPane2.setBounds(0, 0, 710, 430);
 
         jScrollPane1.setViewportView(jPanel4);
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel1.setText("COCHES DISPONIBLES");
+        jLabel1.setText("REVISIONES");
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/coche3.png"))); // NOI18N
 
         jLabel7.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel7.setText("CONCESIONARIO");
 
-        jButton11.setBackground(new java.awt.Color(255, 255, 255));
-        jButton11.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jButton11.setForeground(new java.awt.Color(51, 255, 0));
-        jButton11.setText("+");
-        jButton11.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton11ActionPerformed(evt);
-            }
-        });
-
         jLabel8.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel8.setText("LA RUEDA S.A");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Filtrar por", "Marca", "Color", "Modelo" }));
+        jButton1.setBackground(new java.awt.Color(255, 255, 255));
+        jButton1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(102, 255, 0));
+        jButton1.setText("+");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Filtrar por", "ID Revision", "Numero Bastidor", "Empleado" }));
 
         jTextField1.setText("jTextField1");
 
@@ -623,23 +537,20 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
                                     .addComponent(jLabel8)
                                     .addComponent(jLabel7)))))
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(54, 54, 54)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 709, Short.MAX_VALUE)
+                        .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 709, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton11))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(168, 168, 168)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton13)))
+                        .addComponent(jButton13)
+                        .addGap(121, 121, 121)
+                        .addComponent(jButton1)))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -659,98 +570,112 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1)
-                            .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jComboBox1)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButton13))))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jComboBox1)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton13)))))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
-        // TODO add your handling code here:
-        System.out.println("Pulsado");
-    }//GEN-LAST:event_jLabel4MouseClicked
-
-    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        // TODO add your handling code here:
-        InterfazPedidoVehiculo iv = new InterfazPedidoVehiculo(this.e);
-        iv.setVisible(true);
-    }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         // TODO add your handling code here:
         JOptionPane.showMessageDialog(null, "Usuario: "+e.getEmUsuario()+"\n"+"Rol: "+e.getEmRol());
     }//GEN-LAST:event_jButton12ActionPerformed
 
-    private void jlCochesVendidosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlCochesVendidosMouseClicked
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        InterfazVehiculosVendidos iv = new InterfazVehiculosVendidos(this.e, this.jlVistas.getText(), this.listaOficial.size());
+     InterfazNuevaRevision ir = new InterfazNuevaRevision(this.e);
+     ir.setVisible(true);
+       
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jlCochesDisponiblesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlCochesDisponiblesMouseClicked
+        // TODO add your handling code here:
+        InterfazVehiculosDisponibles iv = new InterfazVehiculosDisponibles(this.e, this.jlVistas.getText());
         iv.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jlCochesVendidosMouseClicked
+    }//GEN-LAST:event_jlCochesDisponiblesMouseClicked
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         // TODO add your handling code here:
         String opcionFiltrado = (String) this.jComboBox1.getSelectedItem();
-        List<VehiculosDisponibles> l = null;
-        String busqueda = this.jTextField1.getText();;
+        List<InfoRevisiones> l = null;
+        String busqueda = this.jTextField1.getText();
+     
+        this.modelo.setRowCount(0);
         switch(opcionFiltrado){
-            case "Marca":
-                l = vbbdd.buscarVehiculoDisponibleMarca(busqueda);
-                break;
-            case "Modelo":
-                l = vbbdd.buscarVehiculoDisponibleModelo(busqueda);
-                break;
-            case "Color":
-                l = vbbdd.buscarVehiculoDisponibleColor(busqueda);
-                break;
+            case "ID Revision":
+            l = new ArrayList<InfoRevisiones>();
+            l.add(vbbdd.buscarRevision(Byte.parseByte(busqueda)));
+            break;
+            case "Empleado":
+            l = vbbdd.buscarRevisionEmpleado(busqueda);
+            break;
+            case "Numero Bastidor":
+            l = vbbdd.buscarRevisionBastidor(Integer.parseInt(busqueda));
+            break;  
         }
-        
-        InterfazVehiculosDisponibles iv = new InterfazVehiculosDisponibles(this.e, l, this.jlVistas.getText());
-        iv.setVisible(true);
-        this.dispose();
+       
+        Object [] fila=new Object[7];
+        for(int i = 0; i < this.lista.size(); i++){
+           fila[0] = l.get(i).getRevId();
+           fila[1] = l.get(i).getDescripcion();
+           fila[2] = l.get(i).getBastidorNum();
+           fila[3] = l.get(i).getPiezas();
+           fila[4] = l.get(i).getFechaRev();
+           fila[5] = l.get(i).getPrecioRev();
+           fila[6] = l.get(i).getLoginEmpleado();
+           modelo.addRow(fila);
+        }
+    
+        this.lista = l;
+       
     }//GEN-LAST:event_jButton13ActionPerformed
 
-    private void jlRevisionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlRevisionesMouseClicked
+    private void jlCochesVendidosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlCochesVendidosMouseClicked
         // TODO add your handling code here:
-        InterfazRevisiones ir = new InterfazRevisiones(this.e, this.jlVistas.getText(), this.listaOficial.size());
-        ir.setVisible(true);
+         InterfazVehiculosVendidos iv = new InterfazVehiculosVendidos(this.e, this.jlVistas.getText(), this.size);
+        iv.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jlRevisionesMouseClicked
+    }//GEN-LAST:event_jlCochesVendidosMouseClicked
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
      */
+      
    
-    VehiculosDisponiblesBBDD vbbdd = new VehiculosDisponiblesBBDD();
-    List<VehiculosDisponibles> listaOficial = vbbdd.obtenerTodosVehiculosDisponibles();
+    InfoRevisionesBBDD vbbdd = new InfoRevisionesBBDD();
+    private List<InfoRevisiones> lista;
     private int posYButton;
     private int posYLabel;
     ArrayList<JButton> listaBotones;
-    ArrayList<JLabel> listaLabels;
     private Empleados e;
+    DefaultTableModel modelo;
+    private int size;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private concesionarioinsoii.ConcesionarioINSOII concesionarioINSOII1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
@@ -761,9 +686,7 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -778,6 +701,8 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel jlClientes;
     private javax.swing.JLabel jlCochesDisponibles;
