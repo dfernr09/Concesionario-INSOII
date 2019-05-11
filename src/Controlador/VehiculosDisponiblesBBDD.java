@@ -48,6 +48,7 @@ public class VehiculosDisponiblesBBDD {
     
         return lista;
     }
+     
    
        public List<VehiculosDisponibles> buscarVehiculoDisponibleModelo(String modelo){
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();

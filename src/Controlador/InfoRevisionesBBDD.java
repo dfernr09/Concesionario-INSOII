@@ -39,7 +39,29 @@ public class InfoRevisionesBBDD {
        
         return r;
     }
+        public List<InfoRevisiones> buscarRevisionEmpleado(String empleado){
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Transaction tx = session.beginTransaction();
+        Query q = session.createQuery("from InfoRevisiones where loginEmpleado='"+empleado+"'");
+        List<InfoRevisiones> lista = q.list();
+        tx.commit();
     
+        return lista;
+    }
+       public List<InfoRevisiones> buscarRevisionBastidor(int bastidor){
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Transaction tx = session.beginTransaction();
+        Query q = session.createQuery("from InfoRevisiones where bastidorNum='"+bastidor+"'");
+        List<InfoRevisiones> lista = q.list();
+        tx.commit();
+    
+        return lista;
+    }
+      
     public List<InfoRevisiones> obtenerTodasRevisiones(){
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
