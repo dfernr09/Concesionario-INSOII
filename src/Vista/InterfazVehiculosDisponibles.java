@@ -36,9 +36,9 @@ import javax.swing.JScrollPane;
     private JLabel label;
     private int indiceCoche;
     
-    public ActionListenerCoches(List<VehiculosDisponibles> vehiculos, JLabel jl){
+    public ActionListenerCoches(List<VehiculosDisponibles> vehiculos, JLabel jl, int vistos){
         this.vehiculos = vehiculos;
-        vistos = 0;
+        this.vistos = vistos;
         this.label = jl;
         indiceCoche = -1;
     }
@@ -57,6 +57,24 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
     /**
      * Creates new form InterfazVehiculosDisponibles
      */
+     public InterfazVehiculosDisponibles(Empleados e, String vistas) {
+        this.e = e;
+        this.setResizable(false);
+        initComponents();
+        this.posYButton = 20;
+        this.posYLabel = 50;
+        listaBotones = new ArrayList<JButton>();
+        listaLabels = new ArrayList<JLabel>();
+        System.out.println(this.jScrollPane1.getViewport().getSize());
+        this.jPanel4.setPreferredSize(new Dimension(500, 1000));
+        this.jTextField1.setText("");
+        this.jlVistas.setText(vistas);     
+        colocarCoches(this.listaOficial);
+                this.setLocationRelativeTo(null);
+        this.jPanel5.setBackground(Color.yellow);
+        this.jlVistas.setText(vistas); 
+        
+    }
       public InterfazVehiculosDisponibles(Empleados e, List<VehiculosDisponibles> l, String vistas) {
         this.e = e;
         this.setResizable(false);
@@ -95,7 +113,7 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
     }
     public void colocarCoches(List<VehiculosDisponibles> lista){
         ImageIcon ic = new ImageIcon("src/Imagenes/descarga.jpg");
-        ActionListener accion = new ActionListenerCoches(lista, this.jlVistas);
+        ActionListener accion = new ActionListenerCoches(lista, this.jlVistas, Integer.parseInt(this.jlVistas.getText()));
         this.jButton1.setActionCommand("1");
         this.jButton2.setActionCommand("0");
         listaBotones.add(this.jButton1);
@@ -110,8 +128,18 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
         if(lista.size() >= 2){
         this.jLabel2.setText("<html><body>"+ lista.get(1).getMarca()+" "+lista.get(1).getModelo()+"<br>"+lista.get(1).getPrecio()+"€</html></body>");
         }
+        else{
+            this.jButton1.setVisible(false);
+            this.jLabel2.setVisible(false);
+        }
+        if(lista.size() >= 1){
         this.jLabel4.setText("<html><body>"+lista.get(0).getMarca()+" "+lista.get(0).getModelo()+"<br>"+lista.get(0).getPrecio()+"€</html></body>");
-        
+        }else{
+            this.jButton1.setVisible(false);
+            this.jButton2.setVisible(false);
+            this.jLabel2.setVisible(false);
+            this.jLabel4.setVisible(false);
+        }
         this.listaLabels.add(this.jLabel2);
         this.listaLabels.add(this.jLabel4);
         this.jLabel2.setFont(new Font("Arial", Font.BOLD, 14));
@@ -665,7 +693,7 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
 
     private void jlCochesVendidosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlCochesVendidosMouseClicked
         // TODO add your handling code here:
-        InterfazVehiculosVendidos iv = new InterfazVehiculosVendidos(this.e);
+        InterfazVehiculosVendidos iv = new InterfazVehiculosVendidos(this.e, this.jlVistas.getText(), this.listaOficial.size());
         iv.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jlCochesVendidosMouseClicked

@@ -13,6 +13,7 @@ import Modelo.InfoRevisiones;
 import Modelo.Pedidos;
 import Modelo.VehiculosDisponibles;
 import Modelo.VehiculosVendidos;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -34,10 +35,10 @@ public class InterfazNuevaRevision extends javax.swing.JFrame {
         initComponents();
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         pbbdd = new InfoRevisionesBBDD();
-        this.idCliente = (byte) ( (byte)(Math.random() * 200) + 1);
+        this.idCliente = (byte) ( (byte)(Math.random() * 120) + 1);
         List<InfoRevisiones> listaC = pbbdd.obtenerTodasRevisiones();
-        while(checkID(listaC, this.idCliente)){
-            this.idCliente = (byte)((byte)(Math.random() * 200) + 1);
+        while(checkID(listaC, this.idCliente) ){
+            this.idCliente = (byte)((byte)(Math.random() * 120) + 1);
         }
             this.tfColor.setEditable(false);
         this.tfColor.setText(vehiculo.getColor());
@@ -135,6 +136,11 @@ public class InterfazNuevaRevision extends javax.swing.JFrame {
         jButton1.setBackground(new java.awt.Color(255, 255, 255));
         jButton1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jButton1.setText("Asignar Piezas");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -351,38 +357,35 @@ public class InterfazNuevaRevision extends javax.swing.JFrame {
 
     private void jbConfirmarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConfirmarPedidoActionPerformed
         // TODO add your handling code here:
+        piezas = this.iap.getPiezas();
+        String p = componerPiezas(piezas);
         InfoRevisiones ir = new InfoRevisiones();
         ir.setBastidorNum(this.vehiculo.getBastidorNum());
         ir.setDescripcion(this.jTextArea1.getText());
         ir.setFechaRev(new Date());
         ir.setLoginEmpleado(this.e.getEmUsuario());
-        ir.setPiezas("Ejemplo");
+        ir.setPiezas(p);
         ir.setPrecioRev(Integer.valueOf(this.tfPrecioEstimado.getText()));
         ir.setRevId(this.idCliente);
         this.pbbdd.nuevaRevision(ir);
         JOptionPane.showMessageDialog(null, "Vehiculo configurado y añadido al taller");
-        /*VehiculosDisponiblesBBDD vbbdd = new VehiculosDisponiblesBBDD();
-        VehiculosDisponibles v = new VehiculosDisponibles();
-        v.setColor(this.tfColor.getText());
-        v.setExtras(this.tfExtras.getText());
-        v.setMarca(this.tfMarca.getText());
-        v.setMatricula(this.tfMatricula.getText());
-        v.setModelo(this.tfModelo.getText());
-        v.setNumBastidor(Integer.valueOf(this.tfNumeroBastidor.getText()));
-        v.setPrecio(Integer.valueOf(this.tfPrecio.getText()));
-        vbbdd.nuevoVehiculoDisponible(v);
         
-        Pedidos p = new Pedidos();
-        
-        p.setDescrPedido(this.tfMarca.getText());
-        p.setLoginEmpleado(this.e.getEmUsuario());
-       p.setNumPedido(idCliente);
-       p.setTipoPedido("Vehiculo");
-       pbbdd.nuevoPedido(p);*/
-        
-
     }//GEN-LAST:event_jbConfirmarPedidoActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        iap = new InterfazAsignarPiezas(this.vehiculo.getMarca());
+        iap.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+    private String componerPiezas(ArrayList<String> piezas){
+       String piez = "";
+        for(int i= 0; i < piezas.size(); i++){
+            piez = piez+piezas.get(i)+",";
+        }
+        piez = piez.substring(0, piez.length()-1);
+        return piez;
+    }
+    
     private boolean checkID(List<InfoRevisiones> lista, byte id){
         boolean res = false;
         for(int i = 0; i < lista.size(); i++){
@@ -401,6 +404,8 @@ public class InterfazNuevaRevision extends javax.swing.JFrame {
      private InfoRevisionesBBDD pbbdd;
      private Empleados e;
      private VehiculosVendidos vehiculo;
+     private ArrayList<String> piezas;
+     private InterfazAsignarPiezas iap;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;

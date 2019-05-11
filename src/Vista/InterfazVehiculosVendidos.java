@@ -51,9 +51,10 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
         this.jlVistas.setText("0");
         this.jPanel3.setBackground(Color.yellow);
         this.setLocationRelativeTo(null);
-
-        DefaultTableModel modelo =(DefaultTableModel) this.jTable1.getModel();
+        lista = vbbdd.obtenerTodosVehiculosVendidos();
+        this.modelo =(DefaultTableModel) this.jTable1.getModel();
         Object [] fila=new Object[7];
+        this.jTextField1.setText("");
         for(int i = 0; i < this.lista.size(); i++){
            fila[0] = this.lista.get(i).getBastidorNum();
            fila[1] = this.lista.get(i).getMatricula();
@@ -65,10 +66,39 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
            modelo.addRow(fila);
         }
                     
-        this.jTable1.setModel(modelo);
+        this.jTable1.setModel(this.modelo);
     }
     
-
+    public InterfazVehiculosVendidos(Empleados e, String vistas, int size) {
+        this.e = e;
+        this.setResizable(false);
+        initComponents();
+        this.jlVistas.setText(vistas);
+        this.jlStock.setText(String.valueOf(size) + "/50");
+        this.posYButton = 20;
+        this.posYLabel = 50;
+        listaBotones = new ArrayList<JButton>();
+        System.out.println(this.jScrollPane1.getViewport().getSize());
+        this.jPanel4.setPreferredSize(new Dimension(500, 1000));
+        this.jPanel3.setBackground(Color.yellow);
+        this.setLocationRelativeTo(null);
+        lista = vbbdd.obtenerTodosVehiculosVendidos();
+        this.modelo =(DefaultTableModel) this.jTable1.getModel();
+        Object [] fila=new Object[7];
+        this.jTextField1.setText("");
+        for(int i = 0; i < this.lista.size(); i++){
+           fila[0] = this.lista.get(i).getBastidorNum();
+           fila[1] = this.lista.get(i).getMatricula();
+           fila[2] = this.lista.get(i).getMarca();
+           fila[3] = this.lista.get(i).getModelo();
+           fila[4] = this.lista.get(i).getColor();
+           fila[5] = this.lista.get(i).getFechaCompra().toString();
+           fila[6] = this.lista.get(i).getClienId();
+           modelo.addRow(fila);
+        }
+                    
+        this.jTable1.setModel(this.modelo);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -446,7 +476,7 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jPanel4);
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel1.setText("COCHES DISPONIBLES");
+        jLabel1.setText("COCHES VENDIDOS");
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/coche3.png"))); // NOI18N
 
@@ -570,7 +600,7 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
 
     private void jlCochesDisponiblesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlCochesDisponiblesMouseClicked
         // TODO add your handling code here:
-        InterfazVehiculosDisponibles iv = new InterfazVehiculosDisponibles(this.e);
+        InterfazVehiculosDisponibles iv = new InterfazVehiculosDisponibles(this.e, this.jlVistas.getText());
         iv.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jlCochesDisponiblesMouseClicked
@@ -580,7 +610,8 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
         String opcionFiltrado = (String) this.jComboBox1.getSelectedItem();
         List<VehiculosVendidos> l = null;
         String busqueda = this.jTextField1.getText();
-        
+     
+        this.modelo.setRowCount(0);
         switch(opcionFiltrado){
             case "Marca":
             l = vbbdd.buscarVehiculoDisponibleMarca(busqueda);
@@ -591,8 +622,15 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
             case "Color":
             l = vbbdd.buscarVehiculoDisponibleColor(busqueda);
             break;
+            case "Matricula":
+            l = vbbdd.buscarVehiculoDisponibleMatricula(busqueda);
+            break;
+            case "Numero Bastidor":
+            l = new ArrayList<VehiculosVendidos>();
+            l.add(vbbdd.buscarVehiculoVendido(Integer.valueOf(busqueda)));
+            break;
         }
-         DefaultTableModel modelo =(DefaultTableModel) this.jTable1.getModel();
+        
         Object [] fila=new Object[7];
         for(int i = 0; i < l.size(); i++){
            fila[0] = l.get(i).getBastidorNum();
@@ -602,11 +640,10 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
            fila[4] = l.get(i).getColor();
            fila[5] = l.get(i).getFechaCompra().toString();
            fila[6] = l.get(i).getClienId();
-           modelo.addRow(fila);
+           this.modelo.addRow(fila);
         }
-                    
-        this.jTable1.setModel(modelo);
-
+    
+        this.lista = l;
     }//GEN-LAST:event_jButton13ActionPerformed
 
     /**
@@ -615,11 +652,12 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
       
    
     VehiculosVendidosBBDD vbbdd = new VehiculosVendidosBBDD();
-    List<VehiculosVendidos> lista = vbbdd.obtenerTodosVehiculosVendidos();
+    private List<VehiculosVendidos> lista;
     private int posYButton;
     private int posYLabel;
     ArrayList<JButton> listaBotones;
     private Empleados e;
+    DefaultTableModel modelo;
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private concesionarioinsoii.ConcesionarioINSOII concesionarioINSOII1;
