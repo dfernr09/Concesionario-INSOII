@@ -5,9 +5,11 @@
  */
 package Vista;
 
+import Controlador.ClientesBBDD;
 import Controlador.InfoRevisionesBBDD;
 import Controlador.VehiculosDisponiblesBBDD;
 import Controlador.VehiculosVendidosBBDD;
+import Modelo.Clientes;
 import Modelo.Empleados;
 import Modelo.InfoRevisiones;
 import Modelo.VehiculosDisponibles;
@@ -36,42 +38,42 @@ import javax.swing.table.DefaultTableModel;
  */
  
 
-public class InterfazRevisiones extends javax.swing.JFrame {
+public class InterfazClientes extends javax.swing.JFrame {
 
     /**
      * Creates new form InterfazVehiculosDisponibles
      */
-    public InterfazRevisiones(Empleados e) {
+    public InterfazClientes(Empleados e) {
         this.e = e;
         this.setResizable(false);
         initComponents();
         this.posYButton = 20;
         this.posYLabel = 50;
-        listaBotones = new ArrayList<JButton>();
+      
         System.out.println(this.jScrollPane1.getViewport().getSize());
         this.jPanel4.setPreferredSize(new Dimension(500, 1000));
-        this.jlVistas.setText("0");
-        this.jPanel3.setBackground(Color.yellow);
+        this.jPanel9.setBackground(Color.yellow);
         this.setLocationRelativeTo(null);
-        lista = vbbdd.obtenerTodasRevisiones();
+        lista = vbbdd.obtenerTodosClientes();
         this.modelo =(DefaultTableModel) this.jTable1.getModel();
-        Object [] fila=new Object[7];
+        Object [] fila=new Object[8];
         this.jTextField1.setText("");
         for(int i = 0; i < this.lista.size(); i++){
-           fila[0] = this.lista.get(i).getRevId();
-           fila[1] = this.lista.get(i).getDescripcion();
-           fila[2] = this.lista.get(i).getBastidorNum();
-           fila[3] = this.lista.get(i).getPiezas();
-           fila[4] = this.lista.get(i).getFechaRev();
-           fila[5] = this.lista.get(i).getPrecioRev();
-           fila[6] = this.lista.get(i).getLoginEmpleado();
+           fila[0] = this.lista.get(i).getClienId();
+           fila[1] = this.lista.get(i).getClienPasaporte();
+           fila[2] = this.lista.get(i).getClienHistorialCompras();
+           fila[3] = this.lista.get(i).getClienNombre();
+           fila[4] = this.lista.get(i).getClienApellido();
+           fila[5] = this.lista.get(i).getClienDireccion();
+           fila[6] = this.lista.get(i).getClienCorreo();
+           fila[7] = this.lista.get(i).getTelefono();
            modelo.addRow(fila);
         }
                     
         this.jTable1.setModel(this.modelo);
     }
     
-    public InterfazRevisiones(Empleados e, String vistas, int size) {
+    public InterfazClientes(Empleados e, String vistas, int size) {
         this.size = size;
         this.e = e;
         this.setResizable(false);
@@ -80,26 +82,26 @@ public class InterfazRevisiones extends javax.swing.JFrame {
         this.jlStock.setText(String.valueOf(size) + "/50");
         this.posYButton = 20;
         this.posYLabel = 50;
-        listaBotones = new ArrayList<JButton>();
+     
         System.out.println(this.jScrollPane1.getViewport().getSize());
         this.jPanel4.setPreferredSize(new Dimension(500, 1000));
-        this.jPanel7.setBackground(Color.yellow);
+        this.jPanel9.setBackground(Color.yellow);
         this.setLocationRelativeTo(null);
-        lista = vbbdd.obtenerTodasRevisiones();
+        lista = vbbdd.obtenerTodosClientes();
         this.modelo =(DefaultTableModel) this.jTable1.getModel();
-        Object [] fila=new Object[7];
+        Object [] fila=new Object[8];
         this.jTextField1.setText("");
-         for(int i = 0; i < this.lista.size(); i++){
-           fila[0] = this.lista.get(i).getRevId();
-           fila[1] = this.lista.get(i).getDescripcion();
-           fila[2] = this.lista.get(i).getBastidorNum();
-           fila[3] = this.lista.get(i).getPiezas();
-           fila[4] = this.lista.get(i).getFechaRev();
-           fila[5] = this.lista.get(i).getPrecioRev();
-           fila[6] = this.lista.get(i).getLoginEmpleado();
+          for(int i = 0; i < this.lista.size(); i++){
+           fila[0] = this.lista.get(i).getClienId();
+           fila[1] = this.lista.get(i).getClienPasaporte();
+           fila[2] = this.lista.get(i).getClienHistorialCompras();
+           fila[3] = this.lista.get(i).getClienNombre();
+           fila[4] = this.lista.get(i).getClienApellido();
+           fila[5] = this.lista.get(i).getClienDireccion();
+           fila[6] = this.lista.get(i).getClienCorreo();
+           fila[7] = this.lista.get(i).getTelefono();
            modelo.addRow(fila);
-        }
-                    
+        }          
         this.jTable1.setModel(this.modelo);
     }
     /**
@@ -148,11 +150,10 @@ public class InterfazRevisiones extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
         jTextField1 = new javax.swing.JTextField();
         jButton13 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
@@ -234,6 +235,11 @@ public class InterfazRevisiones extends javax.swing.JFrame {
 
         jlRevisiones.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jlRevisiones.setText("Revisiones");
+        jlRevisiones.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlRevisionesMouseClicked(evt);
+            }
+        });
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/descarga.png"))); // NOI18N
         jButton5.addActionListener(new java.awt.event.ActionListener() {
@@ -299,11 +305,6 @@ public class InterfazRevisiones extends javax.swing.JFrame {
 
         jlClientes.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jlClientes.setText("Clientes");
-        jlClientes.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jlClientesMouseClicked(evt);
-            }
-        });
 
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cliente.png"))); // NOI18N
 
@@ -479,7 +480,7 @@ public class InterfazRevisiones extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Descripcion", "Num Bastidor", "Piezas", "Fecha", "Precio", "Empleado"
+                "ID", "NIF", "Historial Compras", "Nombre", "Apellidos", "Dirección", "Correo", "Teléfono"
             }
         ));
         jScrollPane2.setViewportView(jTable1);
@@ -493,7 +494,7 @@ public class InterfazRevisiones extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jPanel4);
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel1.setText("REVISIONES");
+        jLabel1.setText("CLIENTES");
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/coche3.png"))); // NOI18N
 
@@ -503,17 +504,7 @@ public class InterfazRevisiones extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel8.setText("LA RUEDA S.A");
 
-        jButton1.setBackground(new java.awt.Color(255, 255, 255));
-        jButton1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(102, 255, 0));
-        jButton1.setText("+");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Filtrar por", "ID Revision", "Numero Bastidor", "Empleado" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Filtrar por", "ID Cliente", "NIF", "Nombre", "Apellidos", "Teléfono" }));
 
         jTextField1.setText("jTextField1");
 
@@ -524,10 +515,10 @@ public class InterfazRevisiones extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/borrar.png"))); // NOI18N
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/borrar.png"))); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -561,10 +552,8 @@ public class InterfazRevisiones extends javax.swing.JFrame {
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton13)
-                        .addGap(72, 72, 72)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(129, 129, 129)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -592,15 +581,12 @@ public class InterfazRevisiones extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jComboBox1)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton13))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                    .addGap(11, 11, 11)))))
+                                    .addComponent(jButton13)))))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(27, Short.MAX_VALUE))
         );
@@ -613,13 +599,6 @@ public class InterfazRevisiones extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "Usuario: "+e.getEmUsuario()+"\n"+"Rol: "+e.getEmRol());
     }//GEN-LAST:event_jButton12ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-     InterfazNuevaRevision ir = new InterfazNuevaRevision(this.e);
-     ir.setVisible(true);
-       
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void jlCochesDisponiblesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlCochesDisponiblesMouseClicked
         // TODO add your handling code here:
         InterfazVehiculosDisponibles iv = new InterfazVehiculosDisponibles(this.e, this.jlVistas.getText());
@@ -630,32 +609,40 @@ public class InterfazRevisiones extends javax.swing.JFrame {
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         // TODO add your handling code here:
         String opcionFiltrado = (String) this.jComboBox1.getSelectedItem();
-        List<InfoRevisiones> l = null;
+        List<Clientes> l = null;
         String busqueda = this.jTextField1.getText();
      
         this.modelo.setRowCount(0);
         switch(opcionFiltrado){
-            case "ID Revision":
-            l = new ArrayList<InfoRevisiones>();
-            l.add(vbbdd.buscarRevision(Byte.parseByte(busqueda)));
-            break;
-            case "Empleado":
-            l = vbbdd.buscarRevisionEmpleado(busqueda);
-            break;
-            case "Numero Bastidor":
-            l = vbbdd.buscarRevisionBastidor(Integer.parseInt(busqueda));
-            break;  
+            case "ID Cliente":
+                l = new ArrayList<Clientes>();
+                l.add(vbbdd.buscarCliente(Byte.parseByte(busqueda)));
+                break;
+            case "NIF":
+                 l = vbbdd.buscarClienteNIF(Integer.parseInt(busqueda));
+                 break;
+            case "Nombre":
+                 l = vbbdd.buscarClienteNombre(busqueda);
+                 break; 
+            case "Apellidos":
+                l = vbbdd.buscarClienteApellido(busqueda);
+                break;
+            case "Teléfono":
+                l = vbbdd.buscarClienteTelefono(busqueda);
+                break;
         }
-       
-        Object [] fila=new Object[7];
+    
+         Object [] fila=new Object[8];
+        
         for(int i = 0; i < l.size(); i++){
-           fila[0] = l.get(i).getRevId();
-           fila[1] = l.get(i).getDescripcion();
-           fila[2] = l.get(i).getBastidorNum();
-           fila[3] = l.get(i).getPiezas();
-           fila[4] = l.get(i).getFechaRev();
-           fila[5] = l.get(i).getPrecioRev();
-           fila[6] = l.get(i).getLoginEmpleado();
+           fila[0] = l.get(i).getClienId();
+           fila[1] = l.get(i).getClienPasaporte();
+           fila[2] = l.get(i).getClienHistorialCompras();
+           fila[3] = l.get(i).getClienNombre();
+           fila[4] = l.get(i).getClienApellido();
+           fila[5] = l.get(i).getClienDireccion();
+           fila[6] = l.get(i).getClienCorreo();
+           fila[7] = l.get(i).getTelefono();
            modelo.addRow(fila);
         }
     
@@ -674,35 +661,35 @@ public class InterfazRevisiones extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void jlClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlClientesMouseClicked
+    private void jlRevisionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlRevisionesMouseClicked
         // TODO add your handling code here:
-        InterfazClientes ic = new InterfazClientes(this.e, this.jlVistas.getText(), this.size);
-        ic.setVisible(true);
+        InterfazRevisiones ir = new InterfazRevisiones(this.e, this.jlVistas.getText(), this.size);
+        ir.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jlClientesMouseClicked
+    }//GEN-LAST:event_jlRevisionesMouseClicked
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
          int r = this.jTable1.getSelectedRow();
      
        if(r == -1){
-           JOptionPane.showMessageDialog(null, "Debes seleccionar una revision");
+           JOptionPane.showMessageDialog(null, "Debes seleccionar un cliente");
        }else{
-           vbbdd.eliminarRevision(this.lista.get(r).getRevId());
-           JOptionPane.showMessageDialog(null, "Revision eliminada");
+           vbbdd.eliminarCliente(this.lista.get(r).getClienId());
+           JOptionPane.showMessageDialog(null, "Cliente eliminado");
        }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
      */
       
    
-    InfoRevisionesBBDD vbbdd = new InfoRevisionesBBDD();
-    private List<InfoRevisiones> lista;
+    ClientesBBDD vbbdd = new ClientesBBDD();
+    private List<Clientes> lista;
     private int posYButton;
     private int posYLabel;
-    ArrayList<JButton> listaBotones;
+   
     private Empleados e;
     DefaultTableModel modelo;
     private int size;
@@ -712,7 +699,6 @@ public class InterfazRevisiones extends javax.swing.JFrame {
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;

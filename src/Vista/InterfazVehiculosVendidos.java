@@ -292,6 +292,11 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
 
         jlClientes.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jlClientes.setText("Clientes");
+        jlClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlClientesMouseClicked(evt);
+            }
+        });
 
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cliente.png"))); // NOI18N
 
@@ -658,6 +663,13 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
         ir.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jlRevisionesMouseClicked
+
+    private void jlClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlClientesMouseClicked
+        // TODO add your handling code here:
+         InterfazClientes ic = new InterfazClientes(this.e, this.jlVistas.getText(), this.size);
+        ic.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jlClientesMouseClicked
 
     /**
      * @param args the command line arguments
