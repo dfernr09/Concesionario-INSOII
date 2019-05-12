@@ -51,7 +51,51 @@ public class ClientesBBDD {
 
         return lista;
     }
+        public List<Clientes> buscarClienteNIF(int nif){
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Transaction tx = session.beginTransaction();
+        Query q = session.createQuery("from Clientes where clienPasaporte='"+nif+"'");
+        List<Clientes> lista = q.list();
+        tx.commit();
     
+        return lista;
+    }
+         public List<Clientes> buscarClienteNombre(String nombre){
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Transaction tx = session.beginTransaction();
+        Query q = session.createQuery("from Clientes where clienNombre='"+nombre+"'");
+        List<Clientes> lista = q.list();
+        tx.commit();
+    
+        return lista;
+    }
+       public List<Clientes> buscarClienteApellido(String apellido){
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Transaction tx = session.beginTransaction();
+        Query q = session.createQuery("from Clientes where clienApellido='"+apellido+"'");
+        List<Clientes> lista = q.list();
+        tx.commit();
+    
+        return lista;
+    }
+           public List<Clientes> buscarClienteTelefono(String telefono){
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Transaction tx = session.beginTransaction();
+        Query q = session.createQuery("from Clientes where telefono='"+telefono+"'");
+        List<Clientes> lista = q.list();
+        tx.commit();
+    
+        return lista;
+    }
+   
       public void eliminarCliente(byte clienId){
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
@@ -64,8 +108,7 @@ public class ClientesBBDD {
         }
         
         tx.commit();
-        session.close();
-        sesion.close();
+       
      
     }
      public void actualizarHistorialCompras(byte clienId, String clienHistorialCompras){
