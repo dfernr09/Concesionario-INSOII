@@ -6,58 +6,52 @@
 package Vista;
 
 import Controlador.VehiculosDisponiblesBBDD;
+import Controlador.VehiculosVendidosBBDD;
 import Modelo.Empleados;
 import Modelo.VehiculosDisponibles;
+import Modelo.VehiculosVendidos;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 
 /**
  *
  * @author Usuario
  */
- class ActionListenerCoches implements ActionListener{
-    private List<VehiculosDisponibles> vehiculos;
-    private int vistos;
-    private JLabel label;
-    private int indiceCoche;
-    
-    public ActionListenerCoches(List<VehiculosDisponibles> vehiculos, JLabel jl, int vistos){
-        this.vehiculos = vehiculos;
-        this.vistos = vistos;
-        this.label = jl;
-        indiceCoche = -1;
-    }
-    @Override
-    public void actionPerformed(ActionEvent ae) {
-        vistos++;
-        this.label.setText(String.valueOf(vistos));
-        indiceCoche = Integer.valueOf(ae.getActionCommand());
-        InterfazInfoCoche ic = new InterfazInfoCoche(vehiculos.get(indiceCoche));
-        ic.setVisible(true);
-    }
-    
-}
-public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
+
+public class InterfazEstadisticas extends javax.swing.JFrame {
 
     /**
      * Creates new form InterfazVehiculosDisponibles
      */
-     public InterfazVehiculosDisponibles(Empleados e, String vistas) {
+     public InterfazEstadisticas(Empleados e, String vistas) {
         this.e = e;
         this.setResizable(false);
         initComponents();
@@ -67,15 +61,13 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
         listaLabels = new ArrayList<JLabel>();
         System.out.println(this.jScrollPane1.getViewport().getSize());
         this.jPanel4.setPreferredSize(new Dimension(500, 1000));
-        this.jTextField1.setText("");
         this.jlVistas.setText(vistas);     
-        colocarCoches(this.listaOficial);
                 this.setLocationRelativeTo(null);
-        this.jPanel5.setBackground(Color.yellow);
+        this.jPanel9.setBackground(Color.yellow);
         this.jlVistas.setText(vistas); 
         
     }
-      public InterfazVehiculosDisponibles(Empleados e, List<VehiculosDisponibles> l, String vistas) {
+      public InterfazEstadisticas(Empleados e, int size, String vistas) {
         this.e = e;
         this.setResizable(false);
         initComponents();
@@ -83,17 +75,15 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
         this.posYLabel = 50;
         listaBotones = new ArrayList<JButton>();
         listaLabels = new ArrayList<JLabel>();
+        this.jlStock.setText(String.valueOf(size) + "/50");
         System.out.println(this.jScrollPane1.getViewport().getSize());
         this.jPanel4.setPreferredSize(new Dimension(500, 1000));
-        this.jTextField1.setText("");
         this.jlVistas.setText(vistas);     
-        colocarCoches(l);
                 this.setLocationRelativeTo(null);
-        this.jPanel5.setBackground(Color.yellow);
-
+        this.jPanel8.setBackground(Color.yellow);
         
     }
-    public InterfazVehiculosDisponibles(Empleados e) {
+    public InterfazEstadisticas(Empleados e) {
         this.e = e;
         this.setResizable(false);
         initComponents();
@@ -103,92 +93,14 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
         listaLabels = new ArrayList<JLabel>();
         System.out.println(this.jScrollPane1.getViewport().getSize());
         this.jPanel4.setPreferredSize(new Dimension(500, 1000));
-        this.jTextField1.setText("");
         this.jlVistas.setText("0");
-        colocarCoches(listaOficial);
+        
                 this.setLocationRelativeTo(null);
-        this.jPanel5.setBackground(Color.yellow);
+        this.jPanel8.setBackground(Color.yellow);
 
         
     }
-    public void colocarCoches(List<VehiculosDisponibles> lista){
-        ImageIcon ic = new ImageIcon("src/Imagenes/descarga.jpg");
-        ActionListener accion = new ActionListenerCoches(lista, this.jlVistas, Integer.parseInt(this.jlVistas.getText()));
-        this.jButton1.setActionCommand("1");
-        this.jButton2.setActionCommand("0");
-        listaBotones.add(this.jButton1);
-        listaBotones.add(this.jButton2);
-        this.jButton1.setText("");
-        this.jButton1.setIcon(ic);
-        this.jButton2.setIcon(ic);
-        this.jButton1.addActionListener(accion);
-        this.jButton2.addActionListener(accion);
-        
-        this.jlStock.setText(String.valueOf(lista.size()) + "/50");
-        if(lista.size() >= 2){
-        this.jLabel2.setText("<html><body>"+ lista.get(1).getMarca()+" "+lista.get(1).getModelo()+"<br>"+lista.get(1).getPrecio()+"€</html></body>");
-        }
-        else{
-            this.jButton1.setVisible(false);
-            this.jLabel2.setVisible(false);
-        }
-        if(lista.size() >= 1){
-        this.jLabel4.setText("<html><body>"+lista.get(0).getMarca()+" "+lista.get(0).getModelo()+"<br>"+lista.get(0).getPrecio()+"€</html></body>");
-        }else{
-            this.jButton1.setVisible(false);
-            this.jButton2.setVisible(false);
-            this.jLabel2.setVisible(false);
-            this.jLabel4.setVisible(false);
-        }
-        this.listaLabels.add(this.jLabel2);
-        this.listaLabels.add(this.jLabel4);
-        this.jLabel2.setFont(new Font("Arial", Font.BOLD, 14));
-        this.jLabel4.setFont(new Font("Arial", Font.BOLD, 14));
-        this.posYButton += 150;
-        this.posYLabel += 150;
-        int n = lista.size() - 2;
-        int v1 = lista.size() / 2;
-             
-        v1 = v1 + 1;  
-        
-        for(int i = 2; i < v1; i++){
-            JButton jb = new JButton(ic);
-            JLabel j = new JLabel();
-            j.setText("<html><body>" +lista.get(i).getMarca()+" "+lista.get(i).getModelo()+"<br>"+lista.get(i).getPrecio()+"€</html></body>");
-            j.setFont(new Font("Arial", Font.BOLD, 14));
-            jb.setActionCommand(Integer.toString(i));
-            jb.setBounds(420, this.posYButton, 130, 120);
-            jb.addActionListener(accion);
-            this.listaLabels.add(j);
-            listaBotones.add(jb);
-            j.setBounds(590, this.posYLabel, 110, 50);
-            jPanel4.add(jb);
-            jPanel4.add(j);
-            this.posYButton += 150;
-            this.posYLabel += 150;
-        }
-      
-            this.posYButton = 170;
-            this.posYLabel = 200;
-            for(int i = v1; i < lista.size(); i++){
-                JButton jb = new JButton(ic);
-                JLabel j = new JLabel();
-                j.setText("<html><body>" + lista.get(i).getMarca()+" "+lista.get(i).getModelo()+"<br>"+lista.get(i).getPrecio()+"€</html></body>");
-                j.setFont(new Font("Arial", Font.BOLD, 14));
-                jb.setActionCommand(Integer.toString(i));
-                jb.setBounds(60, this.posYButton, 130, 120);
-                jb.addActionListener(accion);
-                listaBotones.add(jb);
-                this.listaLabels.add(j);
-                j.setBounds(230, this.posYLabel, 110, 50);
-                jPanel4.add(jb);
-                jPanel4.add(j);
-                this.posYButton += 150;
-                this.posYLabel += 150;
-            }
-           
-        this.jPanel4.setPreferredSize(new Dimension(500, this.listaBotones.get(this.listaBotones.size()-1).getY() + 150));
-    }
+   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -230,19 +142,14 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
         jButton14 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel4 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jButton11 = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
         jButton13 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
@@ -353,11 +260,6 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
 
         jlInformes.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jlInformes.setText("Informes y estadísticas");
-        jlInformes.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jlInformesMouseClicked(evt);
-            }
-        });
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/estadistica.png"))); // NOI18N
 
@@ -572,55 +474,34 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setMaximumSize(new java.awt.Dimension(500000, 500000));
         jPanel4.setLayout(null);
-        jPanel4.add(jButton1);
-        jButton1.setBounds(420, 20, 130, 120);
-
-        jLabel2.setText("jLabel2");
-        jPanel4.add(jLabel2);
-        jLabel2.setBounds(590, 50, 110, 50);
-        jPanel4.add(jButton2);
-        jButton2.setBounds(60, 20, 130, 120);
-
-        jLabel4.setText("jLabel2");
-        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel4MouseClicked(evt);
-            }
-        });
-        jPanel4.add(jLabel4);
-        jLabel4.setBounds(230, 50, 110, 50);
-
         jScrollPane1.setViewportView(jPanel4);
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel1.setText("COCHES DISPONIBLES");
+        jLabel1.setText("ESTADÍSTICAS");
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/coche3.png"))); // NOI18N
 
         jLabel7.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel7.setText("CONCESIONARIO");
 
-        jButton11.setBackground(new java.awt.Color(255, 255, 255));
-        jButton11.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jButton11.setForeground(new java.awt.Color(51, 255, 0));
-        jButton11.setText("+");
-        jButton11.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton11ActionPerformed(evt);
-            }
-        });
-
         jLabel8.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel8.setText("LA RUEDA S.A");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Filtrar por", "Marca", "Color", "Modelo" }));
-
-        jTextField1.setText("jTextField1");
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ver gráfico:", "Coches Vendidos por marca" }));
 
         jButton13.setText("Buscar");
         jButton13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton13ActionPerformed(evt);
+            }
+        });
+
+        jButton1.setBackground(new java.awt.Color(255, 255, 255));
+        jButton1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jButton1.setText("Guardar Imagen");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -643,23 +524,20 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
                                     .addComponent(jLabel8)
                                     .addComponent(jLabel7)))))
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(54, 54, 54)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 709, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton11))))
+                            .addComponent(jLabel1)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(168, 168, 168)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(222, 222, 222)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton13)))
+                        .addComponent(jButton13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1)))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -678,37 +556,24 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1)
-                            .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jComboBox1)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButton13))))
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                                .addComponent(jButton13))
+                            .addComponent(jButton1)))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(36, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
-        // TODO add your handling code here:
-        System.out.println("Pulsado");
-    }//GEN-LAST:event_jLabel4MouseClicked
-
-    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        // TODO add your handling code here:
-        InterfazPedidoVehiculo iv = new InterfazPedidoVehiculo(this.e);
-        iv.setVisible(true);
-    }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         // TODO add your handling code here:
@@ -721,28 +586,6 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
         iv.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jlCochesVendidosMouseClicked
-
-    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        // TODO add your handling code here:
-        String opcionFiltrado = (String) this.jComboBox1.getSelectedItem();
-        List<VehiculosDisponibles> l = null;
-        String busqueda = this.jTextField1.getText();;
-        switch(opcionFiltrado){
-            case "Marca":
-                l = vbbdd.buscarVehiculoDisponibleMarca(busqueda);
-                break;
-            case "Modelo":
-                l = vbbdd.buscarVehiculoDisponibleModelo(busqueda);
-                break;
-            case "Color":
-                l = vbbdd.buscarVehiculoDisponibleColor(busqueda);
-                break;
-        }
-        
-        InterfazVehiculosDisponibles iv = new InterfazVehiculosDisponibles(this.e, l, this.jlVistas.getText());
-        iv.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jlRevisionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlRevisionesMouseClicked
         // TODO add your handling code here:
@@ -765,33 +608,128 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton14ActionPerformed
 
-    private void jlInformesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlInformesMouseClicked
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         // TODO add your handling code here:
-        InterfazEstadisticas ie = new InterfazEstadisticas(this.e, this.listaOficial.size(),this.jlVistas.getText());
-        ie.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jlInformesMouseClicked
+        this.jPanel4.removeAll();
+         String yearS = JOptionPane.showInputDialog(null, "Introduce el año de la consulta: ");
+         
+        List<VehiculosVendidos> lBMW = vbbdd.buscarVehiculoDisponibleMarca("BMW");
+        List<VehiculosVendidos> lAudi = vbbdd.buscarVehiculoDisponibleMarca("Audi");
+        List<VehiculosVendidos> lSeat = vbbdd.buscarVehiculoDisponibleMarca("Seat");
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        String opcionFiltrado = (String) this.jComboBox1.getSelectedItem();
+        int year = Integer.parseInt(yearS);
+        switch(opcionFiltrado){
+            case "Coches Vendidos por marca":
+                      
+                dataset.addValue((double) obtenerNumeroVendidos(lBMW, year, 0), "BMW", "Enero");
+                dataset.addValue((double) obtenerNumeroVendidos(lAudi, year, 0), "Audi", "Enero");
+                dataset.addValue((double) obtenerNumeroVendidos(lSeat, year, 0), "Seat", "Enero");
+                dataset.addValue((double) obtenerNumeroVendidos(lBMW, year, 1), "BMW", "Febrero");
+                dataset.addValue((double) obtenerNumeroVendidos(lAudi, year, 1), "Audi", "Febrero");
+                dataset.addValue((double) obtenerNumeroVendidos(lSeat, year, 1), "Seat", "Febrero");
+                dataset.addValue((double) obtenerNumeroVendidos(lBMW, year, 2), "BMW", "Marzo");
+                dataset.addValue((double) obtenerNumeroVendidos(lAudi, year, 2), "Audi", "Marzo");
+                dataset.addValue((double) obtenerNumeroVendidos(lSeat, year, 2), "Seat", "Marzo");
+                dataset.addValue((double) obtenerNumeroVendidos(lBMW, year, 3), "BMW", "Abril");
+                dataset.addValue((double) obtenerNumeroVendidos(lAudi, year, 3), "Audi", "Abril");
+                dataset.addValue((double) obtenerNumeroVendidos(lSeat, year, 3), "Seat", "Abril");
+                dataset.addValue((double) obtenerNumeroVendidos(lBMW, year, 4), "BMW", "Mayo");
+                dataset.addValue((double) obtenerNumeroVendidos(lAudi, year, 4), "Audi", "Mayo");
+                dataset.addValue((double) obtenerNumeroVendidos(lSeat, year, 4), "Seat", "Mayo");
+                dataset.addValue((double) obtenerNumeroVendidos(lBMW, year, 5), "BMW", "Junio");
+                dataset.addValue((double) obtenerNumeroVendidos(lAudi, year, 5), "Audi", "Junio");
+                dataset.addValue((double) obtenerNumeroVendidos(lSeat, year, 5), "Seat", "Junio");
+                dataset.addValue((double) obtenerNumeroVendidos(lBMW, year, 6), "BMW", "Julio");
+                dataset.addValue((double) obtenerNumeroVendidos(lAudi, year, 6), "Audi", "Julio");
+                dataset.addValue((double) obtenerNumeroVendidos(lSeat, year, 6), "Seat", "Julio");
+                dataset.addValue((double) obtenerNumeroVendidos(lBMW, year, 7), "BMW", "Agosto");
+                dataset.addValue((double) obtenerNumeroVendidos(lAudi, year, 7), "Audi", "Agosto");
+                dataset.addValue((double) obtenerNumeroVendidos(lSeat, year, 7), "Seat", "Agosto");
+                dataset.addValue((double) obtenerNumeroVendidos(lBMW, year, 8), "BMW", "Septiembre");
+                dataset.addValue((double) obtenerNumeroVendidos(lAudi, year, 8), "Audi", "Septiembre");
+                dataset.addValue((double) obtenerNumeroVendidos(lSeat, year, 8), "Seat", "Septiembre");
+                dataset.addValue((double) obtenerNumeroVendidos(lBMW, year, 9), "BMW", "Octubre");
+                dataset.addValue((double) obtenerNumeroVendidos(lAudi, year, 9), "Audi", "Octubre");
+                dataset.addValue((double) obtenerNumeroVendidos(lSeat, year, 9), "Seat", "Octubre");
+                dataset.addValue((double) obtenerNumeroVendidos(lBMW, year, 10), "BMW", "Noviembre");
+                dataset.addValue((double) obtenerNumeroVendidos(lAudi, year, 10), "Audi", "Noviembre");
+                dataset.addValue((double) obtenerNumeroVendidos(lSeat, year, 10), "Seat", "Noviembre");
+                dataset.addValue((double) obtenerNumeroVendidos(lBMW, year, 11), "BMW", "Diciembre");
+                dataset.addValue((double) obtenerNumeroVendidos(lAudi, year, 11), "Audi", "Diciembre");
+                dataset.addValue((double) obtenerNumeroVendidos(lSeat, year, 11), "Seat", "Diciembre");
 
+                 chart = ChartFactory.createBarChart(
+                        "Coches Vendidos",
+                        "Mes",
+                        "Numero de Coches",
+                        dataset,
+                        PlotOrientation.VERTICAL, true, true, false
+                );
+                 break;
+
+        }
+      
+       ChartPanel panel = new ChartPanel(chart);
+       panel.setBounds(this.jPanel4.getBounds());
+       
+       this.jPanel4.add(panel);
+       panel.setMouseWheelEnabled(true);
+       
+       
+    }//GEN-LAST:event_jButton13ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+         int width = 1040;   
+         int height = 780;   
+         
+         JFileChooser fileChooser = new JFileChooser();
+         int seleccion = fileChooser.showSaveDialog(this);
+         if (seleccion == JFileChooser.APPROVE_OPTION){
+                File fichero = fileChooser.getSelectedFile();
+             try {
+                 ChartUtilities.saveChartAsJPEG(fichero, chart, width, height);
+             } catch (IOException ex) {
+                 Logger.getLogger(InterfazEstadisticas.class.getName()).log(Level.SEVERE, null, ex);
+             }
+           }
+         JOptionPane.showMessageDialog(null, "Image Guardada");
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private int obtenerNumeroVendidos(List<VehiculosVendidos> lista, int year, int mes){
+        ArrayList<Date> fechas = new ArrayList<Date>();
+        int cont = 0;
+        for(int i = 0; i < lista.size(); i++){
+            fechas.add(lista.get(i).getFechaCompra());
+        }
+        year = year - 1900;
+            for(int i = 0; i < fechas.size(); i++){
+                if(fechas.get(i).getMonth() == mes  && fechas.get(i).getYear() == year){
+                    cont++;
+                }
+            }
+            return cont;
+    }
     /**
      * @param args the command line arguments
      */
    
-    VehiculosDisponiblesBBDD vbbdd = new VehiculosDisponiblesBBDD();
-    List<VehiculosDisponibles> listaOficial = vbbdd.obtenerTodosVehiculosDisponibles();
+    VehiculosVendidosBBDD vbbdd = new VehiculosVendidosBBDD();
+    List<VehiculosVendidos> listaOficial = vbbdd.obtenerTodosVehiculosVendidos();
     private int posYButton;
     private int posYLabel;
     ArrayList<JButton> listaBotones;
     ArrayList<JLabel> listaLabels;
     private Empleados e;
+    JFreeChart chart;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private concesionarioinsoii.ConcesionarioINSOII concesionarioINSOII1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
@@ -802,9 +740,7 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -819,7 +755,6 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel jlClientes;
     private javax.swing.JLabel jlCochesDisponibles;
     private javax.swing.JLabel jlCochesVendidos;
