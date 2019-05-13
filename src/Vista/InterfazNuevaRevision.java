@@ -394,7 +394,9 @@ public class InterfazNuevaRevision extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        int ind = cocheEnReparacion(Integer.parseInt(this.tfNumeroBastidor.getText()), this.listaC);
+        int ind;
+        
+        ind = cocheEnReparacion(Integer.parseInt(this.tfNumeroBastidor.getText()), this.listaC);
         if(ind==-1){
         iap = new InterfazAsignarPiezas(this.e, this.tfMarca.getText(), this.tfModelo.getText());
         iap.setVisible(true);
