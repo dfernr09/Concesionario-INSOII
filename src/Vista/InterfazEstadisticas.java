@@ -77,7 +77,7 @@ public class InterfazEstadisticas extends javax.swing.JFrame {
         listaLabels = new ArrayList<JLabel>();
         this.jlStock.setText(String.valueOf(size) + "/50");
         System.out.println(this.jScrollPane1.getViewport().getSize());
-        this.jPanel4.setPreferredSize(new Dimension(500, 1000));
+        //this.jPanel4.setPreferredSize(new Dimension(500, 1000));
         this.jlVistas.setText(vistas);     
                 this.setLocationRelativeTo(null);
         this.jPanel8.setBackground(Color.yellow);
@@ -672,7 +672,8 @@ public class InterfazEstadisticas extends javax.swing.JFrame {
       
        ChartPanel panel = new ChartPanel(chart);
        panel.setBounds(this.jPanel4.getBounds());
-       
+       this.jScrollPane1.setEnabled(false);
+       //panel.setPreferredSize(this.jScrollPane1.getPreferredSize());
        this.jPanel4.add(panel);
        panel.setMouseWheelEnabled(true);
        

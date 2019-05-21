@@ -96,7 +96,7 @@ public class InterfazPedidoVehiculo extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel6.setText("Precio");
 
-        tfNumeroBastidor.setBorder(new javax.swing.border.MatteBorder(null));
+        tfNumeroBastidor.setBorder(null);
 
         tfMatricula.setBorder(new javax.swing.border.MatteBorder(null));
 

@@ -74,6 +74,11 @@ public class InterfazLogin extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
+        jButton1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButton1KeyPressed(evt);
+            }
+        });
 
         tfContrasena.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -158,6 +163,11 @@ public class InterfazLogin extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton1KeyPressed
+        // TODO add your handling code here:
+     
+    }//GEN-LAST:event_jButton1KeyPressed
 
     private Empleados obtenerEmpleado(List<Empleados> lista, String usuario, String pass){
         Empleados e = null;
