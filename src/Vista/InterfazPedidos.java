@@ -274,6 +274,11 @@ public class InterfazPedidos extends javax.swing.JFrame {
 
         jlInformes.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jlInformes.setText("Informes y estadísticas");
+        jlInformes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlInformesMouseClicked(evt);
+            }
+        });
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/estadistica.png"))); // NOI18N
 
@@ -446,12 +451,12 @@ public class InterfazPedidos extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jlVistas, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                    .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 12, Short.MAX_VALUE)
+                        .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -725,6 +730,13 @@ public class InterfazPedidos extends javax.swing.JFrame {
         }
         this.lista = l;
     }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jlInformesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlInformesMouseClicked
+        // TODO add your handling code here:
+        InterfazEstadisticas ie = new InterfazEstadisticas(this.e, this.size, this.jlVistas.getText());
+        ie.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jlInformesMouseClicked
 
     /**
      * @param args the command line arguments

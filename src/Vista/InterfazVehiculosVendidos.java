@@ -80,7 +80,7 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
         this.posYLabel = 50;
         listaBotones = new ArrayList<JButton>();
         System.out.println(this.jScrollPane1.getViewport().getSize());
-        this.jPanel4.setPreferredSize(new Dimension(500, 1000));
+       // this.jPanel4.setPreferredSize(new Dimension(500, 1000));
         this.jPanel3.setBackground(Color.yellow);
         this.setLocationRelativeTo(null);
         lista = vbbdd.obtenerTodosVehiculosVendidos();
@@ -263,6 +263,11 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
 
         jlInformes.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jlInformes.setText("Informes y estadísticas");
+        jlInformes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlInformesMouseClicked(evt);
+            }
+        });
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/estadistica.png"))); // NOI18N
 
@@ -733,6 +738,13 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
         }
         this.lista = l;
     }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jlInformesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlInformesMouseClicked
+        // TODO add your handling code here:
+        InterfazEstadisticas ie = new InterfazEstadisticas(this.e, this.size, this.jlVistas.getText());
+        ie.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jlInformesMouseClicked
 
     /**
      * @param args the command line arguments

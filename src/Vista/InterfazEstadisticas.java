@@ -52,6 +52,7 @@ public class InterfazEstadisticas extends javax.swing.JFrame {
      * Creates new form InterfazVehiculosDisponibles
      */
      public InterfazEstadisticas(Empleados e, String vistas) {
+        
         this.e = e;
         this.setResizable(false);
         initComponents();
@@ -68,6 +69,7 @@ public class InterfazEstadisticas extends javax.swing.JFrame {
         
     }
       public InterfazEstadisticas(Empleados e, int size, String vistas) {
+      
         this.e = e;
         this.setResizable(false);
         initComponents();
@@ -84,6 +86,7 @@ public class InterfazEstadisticas extends javax.swing.JFrame {
         
     }
     public InterfazEstadisticas(Empleados e) {
+      
         this.e = e;
         this.setResizable(false);
         initComponents();
@@ -150,6 +153,7 @@ public class InterfazEstadisticas extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox<>();
         jButton13 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jbListaEmpleados = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
@@ -195,6 +199,11 @@ public class InterfazEstadisticas extends javax.swing.JFrame {
 
         jlCochesDisponibles.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jlCochesDisponibles.setText("Coches Disponibles");
+        jlCochesDisponibles.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlCochesDisponiblesMouseClicked(evt);
+            }
+        });
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/coche.png"))); // NOI18N
 
@@ -510,6 +519,15 @@ public class InterfazEstadisticas extends javax.swing.JFrame {
             }
         });
 
+        jbListaEmpleados.setBackground(new java.awt.Color(255, 255, 255));
+        jbListaEmpleados.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jbListaEmpleados.setText("Lista Empleados");
+        jbListaEmpleados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbListaEmpleadosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -535,7 +553,10 @@ public class InterfazEstadisticas extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 709, Short.MAX_VALUE)
-                            .addComponent(jLabel1)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jbListaEmpleados))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(222, 222, 222)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -561,19 +582,24 @@ public class InterfazEstadisticas extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(15, 15, 15)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jbListaEmpleados)
+                                .addGap(9, 9, 9)))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jComboBox1, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
                                 .addComponent(jButton13))
-                            .addComponent(jButton1)))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton1))))
                 .addContainerGap(36, Short.MAX_VALUE))
         );
 
@@ -705,10 +731,28 @@ public class InterfazEstadisticas extends javax.swing.JFrame {
 
     private void jlProveedoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlProveedoresMouseClicked
         // TODO add your handling code here:
+        
         InterfazPedidos ip = new InterfazPedidos(this.e, this.jlVistas.getText(), this.listaOficial.size());
         ip.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jlProveedoresMouseClicked
+
+    private void jbListaEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbListaEmpleadosActionPerformed
+        // TODO add your handling code here:
+        if(this.e.getEmRol().equals("Empleado")){
+            JOptionPane.showMessageDialog(null, "No tienes permiso para ver esto");
+            return;
+        }
+        InterfazListaEmpleados il = new InterfazListaEmpleados(this.e);
+        il.setVisible(true);
+    }//GEN-LAST:event_jbListaEmpleadosActionPerformed
+
+    private void jlCochesDisponiblesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlCochesDisponiblesMouseClicked
+        // TODO add your handling code here:
+        InterfazVehiculosDisponibles iv = new InterfazVehiculosDisponibles(this.e, this.jlVistas.getText());
+        iv.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jlCochesDisponiblesMouseClicked
 
     private int obtenerNumeroVendidos(List<VehiculosVendidos> lista, int year, int mes){
         ArrayList<Date> fechas = new ArrayList<Date>();
@@ -768,6 +812,7 @@ public class InterfazEstadisticas extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jbListaEmpleados;
     private javax.swing.JLabel jlClientes;
     private javax.swing.JLabel jlCochesDisponibles;
     private javax.swing.JLabel jlCochesVendidos;
