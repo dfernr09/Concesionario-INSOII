@@ -37,7 +37,17 @@ public class PedidoBBDD {
        
         return pedido;
     }
+     public List<Pedidos> buscarPedidoLogin(String login){
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Transaction tx = session.beginTransaction();
+        Query q = session.createQuery("from Pedidos where loginEmpleado='"+login+"'");
+        List<Pedidos> lista = q.list();
+        tx.commit();
     
+        return lista;
+    }
     public List<Pedidos> obtenerTodosPedidos(){
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
