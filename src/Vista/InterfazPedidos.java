@@ -5,9 +5,15 @@
  */
 package Vista;
 
+import Controlador.ClientesBBDD;
+import Controlador.InfoRevisionesBBDD;
+import Controlador.PedidoBBDD;
 import Controlador.VehiculosDisponiblesBBDD;
 import Controlador.VehiculosVendidosBBDD;
+import Modelo.Clientes;
 import Modelo.Empleados;
+import Modelo.InfoRevisiones;
+import Modelo.Pedidos;
 import Modelo.VehiculosDisponibles;
 import Modelo.VehiculosVendidos;
 import java.awt.Color;
@@ -34,42 +40,39 @@ import javax.swing.table.DefaultTableModel;
  */
  
 
-public class InterfazVehiculosVendidos extends javax.swing.JFrame {
+public class InterfazPedidos extends javax.swing.JFrame {
 
     /**
      * Creates new form InterfazVehiculosDisponibles
      */
-    public InterfazVehiculosVendidos(Empleados e) {
+    public InterfazPedidos(Empleados e) {
         this.e = e;
         this.setResizable(false);
         initComponents();
         this.posYButton = 20;
         this.posYLabel = 50;
-        listaBotones = new ArrayList<JButton>();
+      
         System.out.println(this.jScrollPane1.getViewport().getSize());
         //this.jPanel4.setPreferredSize(new Dimension(500, 1000));
-        this.jlVistas.setText("0");
-        this.jPanel3.setBackground(Color.yellow);
+        this.jPanel10.setBackground(Color.yellow);
         this.setLocationRelativeTo(null);
-        lista = vbbdd.obtenerTodosVehiculosVendidos();
+        lista = vbbdd.obtenerTodosPedidos();
         this.modelo =(DefaultTableModel) this.jTable1.getModel();
-        Object [] fila=new Object[7];
+        Object [] fila=new Object[4];
         this.jTextField1.setText("");
         for(int i = 0; i < this.lista.size(); i++){
-           fila[0] = this.lista.get(i).getBastidorNum();
-           fila[1] = this.lista.get(i).getMatricula();
-           fila[2] = this.lista.get(i).getMarca();
-           fila[3] = this.lista.get(i).getModelo();
-           fila[4] = this.lista.get(i).getColor();
-           fila[5] = this.lista.get(i).getFechaCompra().toString();
-           fila[6] = this.lista.get(i).getClienId();
+           fila[0] = this.lista.get(i).getNumPedido();
+           fila[1] = this.lista.get(i).getTipoPedido();
+           fila[2] = this.lista.get(i).getDescrPedido();
+           fila[3] = this.lista.get(i).getLoginEmpleado();
+          
            modelo.addRow(fila);
         }
                     
         this.jTable1.setModel(this.modelo);
     }
     
-    public InterfazVehiculosVendidos(Empleados e, String vistas, int size) {
+    public InterfazPedidos(Empleados e, String vistas, int size) {
         this.size = size;
         this.e = e;
         this.setResizable(false);
@@ -78,26 +81,24 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
         this.jlStock.setText(String.valueOf(size) + "/50");
         this.posYButton = 20;
         this.posYLabel = 50;
-        listaBotones = new ArrayList<JButton>();
+     
         System.out.println(this.jScrollPane1.getViewport().getSize());
-        this.jPanel4.setPreferredSize(new Dimension(500, 1000));
-        this.jPanel3.setBackground(Color.yellow);
+        //this.jPanel4.setPreferredSize(new Dimension(500, 1000));
+        this.jPanel10.setBackground(Color.yellow);
         this.setLocationRelativeTo(null);
-        lista = vbbdd.obtenerTodosVehiculosVendidos();
+        lista = vbbdd.obtenerTodosPedidos();
         this.modelo =(DefaultTableModel) this.jTable1.getModel();
-        Object [] fila=new Object[7];
+        Object [] fila=new Object[4];
         this.jTextField1.setText("");
         for(int i = 0; i < this.lista.size(); i++){
-           fila[0] = this.lista.get(i).getBastidorNum();
-           fila[1] = this.lista.get(i).getMatricula();
-           fila[2] = this.lista.get(i).getMarca();
-           fila[3] = this.lista.get(i).getModelo();
-           fila[4] = this.lista.get(i).getColor();
-           fila[5] = this.lista.get(i).getFechaCompra().toString();
-           fila[6] = this.lista.get(i).getClienId();
+           fila[0] = this.lista.get(i).getNumPedido();
+           fila[1] = this.lista.get(i).getTipoPedido();
+           fila[2] = this.lista.get(i).getDescrPedido();
+           fila[3] = this.lista.get(i).getLoginEmpleado();
+          
            modelo.addRow(fila);
         }
-                    
+                   
         this.jTable1.setModel(this.modelo);
     }
     /**
@@ -142,15 +143,16 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
         jTextField1 = new javax.swing.JTextField();
         jButton13 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -165,6 +167,11 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
 
         jlCochesVendidos.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jlCochesVendidos.setText("Coches Vendidos");
+        jlCochesVendidos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlCochesVendidosMouseClicked(evt);
+            }
+        });
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/listaCoche.png"))); // NOI18N
 
@@ -235,14 +242,20 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
         });
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/descarga.png"))); // NOI18N
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
+                .addContainerGap()
+                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35)
                 .addComponent(jlRevisiones)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -250,13 +263,11 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                        .addComponent(jlRevisiones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())))
+                .addComponent(jlRevisiones, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
@@ -327,11 +338,6 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
 
         jlProveedores.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jlProveedores.setText("Pedidos");
-        jlProveedores.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jlProveedoresMouseClicked(evt);
-            }
-        });
 
         jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/icono-proveedores.png"))); // NOI18N
 
@@ -366,8 +372,7 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
             .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -483,29 +488,28 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
         jPanel4.setMaximumSize(new java.awt.Dimension(500000, 500000));
         jPanel4.setLayout(null);
 
-        jScrollPane2.setPreferredSize(new java.awt.Dimension(452, 0));
-
         jTable1.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Numero Bastidor", "Matrícula", "Marca", "Modelo", "Color", "Fecha Compra", "ID Cliente"
+                "Numero Pedido", "Tipo Pedido", "Descripción", "Login Empleado"
             }
         ));
         jScrollPane2.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(6).setResizable(false);
-        }
 
         jPanel4.add(jScrollPane2);
-        jScrollPane2.setBounds(0, 0, 710, 452);
+        jScrollPane2.setBounds(0, 0, 710, 430);
+
+        jButton2.setText("jButton2");
+        jPanel4.add(jButton2);
+        jButton2.setBounds(553, 160, 30, 23);
 
         jScrollPane1.setViewportView(jPanel4);
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel1.setText("COCHES VENDIDOS");
+        jLabel1.setText("PEDIDOS");
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/coche3.png"))); // NOI18N
 
@@ -515,16 +519,7 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel8.setText("LA RUEDA S.A");
 
-        jButton1.setBackground(new java.awt.Color(255, 255, 255));
-        jButton1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jButton1.setText("Al Taller");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Filtrar por", "Marca", "Color", "Modelo", "Matricula", "Numero Bastidor" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Filtrar por", "Numero Pedido", "Login Empleado" }));
 
         jTextField1.setText("jTextField1");
 
@@ -532,6 +527,13 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
         jButton13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton13ActionPerformed(evt);
+            }
+        });
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/borrar.png"))); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -562,22 +564,21 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
                                     .addComponent(jLabel7)))))
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(54, 54, 54)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 709, Short.MAX_VALUE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel1)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 709, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton13)
-                        .addGap(65, 65, 65)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(129, 129, 129)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -602,19 +603,19 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jComboBox1)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jButton13)))))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         pack();
@@ -624,20 +625,6 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
         // TODO add your handling code here:
         JOptionPane.showMessageDialog(null, "Usuario: "+e.getEmUsuario()+"\n"+"Rol: "+e.getEmRol());
     }//GEN-LAST:event_jButton12ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-       int r = this.jTable1.getSelectedRow();
-       if(r == -1){
-           JOptionPane.showMessageDialog(null, "Debes seleccionar un vehículo");
-       }else{
-            VehiculosVendidos v = this.lista.get(r);
-            vbbdd.ponerEnTaller(v.getBastidorNum(), true);
-            InterfazNuevaRevision ir = new InterfazNuevaRevision(v, this.e);
-            ir.setVisible(true);
-       }
-       
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jlCochesDisponiblesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlCochesDisponiblesMouseClicked
         // TODO add your handling code here:
@@ -649,43 +636,46 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         // TODO add your handling code here:
         String opcionFiltrado = (String) this.jComboBox1.getSelectedItem();
-        List<VehiculosVendidos> l = null;
+        List<Pedidos> l = null;
         String busqueda = this.jTextField1.getText();
      
         this.modelo.setRowCount(0);
         switch(opcionFiltrado){
-            case "Marca":
-            l = vbbdd.buscarVehiculoDisponibleMarca(busqueda);
-            break;
-            case "Modelo":
-            l = vbbdd.buscarVehiculoDisponibleModelo(busqueda);
-            break;
-            case "Color":
-            l = vbbdd.buscarVehiculoDisponibleColor(busqueda);
-            break;
-            case "Matricula":
-            l = vbbdd.buscarVehiculoDisponibleMatricula(busqueda);
-            break;
-            case "Numero Bastidor":
-            l = new ArrayList<VehiculosVendidos>();
-            l.add(vbbdd.buscarVehiculoVendido(Integer.valueOf(busqueda)));
-            break;
+            case "Numero Pedido":
+                l = new ArrayList<Pedidos>();
+                l.add(vbbdd.buscarPedido(Integer.parseInt(busqueda)));
+                break;
+            case "Login Empleado":
+                 l = vbbdd.buscarPedidoLogin(busqueda);
+                 break;
+          
         }
+    
+         Object [] fila=new Object[8];
         
-        Object [] fila=new Object[7];
-        for(int i = 0; i < l.size(); i++){
-           fila[0] = l.get(i).getBastidorNum();
-           fila[1] = l.get(i).getMatricula();
-           fila[2] = l.get(i).getMarca();
-           fila[3] = l.get(i).getModelo();
-           fila[4] = l.get(i).getColor();
-           fila[5] = l.get(i).getFechaCompra().toString();
-           fila[6] = l.get(i).getClienId();
-           this.modelo.addRow(fila);
+       for(int i = 0; i < l.size(); i++){
+           fila[0] = l.get(i).getNumPedido();
+           fila[1] = l.get(i).getTipoPedido();
+           fila[2] = l.get(i).getDescrPedido();
+           fila[3] = l.get(i).getLoginEmpleado();
+          
+           modelo.addRow(fila);
         }
     
         this.lista = l;
+       
     }//GEN-LAST:event_jButton13ActionPerformed
+
+    private void jlCochesVendidosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlCochesVendidosMouseClicked
+        // TODO add your handling code here:
+         InterfazVehiculosVendidos iv = new InterfazVehiculosVendidos(this.e, this.jlVistas.getText(), this.size);
+        iv.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jlCochesVendidosMouseClicked
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jlRevisionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlRevisionesMouseClicked
         // TODO add your handling code here:
@@ -694,12 +684,17 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jlRevisionesMouseClicked
 
-    private void jlClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlClientesMouseClicked
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-         InterfazClientes ic = new InterfazClientes(this.e, this.jlVistas.getText(), this.size);
-        ic.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jlClientesMouseClicked
+         int r = this.jTable1.getSelectedRow();
+     
+       if(r == -1){
+           JOptionPane.showMessageDialog(null, "Debes seleccionar un cliente");
+       }else{
+           vbbdd.eliminarPedido(this.lista.get(r).getNumPedido());
+           JOptionPane.showMessageDialog(null, "Cliente eliminado");
+       }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
         // TODO add your handling code here:
@@ -708,27 +703,24 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton14ActionPerformed
 
-    private void jlProveedoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlProveedoresMouseClicked
+    private void jlClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlClientesMouseClicked
         // TODO add your handling code here:
-        InterfazPedidos ip = new InterfazPedidos(this.e, this.jlVistas.getText(), this.size);
-        ip.setVisible(true);
+        InterfazClientes iv = new InterfazClientes(this.e, this.jlVistas.getText(), this.size);
+        iv.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jlProveedoresMouseClicked
+    }//GEN-LAST:event_jlClientesMouseClicked
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         // TODO add your handling code here:
         this.modelo.setRowCount(0);
-        List<VehiculosVendidos> l = vbbdd.obtenerTodosVehiculosVendidos();
-         Object [] fila=new Object[7];
-       
+        List<Pedidos> l = vbbdd.obtenerTodosPedidos();
+        Object [] fila=new Object[4];
         for(int i = 0; i < l.size(); i++){
-           fila[0] = l.get(i).getBastidorNum();
-           fila[1] = l.get(i).getMatricula();
-           fila[2] = l.get(i).getMarca();
-           fila[3] = l.get(i).getModelo();
-           fila[4] = l.get(i).getColor();
-           fila[5] = l.get(i).getFechaCompra().toString();
-           fila[6] = l.get(i).getClienId();
+           fila[0] = l.get(i).getNumPedido();
+           fila[1] = l.get(i).getTipoPedido();
+           fila[2] = l.get(i).getDescrPedido();
+           fila[3] = l.get(i).getLoginEmpleado();
+          
            modelo.addRow(fila);
         }
         this.lista = l;
@@ -739,11 +731,11 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
      */
       
    
-    VehiculosVendidosBBDD vbbdd = new VehiculosVendidosBBDD();
-    private List<VehiculosVendidos> lista;
+    PedidoBBDD vbbdd = new PedidoBBDD();
+    private List<Pedidos> lista;
     private int posYButton;
     private int posYLabel;
-    ArrayList<JButton> listaBotones;
+   
     private Empleados e;
     DefaultTableModel modelo;
     private int size;
@@ -755,6 +747,7 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;

@@ -323,7 +323,12 @@ public class InterfazEstadisticas extends javax.swing.JFrame {
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
 
         jlProveedores.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jlProveedores.setText("Proveedores");
+        jlProveedores.setText("Pedidos");
+        jlProveedores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlProveedoresMouseClicked(evt);
+            }
+        });
 
         jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/icono-proveedores.png"))); // NOI18N
 
@@ -697,6 +702,13 @@ public class InterfazEstadisticas extends javax.swing.JFrame {
            }
          JOptionPane.showMessageDialog(null, "Image Guardada");
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jlProveedoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlProveedoresMouseClicked
+        // TODO add your handling code here:
+        InterfazPedidos ip = new InterfazPedidos(this.e, this.jlVistas.getText(), this.listaOficial.size());
+        ip.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jlProveedoresMouseClicked
 
     private int obtenerNumeroVendidos(List<VehiculosVendidos> lista, int year, int mes){
         ArrayList<Date> fechas = new ArrayList<Date>();
