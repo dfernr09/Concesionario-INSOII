@@ -96,25 +96,25 @@ public class InterfazPedidoVehiculo extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel6.setText("Precio");
 
-        tfNumeroBastidor.setBorder(new javax.swing.border.MatteBorder(null));
+        tfNumeroBastidor.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        tfMatricula.setBorder(new javax.swing.border.MatteBorder(null));
+        tfMatricula.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        tfPrecio.setBorder(new javax.swing.border.MatteBorder(null));
+        tfPrecio.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel5.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel5.setText("Color");
 
-        tfMarca.setBorder(new javax.swing.border.MatteBorder(null));
+        tfMarca.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        tfModelo.setBorder(new javax.swing.border.MatteBorder(null));
+        tfModelo.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        tfColor.setBorder(new javax.swing.border.MatteBorder(null));
+        tfColor.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel7.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel7.setText("Datos del vehículo");
 
-        tfExtras.setBorder(new javax.swing.border.MatteBorder(null));
+        tfExtras.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         tfExtras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfExtrasActionPerformed(evt);
@@ -140,9 +140,9 @@ public class InterfazPedidoVehiculo extends javax.swing.JFrame {
             }
         });
 
-        tfColor1.setBorder(new javax.swing.border.MatteBorder(null));
+        tfColor1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        tfColor2.setBorder(new javax.swing.border.MatteBorder(null));
+        tfColor2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel10.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel10.setText("Número de pedido");
@@ -448,6 +448,7 @@ public class InterfazPedidoVehiculo extends javax.swing.JFrame {
 
     private void jbConfirmarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConfirmarPedidoActionPerformed
         // TODO add your handling code here:
+        try{
         VehiculosDisponiblesBBDD vbbdd = new VehiculosDisponiblesBBDD();
         VehiculosDisponibles v = new VehiculosDisponibles();
         v.setColor(this.tfColor.getText());
@@ -467,6 +468,9 @@ public class InterfazPedidoVehiculo extends javax.swing.JFrame {
        p.setTipoPedido("Vehiculo");
        pbbdd.nuevoPedido(p);
         JOptionPane.showMessageDialog(null, "Operación confirmada");
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Error",  "Por favor, comprueba tus datos", JOptionPane.ERROR_MESSAGE);
+        }
 
     }//GEN-LAST:event_jbConfirmarPedidoActionPerformed
 

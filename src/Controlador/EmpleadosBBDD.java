@@ -38,7 +38,28 @@ public class EmpleadosBBDD {
         
         return e;
     }
+   public List<Empleados> buscarEmpleadoNombre(String name){
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Transaction tx = session.beginTransaction();
+        Query q = session.createQuery("from Empleados where emNombre='"+name+"'");
+        List<Empleados> lista = q.list();
+        tx.commit();
     
+        return lista;
+    }
+    public List<Empleados> buscarEmpleadoUsuario(String user){
+        SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Transaction tx = session.beginTransaction();
+        Query q = session.createQuery("from Empleados where emUsuario='"+user+"'");
+        List<Empleados> lista = q.list();
+        tx.commit();
+    
+        return lista;
+    }
     public List<Empleados> obtenerTodosEmpleados(){
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;

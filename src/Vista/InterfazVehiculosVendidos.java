@@ -80,7 +80,7 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
         this.posYLabel = 50;
         listaBotones = new ArrayList<JButton>();
         System.out.println(this.jScrollPane1.getViewport().getSize());
-        this.jPanel4.setPreferredSize(new Dimension(500, 1000));
+       // this.jPanel4.setPreferredSize(new Dimension(500, 1000));
         this.jPanel3.setBackground(Color.yellow);
         this.setLocationRelativeTo(null);
         lista = vbbdd.obtenerTodosVehiculosVendidos();
@@ -151,6 +151,7 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox<>();
         jTextField1 = new javax.swing.JTextField();
         jButton13 = new javax.swing.JButton();
+        jButton11 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
@@ -262,6 +263,11 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
 
         jlInformes.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jlInformes.setText("Informes y estadísticas");
+        jlInformes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlInformesMouseClicked(evt);
+            }
+        });
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/estadistica.png"))); // NOI18N
 
@@ -325,7 +331,12 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
 
         jlProveedores.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jlProveedores.setText("Proveedores");
+        jlProveedores.setText("Pedidos");
+        jlProveedores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlProveedoresMouseClicked(evt);
+            }
+        });
 
         jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/icono-proveedores.png"))); // NOI18N
 
@@ -522,10 +533,19 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
 
         jTextField1.setText("jTextField1");
 
+        jButton13.setBackground(new java.awt.Color(255, 255, 255));
+        jButton13.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jButton13.setText("Buscar");
         jButton13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton13ActionPerformed(evt);
+            }
+        });
+
+        jButton11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/icono.png"))); // NOI18N
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
             }
         });
 
@@ -553,7 +573,10 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 709, Short.MAX_VALUE)
-                        .addComponent(jLabel1))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -584,8 +607,10 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -596,7 +621,7 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
                                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jButton13)))))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         pack();
@@ -629,7 +654,9 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
     }//GEN-LAST:event_jlCochesDisponiblesMouseClicked
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+
         // TODO add your handling code here:
+        try{
         String opcionFiltrado = (String) this.jComboBox1.getSelectedItem();
         List<VehiculosVendidos> l = null;
         String busqueda = this.jTextField1.getText();
@@ -667,6 +694,9 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
         }
     
         this.lista = l;
+        }catch(Exception e){
+               JOptionPane.showMessageDialog(null, "No se pudo realizar la consulta","Error",JOptionPane.ERROR_MESSAGE);
+         }
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jlRevisionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlRevisionesMouseClicked
@@ -690,6 +720,39 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton14ActionPerformed
 
+    private void jlProveedoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlProveedoresMouseClicked
+        // TODO add your handling code here:
+        InterfazPedidos ip = new InterfazPedidos(this.e, this.jlVistas.getText(), this.size);
+        ip.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jlProveedoresMouseClicked
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        // TODO add your handling code here:
+        this.modelo.setRowCount(0);
+        List<VehiculosVendidos> l = vbbdd.obtenerTodosVehiculosVendidos();
+         Object [] fila=new Object[7];
+       
+        for(int i = 0; i < l.size(); i++){
+           fila[0] = l.get(i).getBastidorNum();
+           fila[1] = l.get(i).getMatricula();
+           fila[2] = l.get(i).getMarca();
+           fila[3] = l.get(i).getModelo();
+           fila[4] = l.get(i).getColor();
+           fila[5] = l.get(i).getFechaCompra().toString();
+           fila[6] = l.get(i).getClienId();
+           modelo.addRow(fila);
+        }
+        this.lista = l;
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jlInformesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlInformesMouseClicked
+        // TODO add your handling code here:
+        InterfazEstadisticas ie = new InterfazEstadisticas(this.e, this.size, this.jlVistas.getText());
+        ie.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jlInformesMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -707,6 +770,7 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
     private concesionarioinsoii.ConcesionarioINSOII concesionarioINSOII1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;

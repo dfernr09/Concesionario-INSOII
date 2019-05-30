@@ -5,6 +5,10 @@
  */
 package concesionarioinsoii;
 
+import Controlador.VehiculosVendidosBBDD;
+import Modelo.VehiculosVendidos;
+import java.util.List;
+
 /**
  *
  * @author Usuario
@@ -15,7 +19,10 @@ public class ConcesionarioINSOII {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+       
+        VehiculosVendidosBBDD vbbdd = new VehiculosVendidosBBDD();
+        vbbdd.ponerEnTaller(65130, false);
+           
     }
     
 }

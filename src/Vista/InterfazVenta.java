@@ -11,9 +11,19 @@ import Controlador.VehiculosVendidosBBDD;
 import Modelo.Clientes;
 import Modelo.VehiculosDisponibles;
 import Modelo.VehiculosVendidos;
+import com.sun.javafx.print.PrinterImpl;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
+import javafx.print.Printer;
+import java.awt.print.PageFormat;
+import static java.awt.print.Printable.NO_SUCH_PAGE;
+import static java.awt.print.Printable.PAGE_EXISTS;
 
 /**
  *
@@ -101,7 +111,6 @@ public class InterfazVenta extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1000, 740));
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane1.setPreferredSize(new java.awt.Dimension(900, 800));
@@ -124,25 +133,25 @@ public class InterfazVenta extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel6.setText("Precio");
 
-        tfNumeroBastidor.setBorder(new javax.swing.border.MatteBorder(null));
+        tfNumeroBastidor.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         tfNumeroBastidor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfNumeroBastidorActionPerformed(evt);
             }
         });
 
-        tfMatricula.setBorder(new javax.swing.border.MatteBorder(null));
+        tfMatricula.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        tfPrecio.setBorder(new javax.swing.border.MatteBorder(null));
+        tfPrecio.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel5.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel5.setText("Color");
 
-        tfMarca.setBorder(new javax.swing.border.MatteBorder(null));
+        tfMarca.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        tfModelo.setBorder(new javax.swing.border.MatteBorder(null));
+        tfModelo.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        tfColor.setBorder(new javax.swing.border.MatteBorder(null));
+        tfColor.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -222,25 +231,25 @@ public class InterfazVenta extends javax.swing.JFrame {
         jLabel20.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel20.setText("NIF");
 
-        tfNombreCliente.setBorder(new javax.swing.border.MatteBorder(null));
+        tfNombreCliente.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         tfNombreCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfNombreClienteActionPerformed(evt);
             }
         });
 
-        tfApellidos.setBorder(new javax.swing.border.MatteBorder(null));
+        tfApellidos.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        tfNIF.setBorder(new javax.swing.border.MatteBorder(null));
+        tfNIF.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel21.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel21.setText("Correo");
 
-        tfDireccion.setBorder(new javax.swing.border.MatteBorder(null));
+        tfDireccion.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        tfTelefono.setBorder(new javax.swing.border.MatteBorder(null));
+        tfTelefono.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        tfCorreo.setBorder(new javax.swing.border.MatteBorder(null));
+        tfCorreo.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -297,7 +306,7 @@ public class InterfazVenta extends javax.swing.JFrame {
 
         jPanel5.setPreferredSize(new java.awt.Dimension(883, 200));
 
-        tfNumeroCuenta.setBorder(new javax.swing.border.MatteBorder(null));
+        tfNumeroCuenta.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         tfNumeroCuenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfNumeroCuentaActionPerformed(evt);
@@ -315,12 +324,12 @@ public class InterfazVenta extends javax.swing.JFrame {
             }
         });
 
-        tfTitular.setBorder(new javax.swing.border.MatteBorder(null));
+        tfTitular.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jlTitular.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jlTitular.setText("Titular");
 
-        tfTotal.setBorder(new javax.swing.border.MatteBorder(null));
+        tfTotal.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel11.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel11.setText("Total a pagar");
@@ -339,9 +348,8 @@ public class InterfazVenta extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jlNumeroCuenta)
                     .addComponent(jlTitular)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(tfTitular, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(tfNumeroCuenta, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(tfTitular, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfNumeroCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 7, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -388,13 +396,13 @@ public class InterfazVenta extends javax.swing.JFrame {
                         .addGap(48, 48, 48)
                         .addComponent(jLabel15))
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(52, 52, 52)
+                        .addComponent(jLabel22))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(53, 53, 53)
                         .addComponent(jLabel7)
                         .addGap(230, 230, 230)
                         .addComponent(jLabel8))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(52, 52, 52)
-                        .addComponent(jLabel22))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -403,7 +411,7 @@ public class InterfazVenta extends javax.swing.JFrame {
                                 .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 902, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(72, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -427,7 +435,7 @@ public class InterfazVenta extends javax.swing.JFrame {
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1)
                 .addComponent(jButton1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(138, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(jPanel1);
@@ -477,6 +485,7 @@ public class InterfazVenta extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        try{
         ClientesBBDD cbbdd = new ClientesBBDD();
         byte idCliente = 0;
         List<Clientes> listaC = cbbdd.obtenerTodosClientes();
@@ -523,6 +532,9 @@ public class InterfazVenta extends javax.swing.JFrame {
         vbbdd.eliminarVehiculoVendido(this.vehiculo.getNumBastidor());
         vvbbdd.nuevoVehiculoVendido(vv);
         JOptionPane.showMessageDialog(null, "Transacción realizada");
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Error",  "Por favor, comprueba tus datos", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
     private int existeCliente(int dni, List<Clientes> lista){
         int indice = -1;
@@ -542,6 +554,17 @@ public class InterfazVenta extends javax.swing.JFrame {
                     }
         }
         return res;
+    }
+    public int print(Graphics grphcs, PageFormat pf, int i) throws PrinterException {
+        if(i == 0){
+            Graphics2D g2d = (Graphics2D) grphcs;
+            g2d.translate(pf.getImageableX(), pf.getImageableY());
+            this.printAll(grphcs);
+            return PAGE_EXISTS;
+        }
+        else{
+            return NO_SUCH_PAGE;
+        }
     }
     
     /**

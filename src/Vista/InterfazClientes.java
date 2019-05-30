@@ -26,6 +26,7 @@ import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -51,7 +52,7 @@ public class InterfazClientes extends javax.swing.JFrame {
         this.posYLabel = 50;
       
         System.out.println(this.jScrollPane1.getViewport().getSize());
-        this.jPanel4.setPreferredSize(new Dimension(500, 1000));
+        //this.jPanel4.setPreferredSize(new Dimension(500, 1000));
         this.jPanel9.setBackground(Color.yellow);
         this.setLocationRelativeTo(null);
         lista = vbbdd.obtenerTodosClientes();
@@ -84,7 +85,7 @@ public class InterfazClientes extends javax.swing.JFrame {
         this.posYLabel = 50;
      
         System.out.println(this.jScrollPane1.getViewport().getSize());
-        this.jPanel4.setPreferredSize(new Dimension(500, 1000));
+        //this.jPanel4.setPreferredSize(new Dimension(500, 1000));
         this.jPanel9.setBackground(Color.yellow);
         this.setLocationRelativeTo(null);
         lista = vbbdd.obtenerTodosClientes();
@@ -155,6 +156,8 @@ public class InterfazClientes extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jButton13 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jButton11 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
@@ -275,6 +278,11 @@ public class InterfazClientes extends javax.swing.JFrame {
 
         jlInformes.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jlInformes.setText("Informes y estadísticas");
+        jlInformes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlInformesMouseClicked(evt);
+            }
+        });
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/estadistica.png"))); // NOI18N
 
@@ -333,7 +341,12 @@ public class InterfazClientes extends javax.swing.JFrame {
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
 
         jlProveedores.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jlProveedores.setText("Proveedores");
+        jlProveedores.setText("Pedidos");
+        jlProveedores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlProveedoresMouseClicked(evt);
+            }
+        });
 
         jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/icono-proveedores.png"))); // NOI18N
 
@@ -518,6 +531,8 @@ public class InterfazClientes extends javax.swing.JFrame {
 
         jTextField1.setText("jTextField1");
 
+        jButton13.setBackground(new java.awt.Color(255, 255, 255));
+        jButton13.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jButton13.setText("Buscar");
         jButton13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -529,6 +544,22 @@ public class InterfazClientes extends javax.swing.JFrame {
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/icono.png"))); // NOI18N
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setBackground(new java.awt.Color(255, 255, 255));
+        jButton2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jButton2.setText("Modificar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -555,14 +586,19 @@ public class InterfazClientes extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 709, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton13)
-                        .addGap(129, 129, 129)
+                        .addGap(50, 50, 50)
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
@@ -586,19 +622,23 @@ public class InterfazClientes extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton13)))))
+                                    .addComponent(jButton13)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         pack();
@@ -618,6 +658,7 @@ public class InterfazClientes extends javax.swing.JFrame {
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         // TODO add your handling code here:
+        try{
         String opcionFiltrado = (String) this.jComboBox1.getSelectedItem();
         List<Clientes> l = null;
         String busqueda = this.jTextField1.getText();
@@ -657,7 +698,9 @@ public class InterfazClientes extends javax.swing.JFrame {
         }
     
         this.lista = l;
-       
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Error",  "No se pudo realizar la consulta", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jlCochesVendidosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlCochesVendidosMouseClicked
@@ -697,6 +740,74 @@ public class InterfazClientes extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton14ActionPerformed
 
+    private void jlProveedoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlProveedoresMouseClicked
+        // TODO add your handling code here:
+        InterfazPedidos ip = new InterfazPedidos(this.e, this.jlVistas.getText(), this.size);
+        ip.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jlProveedoresMouseClicked
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        // TODO add your handling code here:
+        this.modelo.setRowCount(0);
+        List<Clientes> l = vbbdd.obtenerTodosClientes();
+        Object [] fila=new Object[8];
+          for(int i = 0; i < l.size(); i++){
+           fila[0] = l.get(i).getClienId();
+           fila[1] = l.get(i).getClienPasaporte();
+           fila[2] = l.get(i).getClienHistorialCompras();
+           fila[3] = l.get(i).getClienNombre();
+           fila[4] = l.get(i).getClienApellido();
+           fila[5] = l.get(i).getClienDireccion();
+           fila[6] = l.get(i).getClienCorreo();
+           fila[7] = l.get(i).getTelefono();
+           modelo.addRow(fila);
+        } 
+        
+        this.lista = l;
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jlInformesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlInformesMouseClicked
+        // TODO add your handling code here:
+        InterfazEstadisticas ie = new InterfazEstadisticas(this.e, this.size, this.jlVistas.getText());
+        ie.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jlInformesMouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        try{
+        int r = this.jTable1.getSelectedRow();
+        String op = null;
+         if(r == -1){
+           JOptionPane.showMessageDialog(null, "Debes seleccionar un empleado");
+       }else{
+          
+           String[] opciones = {"Teléfono", "Correo", "Direccion"};
+           JComboBox jcb = new JComboBox(opciones);
+           JOptionPane.showMessageDialog(null, jcb, "Especifica el valor que quieres modificar", JOptionPane.QUESTION_MESSAGE);
+           switch((String)jcb.getSelectedItem()){
+               case "Teléfono":
+                   op = JOptionPane.showInputDialog(null, "Introduce el nuevo teléfono: ");
+                   this.vbbdd.actualizarTelefono(this.lista.get(r).getClienId(), op);
+                   break;
+               case "Correo":
+                   op = JOptionPane.showInputDialog(null, "Introduce el nuevo correo: ");
+                    this.vbbdd.actualizarCorreo(this.lista.get(r).getClienId(), op);
+                   break;
+               case "Direccion":
+                   op = JOptionPane.showInputDialog(null, "Introduce la nueva direccion: ");
+                   this.vbbdd.actualizarDireccion(this.lista.get(r).getClienId(), op);
+                   break;
+           
+           }
+           JOptionPane.showMessageDialog(null, "Cliente actualizado!");
+       }
+        }catch(Exception e){
+                 JOptionPane.showMessageDialog(null, "Error",  "No se pudo realizar la consulta", JOptionPane.ERROR_MESSAGE);
+                 }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -714,9 +825,11 @@ public class InterfazClientes extends javax.swing.JFrame {
     private concesionarioinsoii.ConcesionarioINSOII concesionarioINSOII1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;

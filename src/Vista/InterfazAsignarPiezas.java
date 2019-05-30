@@ -25,6 +25,7 @@ public class InterfazAsignarPiezas extends javax.swing.JFrame {
     public InterfazAsignarPiezas(Empleados e, String marca, String model) {
         initComponents();
         this.e = e;
+        nombrePieza = new ArrayList<String>();
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.jLabel1.setText("ASIGNAR PIEZAS PARA "+marca.toUpperCase());
@@ -144,9 +145,15 @@ public class InterfazAsignarPiezas extends javax.swing.JFrame {
         Almacen aux = this.piezasDisponibles.get(row);
         String pieza = aux.getDescrPieza();
         String numPieza = aux.getNumPieza();
-        this.piezas.add(pieza);
-        this.abbdd.eliminarPieza(numPieza);
-        JOptionPane.showMessageDialog(null, "Pieza asignada");
+        if(!this.abbdd.estaAsignada(this.nombrePieza, pieza)){
+            this.piezas.add(pieza);
+            this.abbdd.eliminarPieza(numPieza);
+            this.nombrePieza.add(pieza);
+            JOptionPane.showMessageDialog(null, "Pieza asignada");
+        }else{
+            JOptionPane.showMessageDialog(null, "Ya has asignado esta pieza");
+        }
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -159,7 +166,7 @@ public class InterfazAsignarPiezas extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-   
+    private ArrayList<String> nombrePieza;
     private List<Almacen> piezasDisponibles;
     DefaultTableModel modelo;
     private AlmacenBBDD abbdd;

@@ -49,7 +49,7 @@ public class InterfazRevisiones extends javax.swing.JFrame {
         this.posYLabel = 50;
         listaBotones = new ArrayList<JButton>();
         System.out.println(this.jScrollPane1.getViewport().getSize());
-        this.jPanel4.setPreferredSize(new Dimension(500, 1000));
+        //this.jPanel4.setPreferredSize(new Dimension(500, 1000));
         this.jlVistas.setText("0");
         this.jPanel3.setBackground(Color.yellow);
         this.setLocationRelativeTo(null);
@@ -82,7 +82,7 @@ public class InterfazRevisiones extends javax.swing.JFrame {
         this.posYLabel = 50;
         listaBotones = new ArrayList<JButton>();
         System.out.println(this.jScrollPane1.getViewport().getSize());
-        this.jPanel4.setPreferredSize(new Dimension(500, 1000));
+        //this.jPanel4.setPreferredSize(new Dimension(500, 1000));
         this.jPanel7.setBackground(Color.yellow);
         this.setLocationRelativeTo(null);
         lista = vbbdd.obtenerTodasRevisiones();
@@ -154,6 +154,8 @@ public class InterfazRevisiones extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jButton13 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton11 = new javax.swing.JButton();
+        jButton15 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
@@ -269,6 +271,11 @@ public class InterfazRevisiones extends javax.swing.JFrame {
 
         jlInformes.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jlInformes.setText("Informes y estadísticas");
+        jlInformes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlInformesMouseClicked(evt);
+            }
+        });
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/estadistica.png"))); // NOI18N
 
@@ -332,7 +339,12 @@ public class InterfazRevisiones extends javax.swing.JFrame {
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
 
         jlProveedores.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jlProveedores.setText("Proveedores");
+        jlProveedores.setText("Pedidos");
+        jlProveedores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlProveedoresMouseClicked(evt);
+            }
+        });
 
         jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/icono-proveedores.png"))); // NOI18N
 
@@ -527,6 +539,8 @@ public class InterfazRevisiones extends javax.swing.JFrame {
 
         jTextField1.setText("jTextField1");
 
+        jButton13.setBackground(new java.awt.Color(255, 255, 255));
+        jButton13.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jButton13.setText("Buscar");
         jButton13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -538,6 +552,23 @@ public class InterfazRevisiones extends javax.swing.JFrame {
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/icono.png"))); // NOI18N
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
+
+        jButton15.setBackground(new java.awt.Color(255, 255, 255));
+        jButton15.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jButton15.setForeground(new java.awt.Color(51, 255, 0));
+        jButton15.setText("i");
+        jButton15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton15ActionPerformed(evt);
             }
         });
 
@@ -564,7 +595,12 @@ public class InterfazRevisiones extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 709, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton15)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -597,8 +633,11 @@ public class InterfazRevisiones extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton15, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -612,7 +651,7 @@ public class InterfazRevisiones extends javax.swing.JFrame {
                                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                                     .addGap(11, 11, 11)))))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         pack();
@@ -639,6 +678,7 @@ public class InterfazRevisiones extends javax.swing.JFrame {
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         // TODO add your handling code here:
+        try{
         String opcionFiltrado = (String) this.jComboBox1.getSelectedItem();
         List<InfoRevisiones> l = null;
         String busqueda = this.jTextField1.getText();
@@ -670,6 +710,9 @@ public class InterfazRevisiones extends javax.swing.JFrame {
         }
     
         this.lista = l;
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Error",  "No se pudo realizar la consulta", JOptionPane.ERROR_MESSAGE);
+        }
        
     }//GEN-LAST:event_jButton13ActionPerformed
 
@@ -699,6 +742,7 @@ public class InterfazRevisiones extends javax.swing.JFrame {
            JOptionPane.showMessageDialog(null, "Debes seleccionar una revision");
        }else{
            vbbdd.eliminarRevision(this.lista.get(r).getRevId());
+           vbb.ponerEnTaller(this.lista.get(r).getRevId(), false);
            JOptionPane.showMessageDialog(null, "Revision eliminada");
        }
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -710,12 +754,57 @@ public class InterfazRevisiones extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton14ActionPerformed
 
+    private void jlProveedoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlProveedoresMouseClicked
+        // TODO add your handling code here:
+        InterfazPedidos ip = new InterfazPedidos(this.e, this.jlVistas.getText(), this.size);
+        ip.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jlProveedoresMouseClicked
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        // TODO add your handling code here:
+        this.modelo.setRowCount(0);
+        List<InfoRevisiones> l = vbbdd.obtenerTodasRevisiones();
+        Object [] fila=new Object[7];
+        for(int i = 0; i < l.size(); i++){
+           fila[0] = l.get(i).getRevId();
+           fila[1] = l.get(i).getDescripcion();
+           fila[2] = l.get(i).getBastidorNum();
+           fila[3] = l.get(i).getPiezas();
+           fila[4] = l.get(i).getFechaRev();
+           fila[5] = l.get(i).getPrecioRev();
+           fila[6] = l.get(i).getLoginEmpleado();
+           modelo.addRow(fila);
+        }
+        this.lista = l;
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jlInformesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlInformesMouseClicked
+        // TODO add your handling code here:
+         InterfazEstadisticas ie = new InterfazEstadisticas(this.e, this.size, this.jlVistas.getText());
+        ie.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jlInformesMouseClicked
+
+    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
+        // TODO add your handling code here:
+            int r = this.jTable1.getSelectedRow();
+     
+       if(r == -1){
+           JOptionPane.showMessageDialog(null, "Debes seleccionar una revision");
+       }else{
+           
+           JOptionPane.showMessageDialog(null, "<html><b>Piezas:</b> "+this.lista.get(r).getPiezas()+"\n"+"<html><b>Descripción:</b> "+this.lista.get(r).getDescripcion()+"</html>");
+       }
+    }//GEN-LAST:event_jButton15ActionPerformed
+
     /**
      * @param args the command line arguments
      */
       
    
     InfoRevisionesBBDD vbbdd = new InfoRevisionesBBDD();
+    VehiculosVendidosBBDD vbb = new VehiculosVendidosBBDD();
     private List<InfoRevisiones> lista;
     private int posYButton;
     private int posYLabel;
@@ -727,9 +816,11 @@ public class InterfazRevisiones extends javax.swing.JFrame {
     private concesionarioinsoii.ConcesionarioINSOII concesionarioINSOII1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
+    private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
