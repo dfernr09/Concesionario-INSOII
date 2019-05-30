@@ -623,6 +623,8 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
 
         jTextField1.setText("jTextField1");
 
+        jButton13.setBackground(new java.awt.Color(255, 255, 255));
+        jButton13.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jButton13.setText("Buscar");
         jButton13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -675,9 +677,7 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton13)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jButton13)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jButton15)))))
@@ -753,6 +753,7 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         // TODO add your handling code here:
+        try{
         String opcionFiltrado = (String) this.jComboBox1.getSelectedItem();
         List<VehiculosDisponibles> l = null;
         String busqueda = this.jTextField1.getText();;
@@ -771,6 +772,9 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
         InterfazVehiculosDisponibles iv = new InterfazVehiculosDisponibles(this.e, l, this.jlVistas.getText());
         iv.setVisible(true);
         this.dispose();
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Error",  "No se pudo realizar la consulta", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jlRevisionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlRevisionesMouseClicked

@@ -94,16 +94,16 @@ public class InterfazPedidoPiezas extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel4.setText("Modelo");
 
-        tfMarca.setBorder(new javax.swing.border.MatteBorder(null));
+        tfMarca.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        tfModelo.setBorder(new javax.swing.border.MatteBorder(null));
+        tfModelo.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel7.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel7.setText("Datos del vehículo");
 
-        tfColor1.setBorder(new javax.swing.border.MatteBorder(null));
+        tfColor1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        tfColor2.setBorder(new javax.swing.border.MatteBorder(null));
+        tfColor2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel10.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel10.setText("Número de pedido");
@@ -131,13 +131,13 @@ public class InterfazPedidoPiezas extends javax.swing.JFrame {
         jLabel15.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel15.setText("Pieza 3");
 
-        tfPieza1.setBorder(new javax.swing.border.MatteBorder(null));
+        tfPieza1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        tfPieza2.setBorder(new javax.swing.border.MatteBorder(null));
+        tfPieza2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        tfPieza4.setBorder(new javax.swing.border.MatteBorder(null));
+        tfPieza4.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        tfPieza3.setBorder(new javax.swing.border.MatteBorder(null));
+        tfPieza3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);

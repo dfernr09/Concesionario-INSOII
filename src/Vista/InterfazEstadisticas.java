@@ -71,6 +71,7 @@ public class InterfazEstadisticas extends javax.swing.JFrame {
       public InterfazEstadisticas(Empleados e, int size, String vistas) {
       
         this.e = e;
+        this.size = size;
         this.setResizable(false);
         initComponents();
         this.posYButton = 20;
@@ -503,6 +504,8 @@ public class InterfazEstadisticas extends javax.swing.JFrame {
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ver gráfico:", "Coches Vendidos por marca" }));
 
+        jButton13.setBackground(new java.awt.Color(255, 255, 255));
+        jButton13.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jButton13.setText("Buscar");
         jButton13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -613,21 +616,21 @@ public class InterfazEstadisticas extends javax.swing.JFrame {
 
     private void jlCochesVendidosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlCochesVendidosMouseClicked
         // TODO add your handling code here:
-        InterfazVehiculosVendidos iv = new InterfazVehiculosVendidos(this.e, this.jlVistas.getText(), this.listaOficial.size());
+        InterfazVehiculosVendidos iv = new InterfazVehiculosVendidos(this.e, this.jlVistas.getText(), size);
         iv.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jlCochesVendidosMouseClicked
 
     private void jlRevisionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlRevisionesMouseClicked
         // TODO add your handling code here:
-        InterfazRevisiones ir = new InterfazRevisiones(this.e, this.jlVistas.getText(), this.listaOficial.size());
+        InterfazRevisiones ir = new InterfazRevisiones(this.e, this.jlVistas.getText(), size);
         ir.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jlRevisionesMouseClicked
 
     private void jlClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlClientesMouseClicked
         // TODO add your handling code here:
-         InterfazClientes ic = new InterfazClientes(this.e, this.jlVistas.getText(), this.listaOficial.size());
+         InterfazClientes ic = new InterfazClientes(this.e, this.jlVistas.getText(), size);
         ic.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jlClientesMouseClicked
@@ -732,7 +735,7 @@ public class InterfazEstadisticas extends javax.swing.JFrame {
     private void jlProveedoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlProveedoresMouseClicked
         // TODO add your handling code here:
         
-        InterfazPedidos ip = new InterfazPedidos(this.e, this.jlVistas.getText(), this.listaOficial.size());
+        InterfazPedidos ip = new InterfazPedidos(this.e, this.jlVistas.getText(), size);
         ip.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jlProveedoresMouseClicked
@@ -780,6 +783,7 @@ public class InterfazEstadisticas extends javax.swing.JFrame {
     ArrayList<JLabel> listaLabels;
     private Empleados e;
     JFreeChart chart;
+    private int size;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private concesionarioinsoii.ConcesionarioINSOII concesionarioINSOII1;
     private javax.swing.JButton jButton1;

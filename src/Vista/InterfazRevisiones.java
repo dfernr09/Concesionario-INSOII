@@ -155,6 +155,7 @@ public class InterfazRevisiones extends javax.swing.JFrame {
         jButton13 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
+        jButton15 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
@@ -538,6 +539,8 @@ public class InterfazRevisiones extends javax.swing.JFrame {
 
         jTextField1.setText("jTextField1");
 
+        jButton13.setBackground(new java.awt.Color(255, 255, 255));
+        jButton13.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jButton13.setText("Buscar");
         jButton13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -556,6 +559,16 @@ public class InterfazRevisiones extends javax.swing.JFrame {
         jButton11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton11ActionPerformed(evt);
+            }
+        });
+
+        jButton15.setBackground(new java.awt.Color(255, 255, 255));
+        jButton15.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jButton15.setForeground(new java.awt.Color(51, 255, 0));
+        jButton15.setText("i");
+        jButton15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton15ActionPerformed(evt);
             }
         });
 
@@ -585,6 +598,8 @@ public class InterfazRevisiones extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton15)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -620,7 +635,8 @@ public class InterfazRevisiones extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton15, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -662,6 +678,7 @@ public class InterfazRevisiones extends javax.swing.JFrame {
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         // TODO add your handling code here:
+        try{
         String opcionFiltrado = (String) this.jComboBox1.getSelectedItem();
         List<InfoRevisiones> l = null;
         String busqueda = this.jTextField1.getText();
@@ -693,6 +710,9 @@ public class InterfazRevisiones extends javax.swing.JFrame {
         }
     
         this.lista = l;
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Error",  "No se pudo realizar la consulta", JOptionPane.ERROR_MESSAGE);
+        }
        
     }//GEN-LAST:event_jButton13ActionPerformed
 
@@ -766,6 +786,18 @@ public class InterfazRevisiones extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jlInformesMouseClicked
 
+    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
+        // TODO add your handling code here:
+            int r = this.jTable1.getSelectedRow();
+     
+       if(r == -1){
+           JOptionPane.showMessageDialog(null, "Debes seleccionar una revision");
+       }else{
+           
+           JOptionPane.showMessageDialog(null, "<html><b>Piezas:</b> "+this.lista.get(r).getPiezas()+"\n"+"<html><b>Descripción:</b> "+this.lista.get(r).getDescripcion()+"</html>");
+       }
+    }//GEN-LAST:event_jButton15ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -788,6 +820,7 @@ public class InterfazRevisiones extends javax.swing.JFrame {
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
+    private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;

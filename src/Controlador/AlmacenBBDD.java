@@ -14,8 +14,19 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import Modelo.*;
+import java.util.ArrayList;
 import java.util.List;
 public class AlmacenBBDD {
+    public boolean estaAsignada(ArrayList<String> lista, String pieza){
+        boolean asignada = false;
+        for(int i = 0; i < lista.size(); i++){
+            if(lista.get(i).equals(pieza)){
+                asignada = true;
+            }
+        }
+        return asignada;
+    }
+    
      public void nuevaPieza(Almacen a){
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;

@@ -533,6 +533,8 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
 
         jTextField1.setText("jTextField1");
 
+        jButton13.setBackground(new java.awt.Color(255, 255, 255));
+        jButton13.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jButton13.setText("Buscar");
         jButton13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -652,7 +654,9 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
     }//GEN-LAST:event_jlCochesDisponiblesMouseClicked
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+
         // TODO add your handling code here:
+        try{
         String opcionFiltrado = (String) this.jComboBox1.getSelectedItem();
         List<VehiculosVendidos> l = null;
         String busqueda = this.jTextField1.getText();
@@ -690,6 +694,9 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
         }
     
         this.lista = l;
+        }catch(Exception e){
+               JOptionPane.showMessageDialog(null, "No se pudo realizar la consulta","Error",JOptionPane.ERROR_MESSAGE);
+         }
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jlRevisionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlRevisionesMouseClicked

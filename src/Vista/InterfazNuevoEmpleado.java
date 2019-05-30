@@ -114,27 +114,27 @@ public class InterfazNuevoEmpleado extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel6.setText("Teléfono");
 
-        tfSSN.setBorder(new javax.swing.border.MatteBorder(null));
+        tfSSN.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        tfPoblacion.setBorder(new javax.swing.border.MatteBorder(null));
+        tfPoblacion.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        tfTelefono.setBorder(new javax.swing.border.MatteBorder(null));
+        tfTelefono.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel5.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel5.setText("Edad");
 
-        tfNombre.setBorder(new javax.swing.border.MatteBorder(null));
+        tfNombre.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        tfNominaBase.setBorder(new javax.swing.border.MatteBorder(null));
+        tfNominaBase.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        tfEdad.setBorder(new javax.swing.border.MatteBorder(null));
+        tfEdad.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel7.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel7.setText("Introducir datos:");
 
-        tfUsuario.setBorder(new javax.swing.border.MatteBorder(null));
+        tfUsuario.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        tfContrasenya.setBorder(new javax.swing.border.MatteBorder(null));
+        tfContrasenya.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel9.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel9.setText("Usuario");
@@ -142,7 +142,7 @@ public class InterfazNuevoEmpleado extends javax.swing.JFrame {
         jLabel14.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel14.setText("Contraseña");
 
-        tfRol.setBorder(new javax.swing.border.MatteBorder(null));
+        tfRol.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel10.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel10.setText("ROL");
@@ -315,6 +315,7 @@ public class InterfazNuevoEmpleado extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        try{
         Empleados e = new Empleados();
         e.setEmAntiguedad((byte)0);      
         e.setEmEdad(Byte.parseByte(this.tfEdad.getText()));
@@ -328,6 +329,9 @@ public class InterfazNuevoEmpleado extends javax.swing.JFrame {
         e.setEmUsuario(this.tfUsuario.getText());
         this.pbbdd.nuevoEmpleado(e);
         JOptionPane.showMessageDialog(null, "Empleado añadido");
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Error",  "Por favor, comprueba tus datos", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
