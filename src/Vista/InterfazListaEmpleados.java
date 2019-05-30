@@ -273,23 +273,23 @@ public class InterfazListaEmpleados extends javax.swing.JFrame {
            switch((String)jcb.getSelectedItem()){
                case "Teléfono":
                    op = JOptionPane.showInputDialog(null, "Introduce el nuevo teléfono: ");
-                   this.abbdd.actualizarTelefono(l.get(r).getEmSsn(), Integer.parseInt(op));
+                   this.abbdd.actualizarTelefono(this.lista.get(r).getEmSsn(), Integer.parseInt(op));
                    break;
                case "Contraseña":
                    op = JOptionPane.showInputDialog(null, "Introduce la nueva contraseña: ");
-                   this.abbdd.actualizarPassword(l.get(r).getEmSsn(), op);
+                   this.abbdd.actualizarPassword(this.lista.get(r).getEmSsn(), op);
                    break;
                case "Usuario":
                    op = JOptionPane.showInputDialog(null, "Introduce el nuevo nombre de usuario: ");
-                   this.abbdd.actualizarUsuario(l.get(r).getEmSsn(), op);
+                   this.abbdd.actualizarUsuario(this.lista.get(r).getEmSsn(), op);
                    break;
                case "Nómina":
                    op = JOptionPane.showInputDialog(null, "Introduce la nueva nómina: ");
-                   this.abbdd.actualizarNomina(l.get(r).getEmSsn(), Integer.parseInt(op));
+                   this.abbdd.actualizarNomina(this.lista.get(r).getEmSsn(), Integer.parseInt(op));
                    break;
                case "Población":
                    op = JOptionPane.showInputDialog(null, "Introduce la nueva población: ");
-                   this.abbdd.actualizarPoblacion(l.get(r).getEmSsn(), op);
+                   this.abbdd.actualizarPoblacion(this.lista.get(r).getEmSsn(), op);
                    break;
            }
            JOptionPane.showMessageDialog(null, "Empleado actualizado!");

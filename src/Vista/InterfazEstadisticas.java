@@ -726,7 +726,7 @@ public class InterfazEstadisticas extends javax.swing.JFrame {
                  Logger.getLogger(InterfazEstadisticas.class.getName()).log(Level.SEVERE, null, ex);
              }
            }
-         JOptionPane.showMessageDialog(null, "Image Guardada");
+         JOptionPane.showMessageDialog(null, "Imagen Guardada");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jlProveedoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlProveedoresMouseClicked

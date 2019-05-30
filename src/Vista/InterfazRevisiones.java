@@ -722,6 +722,7 @@ public class InterfazRevisiones extends javax.swing.JFrame {
            JOptionPane.showMessageDialog(null, "Debes seleccionar una revision");
        }else{
            vbbdd.eliminarRevision(this.lista.get(r).getRevId());
+           vbb.ponerEnTaller(this.lista.get(r).getRevId(), false);
            JOptionPane.showMessageDialog(null, "Revision eliminada");
        }
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -771,6 +772,7 @@ public class InterfazRevisiones extends javax.swing.JFrame {
       
    
     InfoRevisionesBBDD vbbdd = new InfoRevisionesBBDD();
+    VehiculosVendidosBBDD vbb = new VehiculosVendidosBBDD();
     private List<InfoRevisiones> lista;
     private int posYButton;
     private int posYLabel;

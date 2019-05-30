@@ -4,7 +4,11 @@
  * and open the template in the editor.
  */
 package Vista;
-
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
+import javafx.print.Printer;
+import java.awt.print.PageFormat;
 import Controlador.InfoRevisionesBBDD;
 import Controlador.PedidoBBDD;
 import Controlador.VehiculosDisponiblesBBDD;
@@ -29,6 +33,7 @@ public class InterfazNuevaRevision extends javax.swing.JFrame {
      * Creates new form InterfazPedidoVehiculo
      */
      public InterfazNuevaRevision(Empleados e) {
+         
         this.e = e;
         this.setResizable(false);
         initComponents();

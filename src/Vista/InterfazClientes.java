@@ -26,6 +26,7 @@ import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -156,6 +157,7 @@ public class InterfazClientes extends javax.swing.JFrame {
         jButton13 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
@@ -550,6 +552,15 @@ public class InterfazClientes extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setBackground(new java.awt.Color(255, 255, 255));
+        jButton2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jButton2.setText("Modificar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -583,7 +594,9 @@ public class InterfazClientes extends javax.swing.JFrame {
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton13)
-                        .addGap(129, 129, 129)
+                        .addGap(50, 50, 50)
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
@@ -614,12 +627,14 @@ public class InterfazClientes extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton13)))))
+                                    .addComponent(jButton13)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
@@ -754,6 +769,36 @@ public class InterfazClientes extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jlInformesMouseClicked
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        int r = this.jTable1.getSelectedRow();
+        String op = null;
+         if(r == -1){
+           JOptionPane.showMessageDialog(null, "Debes seleccionar un empleado");
+       }else{
+          
+           String[] opciones = {"Teléfono", "Correo", "Direccion"};
+           JComboBox jcb = new JComboBox(opciones);
+           JOptionPane.showMessageDialog(null, jcb, "Especifica el valor que quieres modificar", JOptionPane.QUESTION_MESSAGE);
+           switch((String)jcb.getSelectedItem()){
+               case "Teléfono":
+                   op = JOptionPane.showInputDialog(null, "Introduce el nuevo teléfono: ");
+                   this.vbbdd.actualizarTelefono(this.lista.get(r).getClienId(), op);
+                   break;
+               case "Correo":
+                   op = JOptionPane.showInputDialog(null, "Introduce el nuevo correo: ");
+                    this.vbbdd.actualizarCorreo(this.lista.get(r).getClienId(), op);
+                   break;
+               case "Direccion":
+                   op = JOptionPane.showInputDialog(null, "Introduce la nueva direccion: ");
+                   this.vbbdd.actualizarDireccion(this.lista.get(r).getClienId(), op);
+                   break;
+           
+           }
+           JOptionPane.showMessageDialog(null, "Cliente actualizado!");
+       }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -775,6 +820,7 @@ public class InterfazClientes extends javax.swing.JFrame {
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
