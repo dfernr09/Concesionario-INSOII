@@ -353,7 +353,7 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
 
         jlInformes.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jlInformes.setText("Informes y estadísticas");
+        jlInformes.setText("Gráficos");
         jlInformes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jlInformesMouseClicked(evt);
@@ -814,7 +814,11 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
         // TODO add your handling code here:
+        if(this.e.getEmRol().equals("Administrador")){
         vbbdd.backUp(this);
+        }else{
+            JOptionPane.showMessageDialog(null, "No tienes permiso para realizar esta operacion");
+        }
     }//GEN-LAST:event_jButton15ActionPerformed
 
     /**

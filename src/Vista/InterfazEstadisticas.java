@@ -269,7 +269,7 @@ public class InterfazEstadisticas extends javax.swing.JFrame {
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
 
         jlInformes.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jlInformes.setText("Informes y estadísticas");
+        jlInformes.setText("Gráficos");
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/estadistica.png"))); // NOI18N
 

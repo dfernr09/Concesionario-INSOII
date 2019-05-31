@@ -270,7 +270,7 @@ public class InterfazRevisiones extends javax.swing.JFrame {
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
 
         jlInformes.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jlInformes.setText("Informes y estadísticas");
+        jlInformes.setText("Gráficos");
         jlInformes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jlInformesMouseClicked(evt);
