@@ -6,22 +6,30 @@
 package Vista;
 
 import Controlador.AlmacenBBDD;
+import Controlador.Impresora;
 import Controlador.PedidoBBDD;
 import Controlador.VehiculosDisponiblesBBDD;
 import Modelo.Almacen;
 import Modelo.Empleados;
 import Modelo.Pedidos;
 import Modelo.VehiculosDisponibles;
+import java.awt.Graphics;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author Usuario
  */
-public class InterfazPedidoPiezas extends javax.swing.JFrame {
+public class InterfazPedidoPiezas extends javax.swing.JFrame{
 
     /**
      * Creates new form InterfazPedidoVehiculo
@@ -83,6 +91,7 @@ public class InterfazPedidoPiezas extends javax.swing.JFrame {
         jsPieza4 = new javax.swing.JSpinner();
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -248,6 +257,15 @@ public class InterfazPedidoPiezas extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel8.setText("Expedición de pieza");
 
+        jButton1.setBackground(new java.awt.Color(255, 255, 255));
+        jButton1.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jButton1.setText("Imprimir");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -255,13 +273,17 @@ public class InterfazPedidoPiezas extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(389, 389, 389)
                 .addComponent(jLabel8)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(25, 25, 25))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel8)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(jButton1))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
@@ -370,6 +392,27 @@ public class InterfazPedidoPiezas extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "Operación confirmada");
 
     }//GEN-LAST:event_jbConfirmarPedidoActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+                 PrinterJob pjob = PrinterJob.getPrinterJob();
+PageFormat preformat = pjob.defaultPage();
+preformat.setOrientation(PageFormat.LANDSCAPE);
+PageFormat postformat = pjob.pageDialog(preformat);
+//If user does not hit cancel then print.
+if (preformat != postformat) {
+    //Set print component
+    pjob.setPrintable(new Impresora(this), postformat);
+    if (pjob.printDialog()) {
+        try {
+            pjob.print();
+        } catch (PrinterException ex) {
+            Logger.getLogger(InterfazVenta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+}
+      
+    }//GEN-LAST:event_jButton1ActionPerformed
    private boolean usado(int id, ArrayList<Integer> numeros){
        boolean us = false;
        for(int i = 0; i < numeros.size(); i++){
@@ -407,6 +450,7 @@ public class InterfazPedidoPiezas extends javax.swing.JFrame {
      private Empleados e;
      private String marca;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -434,4 +478,6 @@ public class InterfazPedidoPiezas extends javax.swing.JFrame {
     private javax.swing.JTextField tfPieza3;
     private javax.swing.JTextField tfPieza4;
     // End of variables declaration//GEN-END:variables
+
+  
 }

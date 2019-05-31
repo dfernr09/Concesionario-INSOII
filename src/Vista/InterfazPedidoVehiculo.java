@@ -5,13 +5,19 @@
  */
 package Vista;
 
+import Controlador.Impresora;
 import Controlador.PedidoBBDD;
 import Controlador.VehiculosDisponiblesBBDD;
 import Modelo.Empleados;
 import Modelo.Pedidos;
 import Modelo.VehiculosDisponibles;
+import java.awt.print.PageFormat;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -76,6 +82,7 @@ public class InterfazPedidoVehiculo extends javax.swing.JFrame {
         jbConfirmarPedido = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -289,6 +296,15 @@ public class InterfazPedidoVehiculo extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel8.setText("Expedición de vehículo");
 
+        jButton1.setBackground(new java.awt.Color(255, 255, 255));
+        jButton1.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jButton1.setText("Imprimir");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -296,13 +312,17 @@ public class InterfazPedidoVehiculo extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(364, 364, 364)
                 .addComponent(jLabel8)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(25, 25, 25))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel8)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(jButton1))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
@@ -322,7 +342,7 @@ public class InterfazPedidoVehiculo extends javax.swing.JFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -474,6 +494,26 @@ public class InterfazPedidoVehiculo extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jbConfirmarPedidoActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+         PrinterJob pjob = PrinterJob.getPrinterJob();
+PageFormat preformat = pjob.defaultPage();
+preformat.setOrientation(PageFormat.LANDSCAPE);
+PageFormat postformat = pjob.pageDialog(preformat);
+//If user does not hit cancel then print.
+if (preformat != postformat) {
+    //Set print component
+    pjob.setPrintable(new Impresora(this), postformat);
+    if (pjob.printDialog()) {
+        try {
+            pjob.print();
+        } catch (PrinterException ex) {
+            Logger.getLogger(InterfazVenta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+}
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     private boolean checkID(List<Pedidos> lista, int id){
         boolean res = false;
         for(int i = 0; i < lista.size(); i++){
@@ -491,6 +531,7 @@ public class InterfazPedidoVehiculo extends javax.swing.JFrame {
      private PedidoBBDD pbbdd;
      private Empleados e;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

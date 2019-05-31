@@ -145,10 +145,10 @@ public class InterfazAsignarPiezas extends javax.swing.JFrame {
         Almacen aux = this.piezasDisponibles.get(row);
         String pieza = aux.getDescrPieza();
         String numPieza = aux.getNumPieza();
-        if(!this.abbdd.estaAsignada(this.nombrePieza, pieza)){
+        if(!this.abbdd.estaAsignada(this.nombrePieza, numPieza)){
             this.piezas.add(pieza);
             this.abbdd.eliminarPieza(numPieza);
-            this.nombrePieza.add(pieza);
+            this.nombrePieza.add(numPieza);
             JOptionPane.showMessageDialog(null, "Pieza asignada");
         }else{
             JOptionPane.showMessageDialog(null, "Ya has asignado esta pieza");

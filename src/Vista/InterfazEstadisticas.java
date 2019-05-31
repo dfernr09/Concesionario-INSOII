@@ -502,7 +502,7 @@ public class InterfazEstadisticas extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel8.setText("LA RUEDA S.A");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ver gráfico:", "Coches Vendidos por marca" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ver gráfico:", "Coches Vendidos por marca", "Coches Vendidos por modelo", "Colores mas populares" }));
 
         jButton13.setBackground(new java.awt.Color(255, 255, 255));
         jButton13.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
@@ -650,6 +650,7 @@ public class InterfazEstadisticas extends javax.swing.JFrame {
         List<VehiculosVendidos> lBMW = vbbdd.buscarVehiculoDisponibleMarca("BMW");
         List<VehiculosVendidos> lAudi = vbbdd.buscarVehiculoDisponibleMarca("Audi");
         List<VehiculosVendidos> lSeat = vbbdd.buscarVehiculoDisponibleMarca("Seat");
+        List<VehiculosVendidos> lTotal = vbbdd.obtenerTodosVehiculosVendidos();
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         String opcionFiltrado = (String) this.jComboBox1.getSelectedItem();
         int year = Integer.parseInt(yearS);
@@ -701,7 +702,153 @@ public class InterfazEstadisticas extends javax.swing.JFrame {
                         PlotOrientation.VERTICAL, true, true, false
                 );
                  break;
-
+            case "Coches Vendidos por modelo":
+                String marc = JOptionPane.showInputDialog(null, "Introduce la marca: ");
+                List<VehiculosVendidos> listaAux = null;
+                String[] modelos = new String[3];
+                if(marc.equals("BMW")){
+                    listaAux = lBMW;
+                    modelos[0] = "320";
+                    modelos[1] = "330";
+                    modelos[2] = "X5";
+                }else if(marc.equals("Seat")){
+                    listaAux = lSeat;
+                    modelos[0] = "Leon";
+                    modelos[1] = "Ibiza";
+                    modelos[2] = "Arona";
+                }else if(marc.equals("Audi")){
+                    listaAux = lAudi;
+                    modelos[0] = "A3";
+                    modelos[1] = "A5";
+                    modelos[2] = "A7";
+                }else{
+                    JOptionPane.showMessageDialog(null, "Error", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 0, modelos[0]), modelos[0], "Enero");
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 0, modelos[1]), modelos[1], "Enero");
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 0, modelos[2]), modelos[2], "Enero");
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 1, modelos[0]), modelos[0], "Febrero");
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 1,modelos[1]), modelos[1], "Febrero");
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 1,modelos[2]), modelos[2], "Febrero");
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 2,modelos[0]), modelos[0], "Marzo");
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 2,modelos[1]), modelos[1], "Marzo");
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 2,modelos[2]), modelos[2], "Marzo");
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 3,modelos[0]), modelos[0], "Abril");
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 3,modelos[1]), modelos[1], "Abril");
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 3,modelos[2]), modelos[2], "Abril");
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 4,modelos[0]), modelos[0], "Mayo");
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 4,modelos[1]), modelos[1], "Mayo");
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 4,modelos[2]), modelos[2], "Mayo");
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 5,modelos[0]), modelos[0], "Junio");
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 5,modelos[1]), modelos[1], "Junio");
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 5,modelos[2]), modelos[2], "Junio");
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 6,modelos[0]), modelos[0], "Julio");
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 6,modelos[1]), modelos[1], "Julio");
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 6,modelos[2]), modelos[2], "Julio");
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 7,modelos[0]), modelos[0], "Agosto");
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 7,modelos[1]), modelos[1], "Agosto");
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 7,modelos[2]), modelos[2], "Agosto");
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 8,modelos[0]), modelos[0], "Septiembre");
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 8,modelos[1]), modelos[1], "Septiembre");
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 8,modelos[2]), modelos[2], "Septiembre");
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 9,modelos[0]), modelos[0], "Octubre");
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 9,modelos[1]), modelos[1], "Octubre");
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 9,modelos[2]), modelos[2], "Octubre");
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 10,modelos[0]), modelos[0], "Noviembre");
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 10,modelos[1]), modelos[1], "Noviembre");
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 10,modelos[2]), modelos[2], "Noviembre");
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 11,modelos[0]), modelos[0], "Diciembre");
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 11,modelos[1]), modelos[1], "Diciembre");
+                dataset.addValue((double) obtenerNumeroVendidos(listaAux, year, 11,modelos[2]), modelos[2], "Diciembre");
+                  chart = ChartFactory.createBarChart(
+                        "Coches Vendidos: "+marc,
+                        "Mes",
+                        "Numero de Coches",
+                        dataset,
+                        PlotOrientation.VERTICAL, true, true, false
+                );
+                break;
+            case "Colores mas populares":
+                  dataset.addValue((double) obtenerNumeroVendidos("Negro",lTotal, year, 0), "Negro", "Enero");
+                dataset.addValue((double) obtenerNumeroVendidos("Azul",lTotal, year, 0), "Azul", "Enero");
+                dataset.addValue((double) obtenerNumeroVendidos("Blanco",lTotal, year, 0), "Blanco", "Enero");
+                 dataset.addValue((double) obtenerNumeroVendidos("Amarillo",lTotal, year, 0), "Amarillo", "Enero");
+                dataset.addValue((double) obtenerNumeroVendidos("Marron",lTotal, year, 0), "Marron", "Enero");
+                dataset.addValue((double) obtenerNumeroVendidos("Verde",lTotal, year, 0), "Verde", "Enero");
+                 dataset.addValue((double) obtenerNumeroVendidos("Negro",lTotal, year, 1), "Negro", "Febrero");
+                dataset.addValue((double) obtenerNumeroVendidos("Azul",lTotal, year, 1), "Azul", "Febrero");
+                dataset.addValue((double) obtenerNumeroVendidos("Blanco",lTotal, year, 1), "Blanco", "Febrero");
+                 dataset.addValue((double) obtenerNumeroVendidos("Amarillo",lTotal, year, 1), "Amarillo", "Febrero");
+                dataset.addValue((double) obtenerNumeroVendidos("Marron",lTotal, year, 1), "Marron", "Febrero");
+                dataset.addValue((double) obtenerNumeroVendidos("Verde",lTotal, year, 1), "Verde", "Febrero");
+                dataset.addValue((double) obtenerNumeroVendidos("Negro",lTotal, year, 2), "Negro", "Marzo");
+                dataset.addValue((double) obtenerNumeroVendidos("Azul",lTotal, year, 2), "Azul", "Marzo");
+                dataset.addValue((double) obtenerNumeroVendidos("Blanco",lTotal, year, 2), "Blanco", "Marzo");
+                 dataset.addValue((double) obtenerNumeroVendidos("Amarillo",lTotal, year, 2), "Amarillo", "Marzo");
+                dataset.addValue((double) obtenerNumeroVendidos("Marron",lTotal, year, 2), "Marron", "Marzo");
+                dataset.addValue((double) obtenerNumeroVendidos("Verde",lTotal, year, 2), "Verde", "Marzo");
+                 dataset.addValue((double) obtenerNumeroVendidos("Negro",lTotal, year, 3), "Negro", "Abril");
+                dataset.addValue((double) obtenerNumeroVendidos("Azul",lTotal, year, 3), "Azul", "Abril");
+                dataset.addValue((double) obtenerNumeroVendidos("Blanco",lTotal, year, 3), "Blanco", "Abril");
+                 dataset.addValue((double) obtenerNumeroVendidos("Amarillo",lTotal, year, 3), "Amarillo", "Abril");
+                dataset.addValue((double) obtenerNumeroVendidos("Marron",lTotal, year, 3), "Marron", "Abril");
+                dataset.addValue((double) obtenerNumeroVendidos("Verde",lTotal, year, 3), "Verde", "Abril");
+                dataset.addValue((double) obtenerNumeroVendidos("Negro",lTotal, year, 4), "Negro", "Mayo");
+                dataset.addValue((double) obtenerNumeroVendidos("Azul",lTotal, year, 4), "Azul", "Mayo");
+                dataset.addValue((double) obtenerNumeroVendidos("Blanco",lTotal, year, 4), "Blanco", "Mayo");
+                 dataset.addValue((double) obtenerNumeroVendidos("Amarillo",lTotal, year, 4), "Amarillo", "Mayo");
+                dataset.addValue((double) obtenerNumeroVendidos("Marron",lTotal, year, 4), "Marron", "Mayo");
+                dataset.addValue((double) obtenerNumeroVendidos("Verde",lTotal, year, 4), "Verde", "Mayo");
+                 dataset.addValue((double) obtenerNumeroVendidos("Negro",lTotal, year, 5), "Negro", "Junio");
+                dataset.addValue((double) obtenerNumeroVendidos("Azul",lTotal, year, 5), "Azul", "Junio");
+                dataset.addValue((double) obtenerNumeroVendidos("Blanco",lTotal, year, 5), "Blanco", "Junio");
+                 dataset.addValue((double) obtenerNumeroVendidos("Amarillo",lTotal, year, 5), "Amarillo", "Junio");
+                dataset.addValue((double) obtenerNumeroVendidos("Marron",lTotal, year, 5), "Marron", "Junio");
+                dataset.addValue((double) obtenerNumeroVendidos("Verde",lTotal, year, 5), "Verde", "Junio");
+                  dataset.addValue((double) obtenerNumeroVendidos("Negro",lTotal, year, 6), "Negro", "Julio");
+                dataset.addValue((double) obtenerNumeroVendidos("Azul",lTotal, year, 6), "Azul", "Julio");
+                dataset.addValue((double) obtenerNumeroVendidos("Blanco",lTotal, year, 6), "Blanco", "Julio");
+                 dataset.addValue((double) obtenerNumeroVendidos("Amarillo",lTotal, year, 6), "Amarillo", "Julio");
+                dataset.addValue((double) obtenerNumeroVendidos("Marron",lTotal, year, 6), "Marron", "Julio");
+                dataset.addValue((double) obtenerNumeroVendidos("Verde",lTotal, year, 6), "Verde", "Julio");
+                dataset.addValue((double) obtenerNumeroVendidos("Negro",lTotal, year, 7), "Negro", "Agosto");
+                dataset.addValue((double) obtenerNumeroVendidos("Azul",lTotal, year, 7), "Azul", "Agosto");
+                dataset.addValue((double) obtenerNumeroVendidos("Blanco",lTotal, year, 7), "Blanco", "Agosto");
+                 dataset.addValue((double) obtenerNumeroVendidos("Amarillo",lTotal, year, 7), "Amarillo", "Agosto");
+                dataset.addValue((double) obtenerNumeroVendidos("Marron",lTotal, year, 7), "Marron", "Agosto");
+                dataset.addValue((double) obtenerNumeroVendidos("Verde",lTotal, year, 7), "Verde", "Agosto");
+                  dataset.addValue((double) obtenerNumeroVendidos("Negro",lTotal, year, 8), "Negro", "Septiembre");
+                dataset.addValue((double) obtenerNumeroVendidos("Azul",lTotal, year, 8), "Azul", "Septiembre");
+                dataset.addValue((double) obtenerNumeroVendidos("Blanco",lTotal, year, 8), "Blanco", "Septiembre");
+                 dataset.addValue((double) obtenerNumeroVendidos("Amarillo",lTotal, year, 8), "Amarillo", "Septiembre");
+                dataset.addValue((double) obtenerNumeroVendidos("Marron",lTotal, year, 8), "Marron", "Septiembre");
+                dataset.addValue((double) obtenerNumeroVendidos("Verde",lTotal, year, 8), "Verde", "Septiembre");
+                    dataset.addValue((double) obtenerNumeroVendidos("Negro",lTotal, year, 9), "Negro", "Octubre");
+                dataset.addValue((double) obtenerNumeroVendidos("Azul",lTotal, year, 9), "Azul", "Octubre");
+                dataset.addValue((double) obtenerNumeroVendidos("Blanco",lTotal, year, 9), "Blanco", "Octubre");
+                 dataset.addValue((double) obtenerNumeroVendidos("Amarillo",lTotal, year, 9), "Amarillo", "Octubre");
+                dataset.addValue((double) obtenerNumeroVendidos("Marron",lTotal, year, 9), "Marron", "Octubre");
+                dataset.addValue((double) obtenerNumeroVendidos("Verde",lTotal, year, 9), "Verde", "Octubre");
+                dataset.addValue((double) obtenerNumeroVendidos("Negro",lTotal, year, 10), "Negro", "Noviembre");
+                dataset.addValue((double) obtenerNumeroVendidos("Azul",lTotal, year, 10), "Azul", "Noviembre");
+                dataset.addValue((double) obtenerNumeroVendidos("Blanco",lTotal, year, 10), "Blanco", "Noviembre");
+                 dataset.addValue((double) obtenerNumeroVendidos("Amarillo",lTotal, year, 10), "Amarillo", "Noviembre");
+                dataset.addValue((double) obtenerNumeroVendidos("Marron",lTotal, year, 10), "Marron", "Noviembre");
+                dataset.addValue((double) obtenerNumeroVendidos("Verde",lTotal, year, 10), "Verde", "Noviembre");
+                dataset.addValue((double) obtenerNumeroVendidos("Negro",lTotal, year, 11), "Negro", "Diciembre");
+                dataset.addValue((double) obtenerNumeroVendidos("Azul",lTotal, year, 11), "Azul", "Diciembre");
+                dataset.addValue((double) obtenerNumeroVendidos("Blanco",lTotal, year, 11), "Blanco", "Diciembre");
+                 dataset.addValue((double) obtenerNumeroVendidos("Amarillo",lTotal, year, 11), "Amarillo", "Diciembre");
+                dataset.addValue((double) obtenerNumeroVendidos("Marron",lTotal, year, 11), "Marron", "Diciembre");
+                dataset.addValue((double) obtenerNumeroVendidos("Verde",lTotal, year, 11), "Verde", "Diciembre");
+                      chart = ChartFactory.createBarChart(
+                        "Coches Vendidos por color",
+                        "Mes",
+                        "Numero de Coches",
+                        dataset,
+                        PlotOrientation.VERTICAL, true, true, false
+                );
+                break;
         }
       
        ChartPanel panel = new ChartPanel(chart);
@@ -766,6 +913,34 @@ public class InterfazEstadisticas extends javax.swing.JFrame {
         year = year - 1900;
             for(int i = 0; i < fechas.size(); i++){
                 if(fechas.get(i).getMonth() == mes  && fechas.get(i).getYear() == year){
+                    cont++;
+                }
+            }
+            return cont;
+    }
+     private int obtenerNumeroVendidos(List<VehiculosVendidos> lista, int year, int mes, String modelo){
+        ArrayList<Date> fechas = new ArrayList<Date>();
+        int cont = 0;
+        for(int i = 0; i < lista.size(); i++){
+            fechas.add(lista.get(i).getFechaCompra());
+        }
+        year = year - 1900;
+            for(int i = 0; i < fechas.size(); i++){
+                if(fechas.get(i).getMonth() == mes  && fechas.get(i).getYear() == year && lista.get(i).getModelo().equals(modelo)){
+                    cont++;
+                }
+            }
+            return cont;
+    }
+     private int obtenerNumeroVendidos(String color,List<VehiculosVendidos> lista, int year, int mes){
+        ArrayList<Date> fechas = new ArrayList<Date>();
+        int cont = 0;
+        for(int i = 0; i < lista.size(); i++){
+            fechas.add(lista.get(i).getFechaCompra());
+        }
+        year = year - 1900;
+            for(int i = 0; i < fechas.size(); i++){
+                if(fechas.get(i).getMonth() == mes  && fechas.get(i).getYear() == year && lista.get(i).getColor().equals(color)){
                     cont++;
                 }
             }
