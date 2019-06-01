@@ -18,6 +18,17 @@ import Modelo.*;
 import java.util.List;
 
 public class InfoRevisionesBBDD {
+     public int cocheEnReparacion(int numBastidor, List<InfoRevisiones> lista){
+        int indice = -1;
+        int i = 0;
+        while(i < lista.size()){
+            if(lista.get(i).getBastidorNum() == numBastidor){
+                indice = i;
+            }
+            i++;
+        }
+        return indice;
+    }
     public void nuevaRevision(InfoRevisiones r){
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;

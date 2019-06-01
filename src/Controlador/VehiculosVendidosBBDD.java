@@ -17,6 +17,7 @@ import java.util.List;
  * @author Usuario
  */
 public class VehiculosVendidosBBDD {
+ 
     public void nuevoVehiculoVendido(VehiculosVendidos vehiculo){
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;

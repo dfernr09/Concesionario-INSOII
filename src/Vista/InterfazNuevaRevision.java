@@ -369,7 +369,7 @@ public class InterfazNuevaRevision extends javax.swing.JFrame {
     private void jbConfirmarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConfirmarPedidoActionPerformed
         // TODO add your handling code here:
         try{
-        int ind = cocheEnReparacion(Integer.parseInt(this.tfNumeroBastidor.getText()), this.listaC);
+        int ind = this.pbbdd.cocheEnReparacion(Integer.parseInt(this.tfNumeroBastidor.getText()), this.listaC);
         
         if(ind==-1){
             
@@ -398,7 +398,7 @@ public class InterfazNuevaRevision extends javax.swing.JFrame {
         // TODO add your handling code here:
         int ind;
         
-        ind = cocheEnReparacion(Integer.parseInt(this.tfNumeroBastidor.getText()), this.listaC);
+        ind = this.pbbdd.cocheEnReparacion(Integer.parseInt(this.tfNumeroBastidor.getText()), this.listaC);
         if(ind==-1){
         iap = new InterfazAsignarPiezas(this.e, this.tfMarca.getText(), this.tfModelo.getText());
         iap.setVisible(true);
@@ -406,16 +406,9 @@ public class InterfazNuevaRevision extends javax.swing.JFrame {
              JOptionPane.showMessageDialog(null, "Este coche ya está en el taller");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
-    private int cocheEnReparacion(int numBastidor, List<InfoRevisiones> lista){
-        int indice = -1;
-        for(int i = 0; i < lista.size(); i++){
-            if(lista.get(i).getBastidorNum() == numBastidor){
-                indice = i;
-                break;
-            }
-        }
-        return indice;
-    }
+ 
+    
+    
     private String componerPiezas(ArrayList<String> piezas){
        String piez = "";
         for(int i= 0; i < piezas.size(); i++){
