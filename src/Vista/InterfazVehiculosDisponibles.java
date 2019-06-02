@@ -199,7 +199,6 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        concesionarioINSOII1 = new concesionarioinsoii.ConcesionarioINSOII();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jlCochesVendidos = new javax.swing.JLabel();
@@ -833,7 +832,6 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
     ArrayList<JLabel> listaLabels;
     private Empleados e;
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private concesionarioinsoii.ConcesionarioINSOII concesionarioINSOII1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
