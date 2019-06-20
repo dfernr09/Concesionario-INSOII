@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controlador;
+package Modelo;
 
+import Controlador.*;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -23,34 +24,7 @@ import javax.swing.JOptionPane;
  * @author Usuario
  */
 public class VehiculosDisponiblesBBDD {
-    public void backUp(JFrame jf){
-          int res;
-        JFileChooser chooser = new JFileChooser();
-        res = chooser.showSaveDialog(jf);
-        if(res == JFileChooser.APPROVE_OPTION){
-         try {
-             File bu = new File(String.valueOf(chooser.getSelectedFile().toString()+".sql"));
-             FileWriter fw = new FileWriter(bu);
-             
-      Process p = Runtime
-            .getRuntime()
-            .exec("C:/wamp64/bin/mysql/mysql5.7.19/bin/mysqldump --opt --password= --user=root --databases concesionario -R");
 
-     InputStreamReader is = new InputStreamReader(p.getInputStream());
-     BufferedReader br = new BufferedReader(is);
-     String line;
-     while((line=br.readLine()) != null){
-         fw.write(line + "\n");
-     }
-     fw.close();
-     is.close();
-     br.close();
-   } catch (Exception e) {
-      e.printStackTrace();
-   }
-    }
-        JOptionPane.showMessageDialog(null, "Backup realizado!");
-    }
     public void nuevoVehiculoDisponible(VehiculosDisponibles vehiculo){
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;

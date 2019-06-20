@@ -5,9 +5,9 @@
  */
 package Vista;
 
-import Controlador.VehiculosDisponiblesBBDD;
-import Modelo.Empleados;
-import Modelo.VehiculosDisponibles;
+
+import Controlador.ControladorVehiculos;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -21,6 +21,8 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import Modelo.Empleados;
+import Modelo.VehiculosDisponibles;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -59,6 +61,8 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
      */
      public InterfazVehiculosDisponibles(Empleados e, String vistas) {
         this.e = e;
+        cv = new ControladorVehiculos();
+        this.listaOficial = cv.getTodosDisponibles();
         this.setResizable(false);
         initComponents();
         this.posYButton = 20;
@@ -77,6 +81,8 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
     }
       public InterfazVehiculosDisponibles(Empleados e, List<VehiculosDisponibles> l, String vistas) {
         this.e = e;
+           cv = new ControladorVehiculos();
+        this.listaOficial = cv.getTodosDisponibles();
         this.setResizable(false);
         initComponents();
         this.posYButton = 20;
@@ -95,6 +101,8 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
     }
     public InterfazVehiculosDisponibles(Empleados e) {
         this.e = e;
+         cv = new ControladorVehiculos();
+        this.listaOficial = cv.getTodosDisponibles();
         this.setResizable(false);
         initComponents();
         this.posYButton = 20;
@@ -754,20 +762,8 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
         // TODO add your handling code here:
         try{
         String opcionFiltrado = (String) this.jComboBox1.getSelectedItem();
-        List<VehiculosDisponibles> l = null;
-        String busqueda = this.jTextField1.getText();;
-        switch(opcionFiltrado){
-            case "Marca":
-                l = vbbdd.buscarVehiculoDisponibleMarca(busqueda);
-                break;
-            case "Modelo":
-                l = vbbdd.buscarVehiculoDisponibleModelo(busqueda);
-                break;
-            case "Color":
-                l = vbbdd.buscarVehiculoDisponibleColor(busqueda);
-                break;
-        }
-        
+        String busqueda = this.jTextField1.getText();;        
+        List<VehiculosDisponibles> l = this.cv.getFiltrado(opcionFiltrado, busqueda);      
         InterfazVehiculosDisponibles iv = new InterfazVehiculosDisponibles(this.e, l, this.jlVistas.getText());
         iv.setVisible(true);
         this.dispose();
@@ -814,7 +810,7 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
         // TODO add your handling code here:
         if(this.e.getEmRol().equals("Administrador")){
-        vbbdd.backUp(this);
+        cv.backUp(this);
         }else{
             JOptionPane.showMessageDialog(null, "No tienes permiso para realizar esta operacion");
         }
@@ -823,9 +819,8 @@ public class InterfazVehiculosDisponibles extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-   
-    VehiculosDisponiblesBBDD vbbdd = new VehiculosDisponiblesBBDD();
-    List<VehiculosDisponibles> listaOficial = vbbdd.obtenerTodosVehiculosDisponibles();
+    ControladorVehiculos cv;
+    private List<VehiculosDisponibles> listaOficial;
     private int posYButton;
     private int posYLabel;
     ArrayList<JButton> listaBotones;

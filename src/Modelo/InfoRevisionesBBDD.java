@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controlador;
+package Modelo;
 
 /**
  *
  * @author Usuario
  */
 
+import Controlador.*;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -18,17 +19,7 @@ import Modelo.*;
 import java.util.List;
 
 public class InfoRevisionesBBDD {
-     public int cocheEnReparacion(int numBastidor, List<InfoRevisiones> lista){
-        int indice = -1;
-        int i = 0;
-        while(i < lista.size()){
-            if(lista.get(i).getBastidorNum() == numBastidor){
-                indice = i;
-            }
-            i++;
-        }
-        return indice;
-    }
+   
     public void nuevaRevision(InfoRevisiones r){
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;

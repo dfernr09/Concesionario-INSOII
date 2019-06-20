@@ -5,15 +5,13 @@
  */
 package Vista;
 
-import Controlador.ClientesBBDD;
-import Controlador.InfoRevisionesBBDD;
-import Controlador.VehiculosDisponiblesBBDD;
-import Controlador.VehiculosVendidosBBDD;
-import Modelo.Clientes;
-import Modelo.Empleados;
-import Modelo.InfoRevisiones;
-import Modelo.VehiculosDisponibles;
-import Modelo.VehiculosVendidos;
+
+
+
+import Controlador.ControladorClientes;
+
+
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -29,6 +27,8 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import Modelo.Clientes;
+import Modelo.Empleados;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -46,6 +46,7 @@ public class InterfazClientes extends javax.swing.JFrame {
      */
     public InterfazClientes(Empleados e) {
         this.e = e;
+        cc = new ControladorClientes();
         this.setResizable(false);
         initComponents();
         this.posYButton = 20;
@@ -55,7 +56,7 @@ public class InterfazClientes extends javax.swing.JFrame {
         //this.jPanel4.setPreferredSize(new Dimension(500, 1000));
         this.jPanel9.setBackground(Color.yellow);
         this.setLocationRelativeTo(null);
-        lista = vbbdd.obtenerTodosClientes();
+        lista = cc.getTodosDisponibles();
         this.modelo =(DefaultTableModel) this.jTable1.getModel();
         Object [] fila=new Object[8];
         this.jTextField1.setText("");
@@ -77,6 +78,7 @@ public class InterfazClientes extends javax.swing.JFrame {
     public InterfazClientes(Empleados e, String vistas, int size) {
         this.size = size;
         this.e = e;
+        cc = new ControladorClientes();
         this.setResizable(false);
         initComponents();
         this.jlVistas.setText(vistas);
@@ -88,7 +90,7 @@ public class InterfazClientes extends javax.swing.JFrame {
         //this.jPanel4.setPreferredSize(new Dimension(500, 1000));
         this.jPanel9.setBackground(Color.yellow);
         this.setLocationRelativeTo(null);
-        lista = vbbdd.obtenerTodosClientes();
+        lista = cc.getTodosDisponibles();
         this.modelo =(DefaultTableModel) this.jTable1.getModel();
         Object [] fila=new Object[8];
         this.jTextField1.setText("");
@@ -659,31 +661,10 @@ public class InterfazClientes extends javax.swing.JFrame {
         // TODO add your handling code here:
         try{
         String opcionFiltrado = (String) this.jComboBox1.getSelectedItem();
-        List<Clientes> l = null;
-        String busqueda = this.jTextField1.getText();
-     
         this.modelo.setRowCount(0);
-        switch(opcionFiltrado){
-            case "ID Cliente":
-                l = new ArrayList<Clientes>();
-                l.add(vbbdd.buscarCliente(Byte.parseByte(busqueda)));
-                break;
-            case "NIF":
-                 l = vbbdd.buscarClienteNIF(Integer.parseInt(busqueda));
-                 break;
-            case "Nombre":
-                 l = vbbdd.buscarClienteNombre(busqueda);
-                 break; 
-            case "Apellidos":
-                l = vbbdd.buscarClienteApellido(busqueda);
-                break;
-            case "Teléfono":
-                l = vbbdd.buscarClienteTelefono(busqueda);
-                break;
-        }
-    
-         Object [] fila=new Object[8];
-        
+        String busqueda = this.jTextField1.getText();
+        List<Clientes> l = cc.getTodosFiltrado(opcionFiltrado, busqueda);
+         Object [] fila=new Object[8];       
         for(int i = 0; i < l.size(); i++){
            fila[0] = l.get(i).getClienId();
            fila[1] = l.get(i).getClienPasaporte();
@@ -727,7 +708,7 @@ public class InterfazClientes extends javax.swing.JFrame {
        if(r == -1){
            JOptionPane.showMessageDialog(null, "Debes seleccionar un cliente");
        }else{
-           vbbdd.eliminarCliente(this.lista.get(r).getClienId());
+           cc.eliminarCliente(this.lista.get(r).getClienId());
            JOptionPane.showMessageDialog(null, "Cliente eliminado");
        }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -749,7 +730,7 @@ public class InterfazClientes extends javax.swing.JFrame {
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         // TODO add your handling code here:
         this.modelo.setRowCount(0);
-        List<Clientes> l = vbbdd.obtenerTodosClientes();
+        List<Clientes> l = cc.getTodosDisponibles();
         Object [] fila=new Object[8];
           for(int i = 0; i < l.size(); i++){
            fila[0] = l.get(i).getClienId();
@@ -777,7 +758,6 @@ public class InterfazClientes extends javax.swing.JFrame {
         // TODO add your handling code here:
         try{
         int r = this.jTable1.getSelectedRow();
-        String op = null;
          if(r == -1){
            JOptionPane.showMessageDialog(null, "Debes seleccionar un empleado");
        }else{
@@ -785,26 +765,12 @@ public class InterfazClientes extends javax.swing.JFrame {
            String[] opciones = {"Teléfono", "Correo", "Direccion"};
            JComboBox jcb = new JComboBox(opciones);
            JOptionPane.showMessageDialog(null, jcb, "Especifica el valor que quieres modificar", JOptionPane.QUESTION_MESSAGE);
-           switch((String)jcb.getSelectedItem()){
-               case "Teléfono":
-                   op = JOptionPane.showInputDialog(null, "Introduce el nuevo teléfono: ");
-                   this.vbbdd.actualizarTelefono(this.lista.get(r).getClienId(), op);
-                   break;
-               case "Correo":
-                   op = JOptionPane.showInputDialog(null, "Introduce el nuevo correo: ");
-                    this.vbbdd.actualizarCorreo(this.lista.get(r).getClienId(), op);
-                   break;
-               case "Direccion":
-                   op = JOptionPane.showInputDialog(null, "Introduce la nueva direccion: ");
-                   this.vbbdd.actualizarDireccion(this.lista.get(r).getClienId(), op);
-                   break;
-           
-           }
+           cc.actualizarCliente((String)jcb.getSelectedItem(), this.lista.get(r).getClienId());
            JOptionPane.showMessageDialog(null, "Cliente actualizado!");
        }
         }catch(Exception e){
                  JOptionPane.showMessageDialog(null, "Error",  "No se pudo realizar la consulta", JOptionPane.ERROR_MESSAGE);
-                 }
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -812,7 +778,8 @@ public class InterfazClientes extends javax.swing.JFrame {
      */
       
    
-    ClientesBBDD vbbdd = new ClientesBBDD();
+    //ClientesBBDD vbbdd = new ClientesBBDD();
+    ControladorClientes cc;
     private List<Clientes> lista;
     private int posYButton;
     private int posYLabel;

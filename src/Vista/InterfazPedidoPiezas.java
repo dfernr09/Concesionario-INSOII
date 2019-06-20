@@ -5,14 +5,10 @@
  */
 package Vista;
 
-import Controlador.AlmacenBBDD;
+import Controlador.ControladorAlmacen;
+import Controlador.ControladorPedidos;
 import Controlador.Impresora;
-import Controlador.PedidoBBDD;
-import Controlador.VehiculosDisponiblesBBDD;
-import Modelo.Almacen;
-import Modelo.Empleados;
-import Modelo.Pedidos;
-import Modelo.VehiculosDisponibles;
+
 import java.awt.Graphics;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
@@ -22,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
+import Modelo.Empleados;
+import Modelo.Pedidos;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
@@ -35,7 +33,7 @@ public class InterfazPedidoPiezas extends javax.swing.JFrame{
      * Creates new form InterfazPedidoVehiculo
      */
     public InterfazPedidoPiezas(Empleados e,String modelo, String marca) {
-       this.e = e;
+        this.e = e;
         this.setResizable(false);
         initComponents();
         this.marca = marca;
@@ -44,15 +42,13 @@ public class InterfazPedidoPiezas extends javax.swing.JFrame{
         this.tfModelo.setText(modelo);
         this.tfModelo.setEditable(false);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        pbbdd = new PedidoBBDD();
-        this.idCliente = (int) ( (Math.random() * 200) + 1);
-        List<Pedidos> listaC = pbbdd.obtenerTodosPedidos();
-        while(checkID(listaC, this.idCliente)){
-            this.idCliente = (int)((Math.random() * 200) + 1);
-        }
-      this.tfColor1.setEditable(false);
-      this.tfColor1.setText(String.valueOf(this.idCliente));
-                this.setLocationRelativeTo(null);
+        ca = new ControladorAlmacen();
+        cp = new ControladorPedidos();
+        List<Pedidos> listaC = cp.getTodosPedidos();
+        this.idCliente = cp.getID(listaC); 
+        this.tfColor1.setEditable(false);
+        this.tfColor1.setText(String.valueOf(this.idCliente));
+        this.setLocationRelativeTo(null);
 
     }
 
@@ -322,131 +318,42 @@ public class InterfazPedidoPiezas extends javax.swing.JFrame{
 
     private void jbConfirmarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConfirmarPedidoActionPerformed
         // TODO add your handling code here:
-        AlmacenBBDD vbbdd = new AlmacenBBDD();
-        List<Almacen> l = vbbdd.obtenerTodasPiezas();
-        int aux = (int) ( (Math.random() * 800) + 1);
-        ArrayList<Integer> used = new ArrayList<Integer>();
-        if(this.tfPieza1.getText().length() > 1){
-            for(int i = 0; i < (Integer)this.jsPieza1.getValue(); i++){
-                Almacen a = new Almacen();
-                a.setDescrPieza(this.tfPieza1.getText());
-                a.setMarcaPieza(this.marca);
-                a.setNumPedido(idCliente);
-                while(checkIDPiezas(l, aux) || usado(aux, used)){
-                    aux = (int) ( (Math.random() * 800) + 1);
-                }
-                a.setNumPieza(String.valueOf(aux));
-                used.add(aux);
-                vbbdd.nuevaPieza(a);
-            }
-        } 
-         if(this.tfPieza2.getText().length() > 1){
-            for(int i = 0; i < (Integer)this.jsPieza2.getValue(); i++){
-                Almacen a = new Almacen();
-                a.setDescrPieza(this.tfPieza2.getText());
-                a.setMarcaPieza(this.marca);
-                a.setNumPedido(idCliente);
-                while(checkIDPiezas(l, aux) || usado(aux, used)){
-                    aux = (int) ( (Math.random() * 800) + 1);
-                }
-                a.setNumPieza(String.valueOf(aux));
-                used.add(aux);
-                vbbdd.nuevaPieza(a);
-            }
-        }
-          if(this.tfPieza3.getText().length() > 1){
-            for(int i = 0; i < (Integer)this.jsPieza3.getValue(); i++){
-                Almacen a = new Almacen();
-                a.setDescrPieza(this.tfPieza3.getText());
-                a.setMarcaPieza(this.marca);
-                a.setNumPedido(idCliente);
-                while(checkIDPiezas(l, aux) || usado(aux, used)){
-                    aux = (int) ( (Math.random() * 800) + 1);
-                }
-                a.setNumPieza(String.valueOf(aux));
-                used.add(aux);
-                vbbdd.nuevaPieza(a);
-            }
-        }
-           if(this.tfPieza4.getText().length() > 1){
-            for(int i = 0; i < (Integer)this.jsPieza4.getValue(); i++){
-                Almacen a = new Almacen();
-                a.setDescrPieza(this.tfPieza4.getText());
-                a.setMarcaPieza(this.marca);
-                a.setNumPedido(idCliente);
-                while(checkIDPiezas(l, aux) || usado(aux, used)){
-                    aux = (int) ( (Math.random() * 800) + 1);
-                }
-                a.setNumPieza(String.valueOf(aux));
-                used.add(aux);
-                vbbdd.nuevaPieza(a);
-            }
-        }
-        Pedidos p = new Pedidos();
-        
-        p.setDescrPedido("Piezas para "+this.tfMarca.getText());
-        p.setLoginEmpleado(this.e.getEmUsuario());
-       p.setNumPedido(idCliente);
-       p.setTipoPedido("Piezas");
-       pbbdd.nuevoPedido(p);
+       
+        ca.realizarPedido(idCliente, this.tfPieza1.getText(), this.tfPieza2.getText(), this.tfPieza3.getText(), this.tfPieza4.getText(), (Integer)this.jsPieza1.getValue(),(Integer)this.jsPieza2.getValue(), (Integer)this.jsPieza3.getValue(), (Integer)this.jsPieza4.getValue(), marca);  
+        cp.introPedido("Piezas","Piezas para "+this.tfMarca.getText(), this.e.getEmUsuario(), idCliente);
         JOptionPane.showMessageDialog(null, "Operación confirmada");
 
     }//GEN-LAST:event_jbConfirmarPedidoActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-                 PrinterJob pjob = PrinterJob.getPrinterJob();
-PageFormat preformat = pjob.defaultPage();
-preformat.setOrientation(PageFormat.LANDSCAPE);
-PageFormat postformat = pjob.pageDialog(preformat);
-//If user does not hit cancel then print.
-if (preformat != postformat) {
-    //Set print component
-    pjob.setPrintable(new Impresora(this), postformat);
-    if (pjob.printDialog()) {
-        try {
-            pjob.print();
-        } catch (PrinterException ex) {
-            Logger.getLogger(InterfazVenta.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+            PrinterJob pjob = PrinterJob.getPrinterJob();
+            PageFormat preformat = pjob.defaultPage();
+            preformat.setOrientation(PageFormat.LANDSCAPE);
+            PageFormat postformat = pjob.pageDialog(preformat);
+            //If user does not hit cancel then print.
+            if (preformat != postformat) {
+                //Set print component
+                pjob.setPrintable(new Impresora(this), postformat);
+                if (pjob.printDialog()) {
+                    try {
+                        pjob.print();
+                    } catch (PrinterException ex) {
+                        Logger.getLogger(InterfazVenta.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
 }
       
     }//GEN-LAST:event_jButton1ActionPerformed
-   private boolean usado(int id, ArrayList<Integer> numeros){
-       boolean us = false;
-       for(int i = 0; i < numeros.size(); i++){
-           if(numeros.get(i) == id){
-               us = true;
-           }
-       }
-       return us;
-   }
-    private boolean checkID(List<Pedidos> lista, int id){
-        boolean res = false;
-        for(int i = 0; i < lista.size(); i++){
-            if(lista.get(i).getNumPedido() == id){
-                    res = true;
-                    }
-        }
-        return res;
-    }
-     private boolean checkIDPiezas(List<Almacen> lista, int id){
-        String id2 = String.valueOf(id);
-        boolean res = false;
-        for(int i = 0; i < lista.size(); i++){
-            if(lista.get(i).getNumPieza().equals(id2)){
-                    res = true;
-                    }
-        }
-        return res;
-    }
+
+    
     /**
      * @param args the command line arguments
      */
     
      private int idCliente;
-     private PedidoBBDD pbbdd;
+     ControladorPedidos cp;
+     ControladorAlmacen ca;
      private Empleados e;
      private String marca;
     // Variables declaration - do not modify//GEN-BEGIN:variables

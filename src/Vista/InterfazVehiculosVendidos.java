@@ -5,11 +5,8 @@
  */
 package Vista;
 
-import Controlador.VehiculosDisponiblesBBDD;
-import Controlador.VehiculosVendidosBBDD;
-import Modelo.Empleados;
-import Modelo.VehiculosDisponibles;
-import Modelo.VehiculosVendidos;
+import Controlador.ControladorVehiculos;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -21,6 +18,8 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import Modelo.Empleados;
+import Modelo.VehiculosVendidos;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -42,6 +41,7 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
     public InterfazVehiculosVendidos(Empleados e) {
         this.e = e;
         this.setResizable(false);
+        cv = new ControladorVehiculos();
         initComponents();
         this.posYButton = 20;
         this.posYLabel = 50;
@@ -51,7 +51,7 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
         this.jlVistas.setText("0");
         this.jPanel3.setBackground(Color.yellow);
         this.setLocationRelativeTo(null);
-        lista = vbbdd.obtenerTodosVehiculosVendidos();
+        lista = cv.getTodosVendidos();
         this.modelo =(DefaultTableModel) this.jTable1.getModel();
         Object [] fila=new Object[7];
         this.jTextField1.setText("");
@@ -72,6 +72,7 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
     public InterfazVehiculosVendidos(Empleados e, String vistas, int size) {
         this.size = size;
         this.e = e;
+        cv = new ControladorVehiculos();
         this.setResizable(false);
         initComponents();
         this.jlVistas.setText(vistas);
@@ -83,7 +84,7 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
        // this.jPanel4.setPreferredSize(new Dimension(500, 1000));
         this.jPanel3.setBackground(Color.yellow);
         this.setLocationRelativeTo(null);
-        lista = vbbdd.obtenerTodosVehiculosVendidos();
+        lista = cv.getTodosVendidos();
         this.modelo =(DefaultTableModel) this.jTable1.getModel();
         Object [] fila=new Object[7];
         this.jTextField1.setText("");
@@ -637,8 +638,7 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
        if(r == -1){
            JOptionPane.showMessageDialog(null, "Debes seleccionar un vehículo");
        }else{
-            VehiculosVendidos v = this.lista.get(r);
-            vbbdd.ponerEnTaller(v.getBastidorNum(), true);
+            VehiculosVendidos v = cv.ponerEnTaller(lista, r);
             InterfazNuevaRevision ir = new InterfazNuevaRevision(v, this.e);
             ir.setVisible(true);
        }
@@ -655,31 +655,12 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
 
         // TODO add your handling code here:
+        
         try{
         String opcionFiltrado = (String) this.jComboBox1.getSelectedItem();
-        List<VehiculosVendidos> l = null;
         String busqueda = this.jTextField1.getText();
-     
         this.modelo.setRowCount(0);
-        switch(opcionFiltrado){
-            case "Marca":
-            l = vbbdd.buscarVehiculoDisponibleMarca(busqueda);
-            break;
-            case "Modelo":
-            l = vbbdd.buscarVehiculoDisponibleModelo(busqueda);
-            break;
-            case "Color":
-            l = vbbdd.buscarVehiculoDisponibleColor(busqueda);
-            break;
-            case "Matricula":
-            l = vbbdd.buscarVehiculoDisponibleMatricula(busqueda);
-            break;
-            case "Numero Bastidor":
-            l = new ArrayList<VehiculosVendidos>();
-            l.add(vbbdd.buscarVehiculoVendido(Integer.valueOf(busqueda)));
-            break;
-        }
-        
+        List<VehiculosVendidos> l = cv.getFiltradoVendidos(opcionFiltrado, busqueda);
         Object [] fila=new Object[7];
         for(int i = 0; i < l.size(); i++){
            fila[0] = l.get(i).getBastidorNum();
@@ -729,7 +710,7 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         // TODO add your handling code here:
         this.modelo.setRowCount(0);
-        List<VehiculosVendidos> l = vbbdd.obtenerTodosVehiculosVendidos();
+        List<VehiculosVendidos> l = cv.getTodosVendidos();
          Object [] fila=new Object[7];
        
         for(int i = 0; i < l.size(); i++){
@@ -757,7 +738,7 @@ public class InterfazVehiculosVendidos extends javax.swing.JFrame {
      */
       
    
-    VehiculosVendidosBBDD vbbdd = new VehiculosVendidosBBDD();
+    ControladorVehiculos cv;
     private List<VehiculosVendidos> lista;
     private int posYButton;
     private int posYLabel;

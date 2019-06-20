@@ -5,13 +5,10 @@
  */
 package Vista;
 
-import Controlador.ClientesBBDD;
+import Controlador.ControladorClientes;
+import Controlador.ControladorVehiculos;
 import Controlador.Impresora;
-import Controlador.VehiculosDisponiblesBBDD;
-import Controlador.VehiculosVendidosBBDD;
-import Modelo.Clientes;
-import Modelo.VehiculosDisponibles;
-import Modelo.VehiculosVendidos;
+
 import com.sun.javafx.print.PrinterImpl;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -21,6 +18,9 @@ import javax.swing.JOptionPane;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
+import Modelo.Clientes;
+import Modelo.VehiculosDisponibles;
+import Modelo.VehiculosVendidos;
 import javafx.print.Printer;
 import java.awt.print.PageFormat;
 import static java.awt.print.Printable.NO_SUCH_PAGE;
@@ -41,6 +41,8 @@ public class InterfazVenta extends javax.swing.JFrame{
         this.setResizable(false);
         this.vehiculo = vehiculo;
         initComponents();
+        cv = new ControladorVehiculos();
+        cc = new ControladorClientes();
         this.tfColor.setEditable(false);
         this.tfColor.setText(vehiculo.getColor());
         this.tfMarca.setEditable(false);
@@ -506,96 +508,40 @@ public class InterfazVenta extends javax.swing.JFrame{
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         try{
-        ClientesBBDD cbbdd = new ClientesBBDD();
         byte idCliente = 0;
-        List<Clientes> listaC = cbbdd.obtenerTodosClientes();
-        int existe = existeCliente(Integer.valueOf(this.tfNIF.getText()), listaC);
-        String historial = "";
-        if(existe != -1){
-            if(listaC.get(existe).getClienHistorialCompras().isEmpty()){
-                historial = this.vehiculo.getMarca()+" "+this.vehiculo.getModelo();
-                cbbdd.actualizarHistorialCompras(listaC.get(existe).getClienId(), historial);
-            }else{
-                historial = listaC.get(existe).getClienHistorialCompras() + "," + this.vehiculo.getMarca()+" "+this.vehiculo.getModelo();
-                cbbdd.actualizarHistorialCompras(listaC.get(existe).getClienId(), historial);
-            }
-            idCliente = listaC.get(existe).getClienId();
-        }else{
-            Clientes c = new Clientes();    
-            idCliente = (byte) ((byte) (Math.random() * 100) + 1);
-
-            while(checkID(listaC, idCliente)){
-                idCliente = (byte) ((byte) (Math.random() * 100) + 1);
-            }
-            c.setClienApellido(this.tfApellidos.getText());
-            c.setClienId(idCliente);
-            c.setClienCorreo(this.tfCorreo.getText());
-            c.setClienDireccion(this.tfDireccion.getText());
-            c.setClienEdad((byte)23);
-            c.setClienNombre(this.tfNombreCliente.getText());
-            c.setClienPasaporte(Integer.valueOf(this.tfNIF.getText()));
-            c.setTelefono(this.tfTelefono.getText());
-            c.setClienHistorialCompras(this.vehiculo.getMarca()+" "+this.vehiculo.getModelo());
-            cbbdd.nuevoCliente(c);
-        }
-        VehiculosDisponiblesBBDD vbbdd = new VehiculosDisponiblesBBDD();
-        VehiculosVendidosBBDD vvbbdd = new VehiculosVendidosBBDD();
-        VehiculosVendidos vv = new VehiculosVendidos();
-        vv.setBastidorNum(this.vehiculo.getNumBastidor());
-        vv.setColor(this.vehiculo.getColor());
-        vv.setFechaCompra(new Date());
-        vv.setMarca(this.vehiculo.getMarca());
-        vv.setMatricula(this.vehiculo.getMatricula());
-        vv.setModelo(this.vehiculo.getModelo());
-        vv.setTaller(false);
-        vv.setClienId(idCliente);
-        vbbdd.eliminarVehiculoVendido(this.vehiculo.getNumBastidor());
-        vvbbdd.nuevoVehiculoVendido(vv);
+        idCliente = cc.introducirCliente(this.vehiculo.getMarca(), this.vehiculo.getModelo(),this.tfApellidos.getText(), this.tfCorreo.getText(), this.tfDireccion.getText(), this.tfNombreCliente.getText(), this.tfNIF.getText(), this.tfTelefono.getText());
+        cv.IntroducirVehiculoVendido(this.vehiculo.getColor(), idCliente,this.vehiculo.getMarca() , this.vehiculo.getMatricula(), this.vehiculo.getModelo(), this.vehiculo.getNumBastidor());
+        cv.eliminarVehiculo(this.vehiculo.getNumBastidor());
+       
         JOptionPane.showMessageDialog(null, "Transacción realizada");
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, "Error",  "Por favor, comprueba tus datos", JOptionPane.ERROR_MESSAGE);
+            System.out.println(e.getCause());
         }
+       
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         PrinterJob pjob = PrinterJob.getPrinterJob();
-PageFormat preformat = pjob.defaultPage();
-preformat.setOrientation(PageFormat.LANDSCAPE);
-PageFormat postformat = pjob.pageDialog(preformat);
-//If user does not hit cancel then print.
-if (preformat != postformat) {
-    //Set print component
-    pjob.setPrintable(new Impresora(this), postformat);
-    if (pjob.printDialog()) {
-        try {
-            pjob.print();
-        } catch (PrinterException ex) {
-            Logger.getLogger(InterfazVenta.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        PageFormat preformat = pjob.defaultPage();
+        preformat.setOrientation(PageFormat.LANDSCAPE);
+        PageFormat postformat = pjob.pageDialog(preformat);
+        //If user does not hit cancel then print.
+        if (preformat != postformat) {
+            //Set print component
+            pjob.setPrintable(new Impresora(this), postformat);
+            if (pjob.printDialog()) {
+                try {
+                    pjob.print();
+                } catch (PrinterException ex) {
+                    Logger.getLogger(InterfazVenta.class.getName()).log(Level.SEVERE, null, ex);
+                }
     }
 }
        
     }//GEN-LAST:event_jButton2ActionPerformed
-    private int existeCliente(int dni, List<Clientes> lista){
-        int indice = -1;
-        for(int i = 0; i < lista.size(); i++){
-            if(lista.get(i).getClienPasaporte() == dni){
-                indice = i;
-                break;
-            }
-        }
-        return indice;
-    }
-    private boolean checkID(List<Clientes> lista, byte id){
-        boolean res = false;
-        for(int i = 0; i < lista.size(); i++){
-            if(lista.get(i).getClienId() == id){
-                    res = true;
-                    }
-        }
-        return res;
-    }
+   
 
     
     /**
@@ -603,6 +549,8 @@ if (preformat != postformat) {
      */
     
     private VehiculosDisponibles vehiculo;
+    ControladorVehiculos cv;
+    ControladorClientes cc;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cbMetodo;
     private javax.swing.JButton jButton1;

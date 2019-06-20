@@ -4,14 +4,13 @@
  * and open the template in the editor.
  */
 package Vista;
+import Controlador.ControladorRevisiones;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import javafx.print.Printer;
 import java.awt.print.PageFormat;
-import Controlador.InfoRevisionesBBDD;
-import Controlador.PedidoBBDD;
-import Controlador.VehiculosDisponiblesBBDD;
+
 import Modelo.Empleados;
 import Modelo.InfoRevisiones;
 import Modelo.Pedidos;
@@ -33,33 +32,27 @@ public class InterfazNuevaRevision extends javax.swing.JFrame {
      * Creates new form InterfazPedidoVehiculo
      */
      public InterfazNuevaRevision(Empleados e) {
-         
+        cr = new ControladorRevisiones();
         this.e = e;
         this.setResizable(false);
         initComponents();
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        pbbdd = new InfoRevisionesBBDD();
-        this.idCliente = (byte) ( (byte)(Math.random() * 120) + 1);
-        listaC = pbbdd.obtenerTodasRevisiones();
-        while(checkID(listaC, this.idCliente) ){
-            this.idCliente = (byte)((byte)(Math.random() * 120) + 1);
-        }
+        listaC = cr.getTodasRevisiones();
+        this.idCliente = cr.getID(listaC);
      
         this.setLocationRelativeTo(null);
 
     }
     public InterfazNuevaRevision(VehiculosVendidos vehiculo, Empleados e) {
+        cr = new ControladorRevisiones();
         this.e = e;
         this.vehiculo = vehiculo;
         this.setResizable(false);
         initComponents();
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        pbbdd = new InfoRevisionesBBDD();
-        this.idCliente = (byte) ( (byte)(Math.random() * 120) + 1);
-       listaC = pbbdd.obtenerTodasRevisiones();
-        while(checkID(listaC, this.idCliente) ){
-            this.idCliente = (byte)((byte)(Math.random() * 120) + 1);
-        }
+        listaC = cr.getTodasRevisiones();
+        this.idCliente = cr.getID(listaC);
+
             this.tfColor.setEditable(false);
         this.tfColor.setText(vehiculo.getColor());
         this.tfMarca.setEditable(false);
@@ -369,21 +362,13 @@ public class InterfazNuevaRevision extends javax.swing.JFrame {
     private void jbConfirmarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConfirmarPedidoActionPerformed
         // TODO add your handling code here:
         try{
-        int ind = this.pbbdd.cocheEnReparacion(Integer.parseInt(this.tfNumeroBastidor.getText()), this.listaC);
+        int ind = cr.cocheEnReparacion(Integer.parseInt(this.tfNumeroBastidor.getText()), this.listaC);
         
         if(ind==-1){
             
             piezas = this.iap.getPiezas();
-            String p = componerPiezas(piezas);
-            InfoRevisiones ir = new InfoRevisiones();
-            ir.setBastidorNum(Integer.parseInt(this.tfNumeroBastidor.getText()));
-            ir.setDescripcion(this.jTextArea1.getText());
-            ir.setFechaRev(new Date());
-            ir.setLoginEmpleado(this.e.getEmUsuario());
-            ir.setPiezas(p);
-            ir.setPrecioRev(Integer.valueOf(this.tfPrecioEstimado.getText()));
-            ir.setRevId(this.idCliente);
-            this.pbbdd.nuevaRevision(ir);
+            String p = cr.componerPiezas(piezas);
+            cr.introRevision(Integer.parseInt(this.tfNumeroBastidor.getText()),this.jTextArea1.getText() , this.e.getEmUsuario(), p, Integer.valueOf(this.tfPrecioEstimado.getText()), idCliente);
             JOptionPane.showMessageDialog(null, "Reparación añadida");
             
         }else{
@@ -398,7 +383,7 @@ public class InterfazNuevaRevision extends javax.swing.JFrame {
         // TODO add your handling code here:
         int ind;
         
-        ind = this.pbbdd.cocheEnReparacion(Integer.parseInt(this.tfNumeroBastidor.getText()), this.listaC);
+        ind = cr.cocheEnReparacion(Integer.parseInt(this.tfNumeroBastidor.getText()), this.listaC);
         if(ind==-1){
         iap = new InterfazAsignarPiezas(this.e, this.tfMarca.getText(), this.tfModelo.getText());
         iap.setVisible(true);
@@ -408,32 +393,14 @@ public class InterfazNuevaRevision extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
  
     
-    
-    private String componerPiezas(ArrayList<String> piezas){
-       String piez = "";
-        for(int i= 0; i < piezas.size(); i++){
-            piez = piez+piezas.get(i)+",";
-        }
-        piez = piez.substring(0, piez.length()-1);
-        return piez;
-    }
-    
-    private boolean checkID(List<InfoRevisiones> lista, byte id){
-        boolean res = false;
-        for(int i = 0; i < lista.size(); i++){
-            if(lista.get(i).getRevId() == id){
-                    res = true;
-                    }
-        }
-        return res;
-    }
+
     /**
      * @param args the command line arguments
      */
       
     List<InfoRevisiones> listaC;
      private byte idCliente;
-     private InfoRevisionesBBDD pbbdd;
+     ControladorRevisiones cr;
      private Empleados e;
      private VehiculosVendidos vehiculo;
      private ArrayList<String> piezas;

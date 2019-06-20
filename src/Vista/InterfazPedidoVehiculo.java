@@ -5,17 +5,19 @@
  */
 package Vista;
 
+import Controlador.ControladorPedidos;
+import Controlador.ControladorVehiculos;
 import Controlador.Impresora;
-import Controlador.PedidoBBDD;
-import Controlador.VehiculosDisponiblesBBDD;
-import Modelo.Empleados;
-import Modelo.Pedidos;
-import Modelo.VehiculosDisponibles;
+
+
+
 import java.awt.print.PageFormat;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.util.List;
 import java.util.Random;
+import Modelo.Empleados;
+import Modelo.Pedidos;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -31,18 +33,16 @@ public class InterfazPedidoVehiculo extends javax.swing.JFrame {
      */
     public InterfazPedidoVehiculo(Empleados e) {
         this.e = e;
+        cv = new ControladorVehiculos();
+        cp = new ControladorPedidos();
         this.setResizable(false);
         initComponents();
-        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        pbbdd = new PedidoBBDD();
-        this.idCliente = (int) ( (Math.random() * 200) + 1);
-        List<Pedidos> listaC = pbbdd.obtenerTodosPedidos();
-        while(checkID(listaC, this.idCliente)){
-            this.idCliente = (int)((Math.random() * 200) + 1);
-        }
-      this.tfColor1.setEditable(false);
-      this.tfColor1.setText(String.valueOf(this.idCliente));
-                this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);    
+        List<Pedidos> listaC = cp.getTodosPedidos();
+        this.idCliente = cp.getID(listaC);
+        this.tfColor1.setEditable(false);
+        this.tfColor1.setText(String.valueOf(this.idCliente));
+        this.setLocationRelativeTo(null);
 
     }
 
@@ -365,7 +365,7 @@ public class InterfazPedidoVehiculo extends javax.swing.JFrame {
 
     private void jbGenerarBastidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGenerarBastidorActionPerformed
         // TODO add your handling code here:
-         Random r = new Random();
+        Random r = new Random();
         int nBastidor = r.nextInt(100000)+10000;
         String nBast = Integer.toString(nBastidor);
         this.tfNumeroBastidor.setText(nBast);
@@ -373,95 +373,13 @@ public class InterfazPedidoVehiculo extends javax.swing.JFrame {
 
     private void jbGenerarMatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGenerarMatriculaActionPerformed
         // TODO add your handling code here:
-         Random r = new Random();
-        String letras[] = { "B", "C", "D", "F", "G", "H", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S"
-                ,"T", "V", "W", "X", "Y", "Z"};
-        
-        String lMatricula[] = new String[3];
-        
-        for(int i = 0; i < lMatricula.length; i++){
-            lMatricula[i] = letras[r.nextInt(letras.length-1)];
-        }
-        
-        int n = r.nextInt(8999)+1000;
-        String ns = Integer.toString(n);
-        
-        String matricula = lMatricula[0]+lMatricula[1]+lMatricula[2]+"-"+ns;
+        String matricula = cp.generarMatricula();
         this.tfMatricula.setText(matricula);
     }//GEN-LAST:event_jbGenerarMatriculaActionPerformed
 
     private void jbEstimarPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEstimarPrecioActionPerformed
         // TODO add your handling code here:
-        int precio = 10000;
-       if(this.tfMarca.equals("BMW")){
-           precio+=15000;
-           switch(this.tfModelo.getText()){
-               case "330":
-                   precio += 20000;
-                   break;
-               case "320":
-                   precio += 10000;
-                   break;
-               case "X3":
-                   precio += 15000;
-                   break;
-               case "X5":
-                   precio += 25000;
-                   break;
-           }
-       }
-       if(this.tfMarca.equals("Audi")){
-           precio += 12000;
-           switch(this.tfModelo.getText()){
-               case "A5":
-                   precio += 8500;
-                   break;
-               case "A7":
-                   precio += 17000;
-                   break;
-               case "Q5":
-                   precio += 15000;
-                   break;
-               case "X7":
-                   precio += 22000;
-                   break;
-           }
-       }
-          if(this.tfMarca.equals("Seat")){
-           precio += 2000;
-           switch(this.tfModelo.getText()){
-               case "Ibiza":
-                   precio += 2500;
-                   break;
-               case "Leon":
-                   precio += 6000;
-                   break;
-               case "Ateca":
-                   precio += 4500;
-                   break;
-               case "Arona":
-                   precio += 4000;
-                   break;
-           }
-       }
-          if(this.tfMarca.equals("Volswaguen")){
-           precio += 8000;
-           switch(this.tfModelo.getText()){
-               case "Polo":
-                   precio += 3000;
-                   break;
-               case "Golf":
-                   precio += 7000;
-                   break;
-               case "Passat":
-                   precio += 6000;
-                   break;
-               case "Tiguan":
-                   precio += 5000;
-                   break;
-           }
-       }
-          
+       int precio = cp.generarPrecio(this.tfMarca.getText(), this.tfModelo.getText());
        String p = Integer.toString(precio);
        this.tfPrecio.setText(p);
     }//GEN-LAST:event_jbEstimarPrecioActionPerformed
@@ -469,24 +387,9 @@ public class InterfazPedidoVehiculo extends javax.swing.JFrame {
     private void jbConfirmarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConfirmarPedidoActionPerformed
         // TODO add your handling code here:
         try{
-        VehiculosDisponiblesBBDD vbbdd = new VehiculosDisponiblesBBDD();
-        VehiculosDisponibles v = new VehiculosDisponibles();
-        v.setColor(this.tfColor.getText());
-        v.setExtras(this.tfExtras.getText());
-        v.setMarca(this.tfMarca.getText());
-        v.setMatricula(this.tfMatricula.getText());
-        v.setModelo(this.tfModelo.getText());
-        v.setNumBastidor(Integer.valueOf(this.tfNumeroBastidor.getText()));
-        v.setPrecio(Integer.valueOf(this.tfPrecio.getText()));
-        vbbdd.nuevoVehiculoDisponible(v);
-        
-        Pedidos p = new Pedidos();
-        
-        p.setDescrPedido(this.tfMarca.getText());
-        p.setLoginEmpleado(this.e.getEmUsuario());
-       p.setNumPedido(idCliente);
-       p.setTipoPedido("Vehiculo");
-       pbbdd.nuevoPedido(p);
+     
+        cv.IntroducirVehiculo(this.tfColor.getText(), this.tfExtras.getText(), this.tfMarca.getText(), this.tfMatricula.getText(), this.tfModelo.getText(), this.tfNumeroBastidor.getText(), this.tfPrecio.getText());
+        cp.introPedido("Vehiculo",this.tfMarca.getText(), this.e.getEmUsuario(), idCliente);
         JOptionPane.showMessageDialog(null, "Operación confirmada");
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, "Error",  "Por favor, comprueba tus datos", JOptionPane.ERROR_MESSAGE);
@@ -496,39 +399,32 @@ public class InterfazPedidoVehiculo extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-         PrinterJob pjob = PrinterJob.getPrinterJob();
-PageFormat preformat = pjob.defaultPage();
-preformat.setOrientation(PageFormat.LANDSCAPE);
-PageFormat postformat = pjob.pageDialog(preformat);
-//If user does not hit cancel then print.
-if (preformat != postformat) {
-    //Set print component
-    pjob.setPrintable(new Impresora(this), postformat);
-    if (pjob.printDialog()) {
-        try {
-            pjob.print();
-        } catch (PrinterException ex) {
-            Logger.getLogger(InterfazVenta.class.getName()).log(Level.SEVERE, null, ex);
+        PrinterJob pjob = PrinterJob.getPrinterJob();
+        PageFormat preformat = pjob.defaultPage();
+        preformat.setOrientation(PageFormat.LANDSCAPE);
+        PageFormat postformat = pjob.pageDialog(preformat);
+        //If user does not hit cancel then print.
+        if (preformat != postformat) {
+            //Set print component
+            pjob.setPrintable(new Impresora(this), postformat);
+            if (pjob.printDialog()) {
+                try {
+                    pjob.print();
+                } catch (PrinterException ex) {
+                    Logger.getLogger(InterfazVenta.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
-    }
-}
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private boolean checkID(List<Pedidos> lista, int id){
-        boolean res = false;
-        for(int i = 0; i < lista.size(); i++){
-            if(lista.get(i).getNumPedido() == id){
-                    res = true;
-                    }
-        }
-        return res;
-    }
+
     /**
      * @param args the command line arguments
      */
-    
+    private ControladorVehiculos cv;
+    private ControladorPedidos cp;
      private int idCliente;
-     private PedidoBBDD pbbdd;
+     
      private Empleados e;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

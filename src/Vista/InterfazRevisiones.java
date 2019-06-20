@@ -5,13 +5,10 @@
  */
 package Vista;
 
-import Controlador.InfoRevisionesBBDD;
-import Controlador.VehiculosDisponiblesBBDD;
-import Controlador.VehiculosVendidosBBDD;
-import Modelo.Empleados;
-import Modelo.InfoRevisiones;
-import Modelo.VehiculosDisponibles;
-import Modelo.VehiculosVendidos;
+import Controlador.ControladorRevisiones;
+import Controlador.ControladorVehiculos;
+
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -22,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
+import Modelo.Empleados;
+import Modelo.InfoRevisiones;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -43,6 +42,8 @@ public class InterfazRevisiones extends javax.swing.JFrame {
      */
     public InterfazRevisiones(Empleados e) {
         this.e = e;
+        cv = new ControladorVehiculos();
+        cr = new ControladorRevisiones();
         this.setResizable(false);
         initComponents();
         this.posYButton = 20;
@@ -53,7 +54,7 @@ public class InterfazRevisiones extends javax.swing.JFrame {
         this.jlVistas.setText("0");
         this.jPanel3.setBackground(Color.yellow);
         this.setLocationRelativeTo(null);
-        lista = vbbdd.obtenerTodasRevisiones();
+        lista = cr.getTodasRevisiones();
         this.modelo =(DefaultTableModel) this.jTable1.getModel();
         Object [] fila=new Object[7];
         this.jTextField1.setText("");
@@ -74,6 +75,8 @@ public class InterfazRevisiones extends javax.swing.JFrame {
     public InterfazRevisiones(Empleados e, String vistas, int size) {
         this.size = size;
         this.e = e;
+        cv = new ControladorVehiculos();
+        cr = new ControladorRevisiones();
         this.setResizable(false);
         initComponents();
         this.jlVistas.setText(vistas);
@@ -85,7 +88,7 @@ public class InterfazRevisiones extends javax.swing.JFrame {
         //this.jPanel4.setPreferredSize(new Dimension(500, 1000));
         this.jPanel7.setBackground(Color.yellow);
         this.setLocationRelativeTo(null);
-        lista = vbbdd.obtenerTodasRevisiones();
+        lista = cr.getTodasRevisiones();
         this.modelo =(DefaultTableModel) this.jTable1.getModel();
         Object [] fila=new Object[7];
         this.jTextField1.setText("");
@@ -679,22 +682,9 @@ public class InterfazRevisiones extends javax.swing.JFrame {
         // TODO add your handling code here:
         try{
         String opcionFiltrado = (String) this.jComboBox1.getSelectedItem();
-        List<InfoRevisiones> l = null;
-        String busqueda = this.jTextField1.getText();
-     
         this.modelo.setRowCount(0);
-        switch(opcionFiltrado){
-            case "ID Revision":
-            l = new ArrayList<InfoRevisiones>();
-            l.add(vbbdd.buscarRevision(Byte.parseByte(busqueda)));
-            break;
-            case "Empleado":
-            l = vbbdd.buscarRevisionEmpleado(busqueda);
-            break;
-            case "Numero Bastidor":
-            l = vbbdd.buscarRevisionBastidor(Integer.parseInt(busqueda));
-            break;  
-        }
+        String busqueda = this.jTextField1.getText();
+        List<InfoRevisiones> l = cr.getFiltrado(busqueda, opcionFiltrado);
        
         Object [] fila=new Object[7];
         for(int i = 0; i < l.size(); i++){
@@ -740,8 +730,8 @@ public class InterfazRevisiones extends javax.swing.JFrame {
        if(r == -1){
            JOptionPane.showMessageDialog(null, "Debes seleccionar una revision");
        }else{
-           vbbdd.eliminarRevision(this.lista.get(r).getRevId());
-           vbb.ponerEnTaller(this.lista.get(r).getRevId(), false);
+           cr.eliminarRev(this.lista.get(r).getRevId());
+           cv.ponerEnTaller(this.lista.get(r).getRevId(), r);
            JOptionPane.showMessageDialog(null, "Revision eliminada");
        }
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -763,7 +753,7 @@ public class InterfazRevisiones extends javax.swing.JFrame {
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         // TODO add your handling code here:
         this.modelo.setRowCount(0);
-        List<InfoRevisiones> l = vbbdd.obtenerTodasRevisiones();
+        List<InfoRevisiones> l = cr.getTodasRevisiones();
         Object [] fila=new Object[7];
         for(int i = 0; i < l.size(); i++){
            fila[0] = l.get(i).getRevId();
@@ -802,8 +792,10 @@ public class InterfazRevisiones extends javax.swing.JFrame {
      */
       
    
-    InfoRevisionesBBDD vbbdd = new InfoRevisionesBBDD();
-    VehiculosVendidosBBDD vbb = new VehiculosVendidosBBDD();
+    
+    ControladorRevisiones cr;
+    ControladorVehiculos cv;
+    
     private List<InfoRevisiones> lista;
     private int posYButton;
     private int posYLabel;

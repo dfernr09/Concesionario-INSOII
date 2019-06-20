@@ -5,12 +5,15 @@
  */
 package Vista;
 
-import Controlador.AlmacenBBDD;
-import Modelo.Almacen;
-import Modelo.Empleados;
+import Controlador.ControladorAlmacen;
+
+
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import Modelo.Almacen;
+import Modelo.Empleados;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -25,6 +28,7 @@ public class InterfazAsignarPiezas extends javax.swing.JFrame {
     public InterfazAsignarPiezas(Empleados e, String marca, String model) {
         initComponents();
         this.e = e;
+        ca = new ControladorAlmacen();
         nombrePieza = new ArrayList<String>();
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
@@ -32,8 +36,7 @@ public class InterfazAsignarPiezas extends javax.swing.JFrame {
         this.piezas = new ArrayList();
         this.marca = marca;
         this.model = model;
-        abbdd = new AlmacenBBDD();
-        this.piezasDisponibles = abbdd.buscarPiezasPorMarca(marca);
+        this.piezasDisponibles = ca.getAlmacenMarca(marca);
         this.modelo =(DefaultTableModel) this.jTable1.getModel();
         Object[] fila = new Object[3];
         for(int i = 0; i < this.piezasDisponibles.size(); i++){
@@ -143,17 +146,7 @@ public class InterfazAsignarPiezas extends javax.swing.JFrame {
             return;
         }
         Almacen aux = this.piezasDisponibles.get(row);
-        String pieza = aux.getDescrPieza();
-        String numPieza = aux.getNumPieza();
-        if(!this.abbdd.estaAsignada(this.nombrePieza, numPieza)){
-            this.piezas.add(pieza);
-            this.abbdd.eliminarPieza(numPieza);
-            this.nombrePieza.add(numPieza);
-            JOptionPane.showMessageDialog(null, "Pieza asignada");
-        }else{
-            JOptionPane.showMessageDialog(null, "Ya has asignado esta pieza");
-        }
-        
+        ca.asignarPieza(nombrePieza, aux, piezas);   
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -169,7 +162,8 @@ public class InterfazAsignarPiezas extends javax.swing.JFrame {
     private ArrayList<String> nombrePieza;
     private List<Almacen> piezasDisponibles;
     DefaultTableModel modelo;
-    private AlmacenBBDD abbdd;
+    ControladorAlmacen ca;
+    //private AlmacenBBDD abbdd;
     private ArrayList<String> piezas;
     private String marca;
     private String model;

@@ -5,14 +5,13 @@
  */
 package Vista;
 
-import Controlador.AlmacenBBDD;
-import Controlador.EmpleadosBBDD;
-import Modelo.Almacen;
-import Modelo.Empleados;
+import Controlador.ControladorEmpleados;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import Modelo.Empleados;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -30,8 +29,8 @@ public class InterfazListaEmpleados extends javax.swing.JFrame {
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.jTextField1.setText("");
-        abbdd = new EmpleadosBBDD();
-        this.lista = abbdd.obtenerTodosEmpleados();
+        ce = new ControladorEmpleados();
+        this.lista = ce.getTodosEmpleados();
         this.modelo =(DefaultTableModel) this.jTable1.getModel();
         Object[] fila = new Object[10];
         for(int i = 0; i < this.lista.size(); i++){
@@ -198,24 +197,9 @@ public class InterfazListaEmpleados extends javax.swing.JFrame {
         // TODO add your handling code here:
         try{
         String opcionFiltrado = (String) this.jComboBox1.getSelectedItem();
-        List<Empleados> l = null;
         String busqueda = this.jTextField1.getText();
-
         this.modelo.setRowCount(0);
-        switch(opcionFiltrado){
-            case "SSN":
-            l = new ArrayList<Empleados>();
-            l.add(this.abbdd.buscarEmpleado(Integer.parseInt(busqueda)));
-            break;
-            case "Nombre":
-            l = abbdd.buscarEmpleadoNombre(busqueda);
-            break;
-            case "Usuario":
-            l = abbdd.buscarEmpleadoUsuario(busqueda);
-            break;
-            
-        }
-
+        List<Empleados> l = ce.getFiltrado(busqueda, opcionFiltrado);
         Object[] fila = new Object[10];
         for(int i = 0; i < l.size(); i++){
             fila[0] = l.get(i).getEmSsn();
@@ -239,7 +223,7 @@ public class InterfazListaEmpleados extends javax.swing.JFrame {
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         // TODO add your handling code here:
         this.modelo.setRowCount(0);
-        List<Empleados> l = abbdd.obtenerTodosEmpleados();
+        List<Empleados> l = ce.getTodosEmpleados();
         Object[] fila = new Object[10];
         for(int i = 0; i < l.size(); i++){
             fila[0] = l.get(i).getEmSsn();
@@ -267,37 +251,14 @@ public class InterfazListaEmpleados extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         int r = this.jTable1.getSelectedRow();
-        String op = null;
-        List <Empleados> l = null;
          if(r == -1){
            JOptionPane.showMessageDialog(null, "Debes seleccionar un empleado");
        }else{
-           l = abbdd.obtenerTodosEmpleados();
+           
            String[] opciones = {"Teléfono", "Contraseña", "Usuario", "Nómina", "Población"};
            JComboBox jcb = new JComboBox(opciones);
            JOptionPane.showMessageDialog(null, jcb, "Especifica el valor que quieres modificar", JOptionPane.QUESTION_MESSAGE);
-           switch((String)jcb.getSelectedItem()){
-               case "Teléfono":
-                   op = JOptionPane.showInputDialog(null, "Introduce el nuevo teléfono: ");
-                   this.abbdd.actualizarTelefono(this.lista.get(r).getEmSsn(), Integer.parseInt(op));
-                   break;
-               case "Contraseña":
-                   op = JOptionPane.showInputDialog(null, "Introduce la nueva contraseña: ");
-                   this.abbdd.actualizarPassword(this.lista.get(r).getEmSsn(), op);
-                   break;
-               case "Usuario":
-                   op = JOptionPane.showInputDialog(null, "Introduce el nuevo nombre de usuario: ");
-                   this.abbdd.actualizarUsuario(this.lista.get(r).getEmSsn(), op);
-                   break;
-               case "Nómina":
-                   op = JOptionPane.showInputDialog(null, "Introduce la nueva nómina: ");
-                   this.abbdd.actualizarNomina(this.lista.get(r).getEmSsn(), Integer.parseInt(op));
-                   break;
-               case "Población":
-                   op = JOptionPane.showInputDialog(null, "Introduce la nueva población: ");
-                   this.abbdd.actualizarPoblacion(this.lista.get(r).getEmSsn(), op);
-                   break;
-           }
+           ce.actualizarEmpleado((String)jcb.getSelectedItem(), this.lista.get(r).getEmSsn());
            JOptionPane.showMessageDialog(null, "Empleado actualizado!");
        }
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -309,8 +270,7 @@ public class InterfazListaEmpleados extends javax.swing.JFrame {
         if(r == -1){
             JOptionPane.showMessageDialog(null, "Debes seleccionar un empleado");
         }else{
-         
-            this.abbdd.eliminarEmpleado(this.lista.get(r).getEmSsn());
+            ce.eliminarEmpleado(this.lista.get(r).getEmSsn());
             JOptionPane.showMessageDialog(null, "Empleado eliminado");
         }
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -321,7 +281,7 @@ public class InterfazListaEmpleados extends javax.swing.JFrame {
    
     private List<Empleados> lista;
     DefaultTableModel modelo;
-    private EmpleadosBBDD abbdd;
+    ControladorEmpleados ce;
     private Empleados e;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

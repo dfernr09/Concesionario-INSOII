@@ -5,7 +5,7 @@
  */
 package Vista;
 
-import Controlador.EmpleadosBBDD;
+import Controlador.ControladorEmpleados;
 import Modelo.Empleados;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -20,6 +20,7 @@ public class InterfazLogin extends javax.swing.JFrame {
      * Creates new form InterfazLogin
      */
     public InterfazLogin() {
+        ce = new ControladorEmpleados();
         initComponents();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
@@ -149,9 +150,9 @@ public class InterfazLogin extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here: 
-        EmpleadosBBDD ebbdd = new EmpleadosBBDD();
-        List<Empleados> lista = ebbdd.obtenerTodosEmpleados();
-        Empleados e = obtenerEmpleado(lista, this.tfUsuario.getText(), this.tfContrasena.getText());
+       
+        List<Empleados> lista = ce.getTodosEmpleados();
+        Empleados e = ce.obtenerEmpleadoLogin(lista, this.tfUsuario.getText(), this.tfContrasena.getText());
         
         if(e == null){
             JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
@@ -169,22 +170,7 @@ public class InterfazLogin extends javax.swing.JFrame {
      
     }//GEN-LAST:event_jButton1KeyPressed
 
-    private Empleados obtenerEmpleado(List<Empleados> lista, String usuario, String pass){
-        Empleados e = null;
-        for(int i = 0; i < lista.size(); i++){
-            if(lista.get(i).getEmUsuario().equals(usuario)){
-                for(int j = 0; j < lista.size(); j++){
-                    if(lista.get(j).getEmPassword().equals(pass)){
-                        if(lista.get(i).getEmUsuario().equals(lista.get(j).getEmUsuario())){
-                            e = lista.get(i);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        return e;
-    }
+   
     /**
      * @param args the command line arguments
      */
@@ -220,6 +206,7 @@ public class InterfazLogin extends javax.swing.JFrame {
         });
     }
 
+    ControladorEmpleados ce;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;

@@ -5,18 +5,15 @@
  */
 package Vista;
 
-import Controlador.EmpleadosBBDD;
-import Controlador.InfoRevisionesBBDD;
-import Controlador.PedidoBBDD;
-import Controlador.VehiculosDisponiblesBBDD;
-import Modelo.Empleados;
-import Modelo.InfoRevisiones;
-import Modelo.Pedidos;
-import Modelo.VehiculosDisponibles;
-import Modelo.VehiculosVendidos;
+
+import Controlador.ControladorEmpleados;
+
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import Modelo.Empleados;
+import Modelo.VehiculosVendidos;
 import java.util.Random;
 import javax.swing.JOptionPane;
 
@@ -32,31 +29,23 @@ public class InterfazNuevoEmpleado extends javax.swing.JFrame {
      public InterfazNuevoEmpleado() {
         this.e = e;
         this.setResizable(false);
+        ce = new ControladorEmpleados();
         initComponents();
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        pbbdd = new EmpleadosBBDD();
-        this.idCliente = (int)(Math.random() * 12000) + 1;
-        listaC = pbbdd.obtenerTodosEmpleados();
-        while(checkID(listaC, this.idCliente) ){
-           this.idCliente = (int)(Math.random() * 12000) + 1;
-        }
-     
+        listaC = ce.getTodosEmpleados();
+        this.idCliente = ce.getID(listaC);
+        
         this.setLocationRelativeTo(null);
 
     }
     public InterfazNuevoEmpleado(Empleados e) {
         this.e = e;
         this.setResizable(false);
+        ce = new ControladorEmpleados();
         initComponents();
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        pbbdd = new EmpleadosBBDD();
-        this.idCliente = (int)(Math.random() * 12000) + 1;
-       listaC = pbbdd.obtenerTodosEmpleados();
-        while(checkID(listaC, this.idCliente) ){
-           this.idCliente = (int)(Math.random() * 12000) + 1;
-        }
-       
-         
+        listaC = ce.getTodosEmpleados();
+        this.idCliente = ce.getID(listaC);
         this.setLocationRelativeTo(null);
 
     }
@@ -316,18 +305,7 @@ public class InterfazNuevoEmpleado extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         try{
-        Empleados e = new Empleados();
-        e.setEmAntiguedad((byte)0);      
-        e.setEmEdad(Byte.parseByte(this.tfEdad.getText()));
-        e.setEmNombre(this.tfNombre.getText());
-        e.setEmNominaBase(Integer.parseInt(this.tfNominaBase.getText()));
-        e.setEmPassword(this.tfContrasenya.getText());
-        e.setEmPoblacion(this.tfPoblacion.getText());
-        e.setEmRol(this.tfRol.getText());
-        e.setEmSsn(this.idCliente);
-        e.setEmTelefono(Integer.parseInt(this.tfTelefono.getText()));
-        e.setEmUsuario(this.tfUsuario.getText());
-        this.pbbdd.nuevoEmpleado(e);
+        ce.introducirEmpleado(Byte.parseByte(this.tfEdad.getText()), this.tfNombre.getText(), Integer.parseInt(this.tfNominaBase.getText()), this.tfContrasenya.getText(), this.tfPoblacion.getText(), this.tfRol.getText(), this.idCliente, Integer.parseInt(this.tfTelefono.getText()), this.tfUsuario.getText());
         JOptionPane.showMessageDialog(null, "Empleado añadido");
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, "Error",  "Por favor, comprueba tus datos", JOptionPane.ERROR_MESSAGE);
@@ -335,24 +313,16 @@ public class InterfazNuevoEmpleado extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
-    private boolean checkID(List<Empleados> lista, int id){
-        boolean res = false;
-        for(int i = 0; i < lista.size(); i++){
-            if(lista.get(i).getEmSsn() == id){
-                    res = true;
-                    }
-        }
-        return res;
-    }
     /**
      * @param args the command line arguments
      */
       
-    List<Empleados> listaC;
+      List<Empleados> listaC;
      private int idCliente;
-     private EmpleadosBBDD pbbdd;
+   
      private Empleados e;
      private VehiculosVendidos vehiculo;
+     ControladorEmpleados ce;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;

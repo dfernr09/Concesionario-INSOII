@@ -5,17 +5,8 @@
  */
 package Vista;
 
-import Controlador.ClientesBBDD;
-import Controlador.InfoRevisionesBBDD;
-import Controlador.PedidoBBDD;
-import Controlador.VehiculosDisponiblesBBDD;
-import Controlador.VehiculosVendidosBBDD;
-import Modelo.Clientes;
-import Modelo.Empleados;
-import Modelo.InfoRevisiones;
-import Modelo.Pedidos;
-import Modelo.VehiculosDisponibles;
-import Modelo.VehiculosVendidos;
+import Controlador.ControladorPedidos;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -29,6 +20,8 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import Modelo.Empleados;
+import Modelo.Pedidos;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
@@ -47,6 +40,7 @@ public class InterfazPedidos extends javax.swing.JFrame {
      */
     public InterfazPedidos(Empleados e) {
         this.e = e;
+        cp = new ControladorPedidos();
         this.setResizable(false);
         initComponents();
         this.posYButton = 20;
@@ -56,7 +50,7 @@ public class InterfazPedidos extends javax.swing.JFrame {
         //this.jPanel4.setPreferredSize(new Dimension(500, 1000));
         this.jPanel10.setBackground(Color.yellow);
         this.setLocationRelativeTo(null);
-        lista = vbbdd.obtenerTodosPedidos();
+        lista = cp.getTodosPedidos();
         this.modelo =(DefaultTableModel) this.jTable1.getModel();
         Object [] fila=new Object[4];
         this.jTextField1.setText("");
@@ -75,6 +69,7 @@ public class InterfazPedidos extends javax.swing.JFrame {
     public InterfazPedidos(Empleados e, String vistas, int size) {
         this.size = size;
         this.e = e;
+        cp = new ControladorPedidos();
         this.setResizable(false);
         initComponents();
         this.jlVistas.setText(vistas);
@@ -86,7 +81,7 @@ public class InterfazPedidos extends javax.swing.JFrame {
         //this.jPanel4.setPreferredSize(new Dimension(500, 1000));
         this.jPanel10.setBackground(Color.yellow);
         this.setLocationRelativeTo(null);
-        lista = vbbdd.obtenerTodosPedidos();
+        lista = cp.getTodosPedidos();
         this.modelo =(DefaultTableModel) this.jTable1.getModel();
         Object [] fila=new Object[4];
         this.jTextField1.setText("");
@@ -643,23 +638,10 @@ public class InterfazPedidos extends javax.swing.JFrame {
         // TODO add your handling code here:
         try{
         String opcionFiltrado = (String) this.jComboBox1.getSelectedItem();
-        List<Pedidos> l = null;
-        String busqueda = this.jTextField1.getText();
-     
         this.modelo.setRowCount(0);
-        switch(opcionFiltrado){
-            case "Numero Pedido":
-                l = new ArrayList<Pedidos>();
-                l.add(vbbdd.buscarPedido(Integer.parseInt(busqueda)));
-                break;
-            case "Login Empleado":
-                 l = vbbdd.buscarPedidoLogin(busqueda);
-                 break;
-          
-        }
-    
+        String busqueda = this.jTextField1.getText();
+        List<Pedidos> l = cp.getPedidoFiltrado(opcionFiltrado, busqueda);     
          Object [] fila=new Object[8];
-        
        for(int i = 0; i < l.size(); i++){
            fila[0] = l.get(i).getNumPedido();
            fila[1] = l.get(i).getTipoPedido();
@@ -698,10 +680,10 @@ public class InterfazPedidos extends javax.swing.JFrame {
          int r = this.jTable1.getSelectedRow();
      
        if(r == -1){
-           JOptionPane.showMessageDialog(null, "Debes seleccionar un cliente");
+           JOptionPane.showMessageDialog(null, "Debes seleccionar un pedido");
        }else{
-           vbbdd.eliminarPedido(this.lista.get(r).getNumPedido());
-           JOptionPane.showMessageDialog(null, "Cliente eliminado");
+           cp.eliminarPedido(this.lista.get(r).getNumPedido());
+           JOptionPane.showMessageDialog(null, "Pedido eliminado");
        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -722,7 +704,7 @@ public class InterfazPedidos extends javax.swing.JFrame {
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         // TODO add your handling code here:
         this.modelo.setRowCount(0);
-        List<Pedidos> l = vbbdd.obtenerTodosPedidos();
+        List<Pedidos> l = cp.getTodosPedidos();
         Object [] fila=new Object[4];
         for(int i = 0; i < l.size(); i++){
            fila[0] = l.get(i).getNumPedido();
@@ -747,7 +729,7 @@ public class InterfazPedidos extends javax.swing.JFrame {
      */
       
    
-    PedidoBBDD vbbdd = new PedidoBBDD();
+    ControladorPedidos cp;
     private List<Pedidos> lista;
     private int posYButton;
     private int posYLabel;

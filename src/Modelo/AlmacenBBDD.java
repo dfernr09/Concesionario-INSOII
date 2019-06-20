@@ -3,76 +3,95 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controlador;
+package Modelo;
 
 /**
  *
  * @author Usuario
  */
+import Controlador.*;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import Modelo.*;
+import java.util.ArrayList;
 import java.util.List;
-public class PedidoBBDD {
-     public void nuevoPedido(Pedidos p){
+public class AlmacenBBDD {
+
+    
+     public void nuevaPieza(Almacen a){
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
         session = sesion.openSession();
         Transaction tx = session.beginTransaction();
-        session.save(p);
+        session.save(a);
         tx.commit();
-       
+        
      
     }
-    public Pedidos buscarPedido(int numPedido){
-        Pedidos pedido;
+    public Almacen buscarPieza(String numPieza){
+        Almacen a;
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
         session = sesion.openSession();
         Transaction tx = session.beginTransaction();
-        pedido = (Pedidos) session.get(Pedidos.class, numPedido);
+        a = (Almacen) session.get(Almacen.class, numPieza);
         tx.commit();
-       
-        return pedido;
+        
+        return a;
     }
-     public List<Pedidos> buscarPedidoLogin(String login){
+     public List<Almacen> buscarPiezasPorMarca(String marca){
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
         session = sesion.openSession();
         Transaction tx = session.beginTransaction();
-        Query q = session.createQuery("from Pedidos where loginEmpleado='"+login+"'");
-        List<Pedidos> lista = q.list();
+        Query q = session.createQuery("from Almacen where marcaPieza='"+marca+"'");
+        List<Almacen> lista = q.list();
         tx.commit();
     
         return lista;
     }
-    public List<Pedidos> obtenerTodosPedidos(){
+    public List<Almacen> obtenerTodasPiezas(){
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
         session = sesion.openSession();
         Transaction tx = session.beginTransaction();
-        Query q = session.createQuery("from Pedidos");
-        List<Pedidos> lista = q.list();
+        Query q = session.createQuery("from Almacen");
+        List<Almacen> lista = q.list();
         tx.commit();
-      
+        
+
         return lista;
     }
     
-      public void eliminarPedido(int numPedido){
+      public void eliminarPieza(String numPieza){
         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
         Session session;
         session = sesion.openSession();
         Transaction tx = session.beginTransaction();
-        Pedidos p;
-        p = (Pedidos) session.get(Pedidos.class, numPedido);
-        if(p != null){
-            session.delete(p);
+        Almacen a;
+        a = (Almacen) session.get(Almacen.class, numPieza);
+        if(a != null){
+            session.delete(a);
         }
         
         tx.commit();
-      
+   
      
     }
+      public void asignarPedido(String numPieza, int numPedido){
+         SessionFactory sesion = NewHibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Transaction tx = session.beginTransaction();
+        Almacen a;
+        a = (Almacen) session.get(Almacen.class,numPieza);
+        if(a != null){
+            a.setNumPedido(numPedido);
+            session.update(a);
+        }
+        tx.commit();
+   
+     }
 }
